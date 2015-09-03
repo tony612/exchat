@@ -2,7 +2,7 @@ defmodule Exchat.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", Exchat.RoomChannel
+  channel "channel:*", Exchat.MessageChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
