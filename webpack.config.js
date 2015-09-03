@@ -1,7 +1,9 @@
 var path = require('path');
 
 module.exports = {
-  entry: './web/static/js/app.js',
+  entry: [
+    './web/static/js/app.js'
+  ],
   output: {
     path: './priv/static/js',
     filename: 'app.js'
@@ -17,7 +19,7 @@ module.exports = {
       path.join(__dirname, '')
     ],
 
-    extensions: ['', '.js']
+    extensions: ['', '.js', '.jsx']
   }
 
 };

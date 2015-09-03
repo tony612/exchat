@@ -1,0 +1,2 @@
+export const POST_MESSAGE = 'POST_MESSAGE'
+export const RECEIVED_MESSAGE = 'RECEIVED_MESSAGE'
