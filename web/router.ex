@@ -13,6 +13,12 @@ defmodule Exchat.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", Exchat do
+    pipe_through :api
+
+    resources "channels", ChannelController, only: [:create, :index]
+  end
+
   scope "/", Exchat do
     pipe_through :browser # Use the default browser stack
 
