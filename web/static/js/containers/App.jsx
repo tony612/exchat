@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import List from '../components/List'
 import Message from '../components/Message'
 import PostMessage from '../components/PostMessage'
+import CreateChannel from '../components/CreateChannel'
 import { postMessage } from '../actions/messages'
+import { createChannel } from '../actions/channels'
 
 class App extends Component {
   constructor(props) {
@@ -21,6 +23,8 @@ class App extends Component {
     const { dispatch, messages } = this.props
     return (
       <div>
+        <CreateChannel onConfirm={name =>
+          dispatch(createChannel(name))}/>
         <List items={messages}
               renderItem={this.renderMessage} />
         <PostMessage

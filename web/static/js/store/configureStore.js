@@ -3,7 +3,8 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 
 import rootReducer from '../reducers'
-import realtimeMiddleware from '../middleware/realtime'
+import realtimeMW from '../middleware/realtime'
+import apiMW from '../middleware/api'
 
 const loggerMiddleware = createLogger({
   level: 'info',
@@ -13,7 +14,8 @@ const loggerMiddleware = createLogger({
 const createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
   loggerMiddleware,
-  realtimeMiddleware
+  realtimeMW,
+  apiMW
 )(createStore)
 
 export default function configureStore(initialState) {
