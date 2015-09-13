@@ -6,12 +6,17 @@ let initialState = {
 
 export default function channels(state = initialState, action) {
   switch (action.type) {
+    case types.FETCH_CHANNELS_BEGIN:
+      return {
+        ...state,
+        isFetching: true
+      }
     case types.FETCH_CHANNELS_SUCCESS:
       return {
         ...state,
-        items: action.response.data
+        items: action.response.data,
+        isFetching: false
       }
-      return state
     default:
       return state
   }

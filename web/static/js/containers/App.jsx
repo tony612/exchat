@@ -31,7 +31,8 @@ class App extends Component {
     return (
       <div>
         <List items={channels.items}
-              renderItem={this.renderChannel} />
+              renderItem={this.renderChannel}
+              isLoading={channels.isFetching}/>
         <CreateChannel onConfirm={name =>
           dispatch(createChannel(name))}/>
         <List items={messages}
