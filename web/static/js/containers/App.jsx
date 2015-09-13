@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import List from '../components/List'
 import Message from '../components/Message'
+import Channel from '../components/Channel'
 import PostMessage from '../components/PostMessage'
 import CreateChannel from '../components/CreateChannel'
 import { postMessage } from '../actions/messages'
@@ -19,10 +20,18 @@ class App extends Component {
     )
   }
 
+  renderChannel(channel) {
+    return (
+      <Channel channel={channel} key={channel.id} />
+    )
+  }
+
   render() {
-    const { dispatch, messages } = this.props
+    const { dispatch, messages, channels } = this.props
     return (
       <div>
+        <List items={channels.items}
+              renderItem={this.renderChannel} />
         <CreateChannel onConfirm={name =>
           dispatch(createChannel(name))}/>
         <List items={messages}
@@ -45,7 +54,8 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    messages: state.messages
+    messages: state.messages,
+    channels: state.channels
   }
 }
 
