@@ -12,8 +12,9 @@ function callApi(endpoint, method, data) {
     }
   }
   if (data) {
-    params = {...params, data}
+    params = {...params, body: JSON.stringify(data)}
   }
+  console.log(params)
   return fetch('/api' + endpoint, params)
     .then(response =>
       response.json().then(json => ({ json, response }))
@@ -34,10 +35,10 @@ export default store => next => action => {
     return next(action)
   }
 
-  let { endpoint, method, reqData } = apiCall
+  let { endpoint, method, data } = apiCall
 
-  function actionWith(data) {
-    const finalAction = Object.assign({}, action, data);
+  function actionWith(params) {
+    const finalAction = Object.assign({}, action, params);
     delete finalAction[API_CALL];
     return finalAction;
   }
@@ -48,7 +49,7 @@ export default store => next => action => {
 
   next({type: type + '_BEGIN'})
 
-  return callApi(endpoint, method, reqData).then(
+  return callApi(endpoint, method, data).then(
     response => {
       if (apiCall.successCallback) {
         apiCall.successCallback(response, store)
