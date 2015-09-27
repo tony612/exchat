@@ -1,5 +1,5 @@
+import ExSocket from '../constants/ExSocket'
 import { RT_EVENT } from '../constants/ApiTypes'
-import { Socket } from 'deps/phoenix/web/static/js/phoenix'
 
 export default store => next => action => {
   const rtEvent = action[RT_EVENT]
@@ -20,7 +20,8 @@ export default store => next => action => {
     throw new Error('No sending body!')
   }
 
-  store.getState().channel.push(event, {body: text})
+  let foundChannel = ExSocket.findChannel(channel)
+  foundChannel.push(event, {body: text})
     .receive('ok', (msg) => console.log('posted message', msg))
 
   return next(action)

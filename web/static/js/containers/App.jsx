@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes, findDOMNode } from 'react'
 import { connect } from 'react-redux'
 
 import List from '../components/List'
@@ -26,6 +26,10 @@ class App extends Component {
     )
   }
 
+  selectedChannel() {
+    return findDOMNode(this.refs.selectedChannel).value
+  }
+
   render() {
     const { dispatch, messages, channels } = this.props
     return (
@@ -37,9 +41,10 @@ class App extends Component {
           dispatch(createChannel(name))}/>
         <List items={messages}
               renderItem={this.renderMessage} />
+        Channel <input type='text' ref='selectedChannel' />
         <PostMessage
           onPost={text =>
-            dispatch(postMessage(text))
+            dispatch(postMessage(this.selectedChannel(), text))
           } />
       </div>
     )

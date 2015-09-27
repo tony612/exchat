@@ -49,11 +49,15 @@ export default store => next => action => {
   next({type: type + '_BEGIN'})
 
   return callApi(endpoint, method, reqData).then(
-    response =>
-    next(actionWith({
-      response,
-      type: type + '_SUCCESS'
-    })),
+    response => {
+      if (apiCall.successCallback) {
+        apiCall.successCallback(response, store)
+      }
+      next(actionWith({
+        response,
+        type: type + '_SUCCESS'
+      }))
+    },
     error => next(actionWith({
       type: type + '_FAILURE',
       error: error.message || 'Something bad happened'

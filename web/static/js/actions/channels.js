@@ -1,5 +1,7 @@
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
+import ExSocket from '../constants/ExSocket'
+import { receivedMessage } from './messages'
 
 export function createChannel(name) {
   return {
@@ -21,7 +23,16 @@ export function fetchChannels() {
     type: types.FETCH_CHANNELS,
     [API_CALL]: {
       endpoint: '/channels',
-      method: GET
+      method: GET,
+      successCallback: function(response, store) {
+        let items = response.data
+        items.forEach(item => {
+          let channel = ExSocket.findChannel(item.name, store)
+          channel.on('new_message', payload => {
+            store.dispatch(receivedMessage(payload.body))
+          })
+        })
+      }
     }
   }
 }

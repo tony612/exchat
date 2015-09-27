@@ -11,10 +11,6 @@ const store = configureStore()
 
 store.dispatch(fetchChannelsIfNeeded())
 
-store.getState().channel.on('new_message', payload => {
-  store.dispatch(receivedMessage(payload.body))
-})
-
 React.render(
   <Provider store={store}>
     {() => <App />}
