@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   devtool: 'source-map',
@@ -14,7 +15,8 @@ module.exports = {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
 
-      { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
+      // No need for this. jQuery is a global variable
+      // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
 
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,  loader: 'url?limit=10000&mimetype=application/font-woff' },
@@ -30,6 +32,14 @@ module.exports = {
     ],
 
     extensions: ['', '.js', '.jsx']
-  }
+  },
+
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    })
+  ]
 
 };
