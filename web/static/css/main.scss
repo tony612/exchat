@@ -1,0 +1,50 @@
+html, body {
+  height: 100%;
+}
+#client_root,
+#client_root > .container-fluid,
+#client_root > .container-fluid > .row,
+#client_root > .container-fluid > .row > *,
+{
+  height: 100%;
+}
+
+$sidebar-bg-color: #303E4D;
+$sidebar-color: #CCC;
+.sidebar {
+  background-color: $sidebar-bg-color;
+  color: $sidebar-color;
+  padding: 2rem 1rem;
+
+  a {
+    color: $sidebar-color;
+  }
+}
+
+li.channel-name {
+  .prefix {
+    margin-right: 0.5rem;
+    color: darken($sidebar-color, 30%);
+  }
+  a {
+    color: $sidebar-color;
+    display: block;
+    padding: 0.2rem 1rem;
+    text-decoration: none;
+    &:hover {
+      background-color: lighten($sidebar-bg-color, 10%);
+    }
+  }
+}
+
+.footer {
+  bottom: 0;
+  position: absolute;
+  padding: 1rem 0.5rem;
+  width: 95%;
+  box-sizing: border-box;
+}
+
+.message-container {
+
+}

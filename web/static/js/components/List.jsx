@@ -11,10 +11,10 @@ export default class List extends Component {
     const { items, renderItem, isLoading } = this.props
 
     return (
-      <div>
+      <ul className="list-unstyled">
         {isLoading && 'loading...'}
         {!isLoading && items.map(renderItem)}
-      </div>
+      </ul>
     )
   }
 }

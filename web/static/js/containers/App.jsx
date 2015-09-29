@@ -33,19 +33,25 @@ class App extends Component {
   render() {
     const { dispatch, messages, channels } = this.props
     return (
-      <div>
-        <List items={channels.items}
-              renderItem={this.renderChannel}
-              isLoading={channels.isFetching}/>
-        <CreateChannel onConfirm={name =>
-          dispatch(createChannel(name))}/>
-        <List items={messages}
-              renderItem={this.renderMessage} />
-        Channel <input type='text' ref='selectedChannel' />
-        <PostMessage
-          onPost={text =>
-            dispatch(postMessage(this.selectedChannel(), text))
-          } />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-2 sidebar">
+            <List items={channels.items}
+                  renderItem={this.renderChannel}
+                  isLoading={channels.isFetching}/>
+            <CreateChannel onConfirm={name =>
+              dispatch(createChannel(name))}/>
+          </div>
+          <div className="col-md-10">
+            <List items={messages}
+                  renderItem={this.renderMessage} />
+            Channel <input type='text' ref='selectedChannel' />
+            <PostMessage
+              onPost={text =>
+                dispatch(postMessage(this.selectedChannel(), text))
+              } />
+          </div>
+        </div>
       </div>
     )
   }

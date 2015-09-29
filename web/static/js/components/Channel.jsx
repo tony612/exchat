@@ -5,9 +5,12 @@ export default class Message extends Component {
     const { channel } = this.props
 
     return (
-      <div>
-        #{channel.name}
-      </div>
+      <li className="channel-name">
+        <a href="#">
+          <span className="prefix">#</span>
+          {channel.name}
+        </a>
+      </li>
     )
   }
 }

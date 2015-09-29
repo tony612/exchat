@@ -7,6 +7,8 @@ import App from './containers/App'
 import { receivedMessage } from './actions/messages'
 import { fetchChannelsIfNeeded } from './actions/channels'
 
+import './../css/main'
+
 const store = configureStore()
 
 store.dispatch(fetchChannelsIfNeeded())
