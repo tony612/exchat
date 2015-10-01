@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 
 import List from './List'
 import CreateChannel from './CreateChannel'
@@ -8,10 +9,10 @@ class Sidebar extends Component {
   renderChannel(channel) {
     return (
       <li className="channel-name" key={channel.id}>
-        <a href="#">
+        <Link to={`/channels/${channel.name}`}>
           <span className="prefix">#</span>
           {channel.name}
-        </a>
+        </Link>
       </li>
     )
   }
