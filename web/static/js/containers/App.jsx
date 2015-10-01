@@ -1,55 +1,24 @@
-import React, { Component, PropTypes, findDOMNode } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import List from '../components/List'
-import Message from '../components/Message'
-import Channel from '../components/Channel'
-import PostMessage from '../components/PostMessage'
-import CreateChannel from '../components/CreateChannel'
-import { postMessage } from '../actions/messages'
-import { createChannel } from '../actions/channels'
+import Sidebar from '../components/Sidebar'
 
 class App extends Component {
   constructor(props) {
     super(props)
   }
 
-  renderMessage(message) {
-    return (
-      <Message message={message} key={message.ts} />
-    )
-  }
-
-  renderChannel(channel) {
-    return (
-      <Channel channel={channel} key={channel.id} />
-    )
-  }
-
-  selectedChannel() {
-    return findDOMNode(this.refs.selectedChannel).value
-  }
-
   render() {
-    const { dispatch, messages, channels } = this.props
+    const { dispatch, channels, children } = this.props
+
     return (
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-2 sidebar">
-            <List items={channels.items}
-                  renderItem={this.renderChannel}
-                  isLoading={channels.isFetching}/>
-            <CreateChannel onConfirm={name =>
-              dispatch(createChannel(name))}/>
+            <Sidebar dispatch={dispatch} channels={channels} />
           </div>
           <div className="col-md-10">
-            <List items={messages}
-                  renderItem={this.renderMessage} />
-            Channel <input type='text' ref='selectedChannel' />
-            <PostMessage
-              onPost={text =>
-                dispatch(postMessage(this.selectedChannel(), text))
-              } />
+            { children || 'Loading..' }
           </div>
         </div>
       </div>
@@ -58,10 +27,8 @@ class App extends Component {
 }
 
 App.propTypes = {
-  messages: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    ts: PropTypes.string.isRequired
-  }))
+  channels: PropTypes.array,
+  children: PropTypes.node
 }
 
 function mapStateToProps(state) {
