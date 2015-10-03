@@ -13,7 +13,7 @@ export default function channels(state = initialState, action) {
         isFetching: true
       }
     case types.FETCH_CHANNELS_SUCCESS:
-      let channels = action.response.entities.channels
+      var channels = action.response.entities.channels
       return {
         ...state,
         ids: action.response.result,
@@ -31,7 +31,18 @@ export default function channels(state = initialState, action) {
         }
       }
       return newState
-      break;
+      break
+    case types.CREATE_CHANNEL_SUCCESS:
+      var channels = action.response.entities.channels
+      return {
+        ...state,
+        ...channels,
+        ids: [
+          ...state.ids,
+          action.response.result
+        ]
+      }
+      break
     default:
       return state
   }
