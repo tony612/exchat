@@ -13,9 +13,11 @@ export function postMessage(channel, text) {
   }
 }
 
-export function receivedMessage(text) {
+export function receivedMessage(payload) {
   return {
     type: types.RECEIVED_MESSAGE,
-    text: text
+    text: payload.text,
+    channel: payload.channel,
+    ts: payload.ts
   }
 }

@@ -39,9 +39,12 @@ Channel.propTypes = {
 }
 
 function mapStateToProps(state) {
+  let channelId = state.router.params.id
+  let msgIds = state.channels.msgIdsById[channelId] || []
+  let messages = msgIds.map(id => state.messages[`${channelId}:${id}`])
   return {
-    messages: state.messages,
-    channelName: state.router.params.id
+    messages: messages,
+    channelName: channelId
   }
 }
 

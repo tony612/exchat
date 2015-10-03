@@ -6,7 +6,7 @@ const ExSocket = new PhoenixSocket('/socket')
 ExSocket.connect()
 
 if (ExSocket.findChannel) {
-  console.log('joinChannel of ExSocket is defined!')
+  console.log('findChannel of ExSocket is defined!')
 } else {
   ExSocket.findChannel = function(name) {
     let topicName = `channel:#${name}`

@@ -21,7 +21,7 @@ export default store => next => action => {
   }
 
   let foundChannel = ExSocket.findChannel(channel)
-  foundChannel.push(event, {body: text})
+  foundChannel.push(event, {text: text})
     .receive('ok', (msg) => console.log('posted message', msg))
 
   return next(action)

@@ -1,9 +1,11 @@
-import { API_CALL } from '../constants/ApiTypes'
-import { UNKNOWN } from '../constants/ActionTypes'
 import { camelizeKeys } from 'humps';
 import 'isomorphic-fetch'
+import { normalize } from 'normalizr'
 
-function callApi(endpoint, method, data) {
+import { API_CALL } from '../constants/ApiTypes'
+import { UNKNOWN } from '../constants/ActionTypes'
+
+function callApi(endpoint, method, data, schema) {
   let params = {
     method:  method.toLowerCase(),
     headers: {
@@ -14,7 +16,6 @@ function callApi(endpoint, method, data) {
   if (data) {
     params = {...params, body: JSON.stringify(data)}
   }
-  console.log(params)
   return fetch('/api' + endpoint, params)
     .then(response =>
       response.json().then(json => ({ json, response }))
@@ -23,9 +24,12 @@ function callApi(endpoint, method, data) {
         return Promise.reject(json)
       }
 
-      const camelizedJson = camelizeKeys(json)
+      let normalizedJson = camelizeKeys(json)
+      if (schema) {
+        normalizedJson = normalize(normalizedJson, schema)
+      }
 
-      return Object.assign({}, camelizedJson)
+      return Object.assign({}, normalizedJson)
     })
 }
 
@@ -35,7 +39,7 @@ export default store => next => action => {
     return next(action)
   }
 
-  let { endpoint, method, data } = apiCall
+  let { endpoint, method, data, schema } = apiCall
 
   function actionWith(params) {
     const finalAction = Object.assign({}, action, params);
@@ -49,7 +53,7 @@ export default store => next => action => {
 
   next({type: type + '_BEGIN'})
 
-  return callApi(endpoint, method, data).then(
+  return callApi(endpoint, method, data, schema).then(
     response => {
       if (apiCall.successCallback) {
         apiCall.successCallback(response, store)

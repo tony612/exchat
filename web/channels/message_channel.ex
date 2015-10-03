@@ -8,14 +8,28 @@ defmodule Exchat.MessageChannel do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def handle_in("new_message", %{"body" => body}, socket) do
-    broadcast! socket, "new_message", %{body: body}
+  def handle_in("new_message", %{"text" => text}, socket) do
+    message = %{
+      text: text,
+      channel: channel_from_topic(socket.topic),
+      ts: Float.to_string(unix_timestamp, decimals: 6)
+    }
+    broadcast! socket, "new_message", message
     {:noreply, socket}
   end
 
   def handle_out("new_message", payload, socket) do
     push socket, "new_message", payload
     {:noreply, socket}
+  end
+
+  defp channel_from_topic(topic) do
+    String.replace(topic, ~r/.*:#?/, "")
+  end
+
+  def unix_timestamp do
+    {megasec, sec, microsec} = :os.timestamp
+    megasec * 1_000_000 + sec + microsec * 0.000_001
   end
 
 end

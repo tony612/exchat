@@ -19,9 +19,10 @@ class Sidebar extends Component {
 
   render() {
     const { dispatch, channels } = this.props
+    let items = channels.ids.map(id => channels[id])
     return (
       <div>
-        <List items={channels.items}
+        <List items={items}
               renderItem={this.renderChannel}
               isLoading={channels.isFetching}/>
         <CreateChannel onConfirm={name =>
@@ -32,7 +33,7 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  channels: PropTypes.array
+  channels: PropTypes.object
 }
 
 export default Sidebar

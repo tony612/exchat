@@ -28,6 +28,7 @@
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "node-sass": "^3.3.3",
+    "normalizr": "^1.0.0",
     "react": "^0.13.3",
     "react-redux": "^3.0.0",
     "react-router": "^1.0.0-rc1",

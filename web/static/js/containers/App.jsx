@@ -33,7 +33,6 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    messages: state.messages,
     channels: state.channels
   }
 }
