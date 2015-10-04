@@ -10,8 +10,9 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 # TODO
 
-- [ ] Save messages sent for each channel
+- [x] Save messages sent for each channel
 - [ ] Fetch past messages on loaded
+- [ ] Use channel id instead of name in frontend
 - [ ] Build user system
 - [ ] Highlight the active Channel
 - [ ] Show channel info in the channel page
