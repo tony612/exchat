@@ -6,13 +6,18 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
+
+webpack_args = ["node_modules/webpack/bin/webpack.js", "--watch", "--colors", "--progress"]
+# Remove progress argument to make iex display log normally
+if IEx.started?, do: webpack_args = List.delete(webpack_args, "--progress")
+
 config :exchat, Exchat.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
   check_origin: false,
-  watchers: [node: ["node_modules/webpack/bin/webpack.js", "--watch", "--colors", "--progress"]]
+  watchers: [node: webpack_args]
 
 # Watch static and templates for browser reloading.
 config :exchat, Exchat.Endpoint,
