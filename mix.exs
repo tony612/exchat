@@ -29,7 +29,7 @@ defmodule Exchat.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 1.0.3"},
+    [{:phoenix, "~> 1.0.4"},
      {:phoenix_ecto, "~> 1.2"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.2"},
