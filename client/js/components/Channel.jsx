@@ -11,15 +11,24 @@ import { fetchMessages } from '../actions/channels'
 class Channel extends Component {
 
   componentDidMount() {
-    const { dispatch, fetchedMsgsAtBeginning, channelName } = this.props
-
-    if (!fetchedMsgsAtBeginning) {
-      dispatch(fetchMessages(channelName))
-    }
+    this.channelWillChange(this.props)
   }
 
   componentWillReceiveProps(props) {
-    console.log('Channel Did Props', props)
+    let channelName = this.props.channelName
+    let nextChannelName = props.channelName
+
+    if (nextChannelName !== channelName) {
+      this.channelWillChange(props)
+    }
+  }
+
+  channelWillChange(props) {
+    const { dispatch, fetchedMsgsAtBeginning, channelName } = props
+
+    if (!fetchedMsgsAtBeginning[channelName]) {
+      dispatch(fetchMessages(channelName))
+    }
   }
 
   renderMessage(message) {

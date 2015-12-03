@@ -3,8 +3,8 @@ import * as types from '../constants/ActionTypes'
 let initialState = {
   ids: [],
   msgIdsById: {},
-  fetchedMsgsAtBeginning: false,
-  hasMore: true
+  fetchedMsgsAtBeginning: {},
+  hasMore: {}
 }
 
 export default function channels(state = initialState, action) {
@@ -38,11 +38,18 @@ export default function channels(state = initialState, action) {
     case types.FETCH_MESSAGES_SUCCESS:
       var msgIds = _.values(action.response.entities.messages).map(m => m.ts)
       return {
-        fetchedMsgsAtBeginning: true,
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
           [action.channel]: [...msgIds]
+        },
+        fetchedMsgsAtBeginning: {
+          ...state.fetchedMsgsAtBeginning,
+          [action.channel]: true
+        },
+        hasMore: {
+          ...state.hasMore,
+          [action.channel]: action.response.hasMore
         }
       }
       break
