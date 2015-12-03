@@ -1,8 +1,12 @@
 defmodule Exchat.Channel do
   use Exchat.Web, :model
 
+  alias Exchat.Message
+  alias Exchat.Repo
+
   schema "channels" do
     field :name, :string
+    has_many :messages, Message
 
     timestamps
   end
@@ -19,5 +23,13 @@ defmodule Exchat.Channel do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def messages_before(model, ts, limit \\ 100) do
+    time = Message.to_datetime(ts)
+    query = from m in Message,
+            where: m.channel_id == ^model.id and m.inserted_at <= ^time,
+            limit: ^limit
+    Repo.all query
   end
 end

@@ -16,7 +16,9 @@ defmodule Exchat.Router do
   scope "/api", Exchat do
     pipe_through :api
 
-    resources "channels", ChannelController, only: [:create, :index]
+    resources "channels", ChannelController, only: [:create, :index] do
+      resources "messages", MessageController, only: [:index]
+    end
   end
 
   scope "/", Exchat do

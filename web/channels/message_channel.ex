@@ -15,7 +15,6 @@ defmodule Exchat.MessageChannel do
     channel = Repo.get_by(Exchat.Channel, name: channel_name)
     if channel do
       changeset = Message.changeset(%Message{}, Dict.put(params, "channel_id", channel.id))
-      IO.puts changeset
       case Repo.insert(changeset) do
         {:ok, message} ->
           data = %{

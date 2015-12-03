@@ -55,3 +55,17 @@ export function fetchChannelsIfNeeded() {
     return dispatch(fetchChannels())
   }
 }
+
+export function fetchMessages(channel) {
+  return {
+    channel,
+    type: types.FETCH_MESSAGES,
+    [API_CALL]: {
+      endpoint: `/channels/${channel}/messages`,
+      method: GET,
+      schema: Schemas.MESSAGE_ARRAY,
+      successCallback: function(response, store) {
+      }
+    }
+  }
+}
