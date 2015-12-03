@@ -1,12 +1,26 @@
 import React, { Component, PropTypes, findDOMNode } from 'react'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 
 import List from './List'
 import Message from '../components/Message'
 import PostMessage from '../components/PostMessage'
 import { postMessage } from '../actions/messages'
+import { fetchMessages } from '../actions/channels'
 
 class Channel extends Component {
+
+  componentDidMount() {
+    const { dispatch, fetchedMsgsAtBeginning, channelName } = this.props
+
+    if (!fetchedMsgsAtBeginning) {
+      dispatch(fetchMessages(channelName))
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    console.log('Channel Did Props', props)
+  }
 
   renderMessage(message) {
     return (
@@ -40,11 +54,13 @@ Channel.propTypes = {
 
 function mapStateToProps(state) {
   let channelId = state.router.params.id
-  let msgIds = state.channels.msgIdsById[channelId] || []
-  let messages = msgIds.map(id => state.messages[`${channelId}:${id}`])
+  let { fetchedMsgsAtBeginning, msgIdsById } = state.channels
+  let msgIds = msgIdsById[channelId] || []
+  let messages = _.compact(msgIds.map(id => state.messages[`${channelId}:${id}`]))
   return {
-    messages: messages,
-    channelName: channelId
+    channelName: channelId,
+    messages,
+    fetchedMsgsAtBeginning
   }
 }
 

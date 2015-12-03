@@ -2,7 +2,9 @@ import * as types from '../constants/ActionTypes'
 
 let initialState = {
   ids: [],
-  msgIdsById: {}
+  msgIdsById: {},
+  fetchedMsgsAtBeginning: false,
+  hasMore: true
 }
 
 export default function channels(state = initialState, action) {
@@ -12,6 +14,7 @@ export default function channels(state = initialState, action) {
         ...state,
         isFetching: true
       }
+      break
     case types.FETCH_CHANNELS_SUCCESS:
       var channels = action.response.entities.channels
       return {
@@ -20,17 +23,28 @@ export default function channels(state = initialState, action) {
         ...channels,
         isFetching: false
       }
+      break
     case types.RECEIVED_MESSAGE:
-      let ts = action.ts
-      const msgIds = state.msgIdsById[action.channel] || []
-      const newState = {
+      var ts = action.ts
+      var msgIds = state.msgIdsById[action.channel] || []
+      return {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
           [action.channel]: [...msgIds, ts]
         }
       }
-      return newState
+      break
+    case types.FETCH_MESSAGES_SUCCESS:
+      var msgIds = _.values(action.response.entities.messages).map(m => m.ts)
+      return {
+        fetchedMsgsAtBeginning: true,
+        ...state,
+        msgIdsById: {
+          ...state.msgIdsById,
+          [action.channel]: [...msgIds]
+        }
+      }
       break
     case types.CREATE_CHANNEL_SUCCESS:
       var channels = action.response.entities.channels

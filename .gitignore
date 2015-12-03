@@ -18,3 +18,5 @@ erl_crash.dump
 /node_modules
 
 /priv/static/
+
+/tmp
