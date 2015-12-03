@@ -4,8 +4,8 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval-cheap-module-source-map',
   entry: [
-    './web/static/js/app.js',
-    'bootstrap-sass!./web/static/js/bootstrap-sass.config.js'
+    './client/js/app.js',
+    'bootstrap-sass!./client/js/bootstrap-sass.config.js'
   ],
   output: {
     path: './priv/static/js',
@@ -13,18 +13,18 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'},
 
       // No need for this. jQuery is a global variable
       // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
 
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: 'url?limit=10000&mimetype=application/font-woff' },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,  loader: 'url?limit=10000&mimetype=application/font-woff' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: 'url?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: 'file' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: 'url?limit=10000&mimetype=application/font-woff'},
+      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,  loader: 'url?limit=10000&mimetype=application/font-woff'},
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: 'url?limit=10000&mimetype=application/octet-stream'},
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: 'file'},
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: 'url?limit=10000&mimetype=image/svg+xml'},
 
-      { test: /\.scss$/, loader: 'style!css!sass' }
+      {test: /\.scss$/, loader: 'style!css!sass'}
     ]
   },
 
