@@ -12,12 +12,12 @@ defmodule Exchat.ChannelControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, channel_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    assert json_response(conn, 200) == []
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, channel_path(conn, :create), channel: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
+    assert json_response(conn, 201)["id"]
     assert Repo.get_by(Channel, @valid_attrs)
   end
 
