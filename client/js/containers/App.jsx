@@ -27,7 +27,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  channels: PropTypes.array,
+  channels: PropTypes.object,
   children: PropTypes.node
 }
 
