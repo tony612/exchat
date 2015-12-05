@@ -17,16 +17,18 @@ class Channel extends Component {
   componentWillReceiveProps(props) {
     let channelName = this.props.channelName
     let nextChannelName = props.channelName
+    let initChannelsDone = this.props.initChannelsDone
+    let nextinitChannelsDone = props.initChannelsDone
 
-    if (nextChannelName !== channelName) {
+    if (nextChannelName !== channelName || nextinitChannelsDone !== initChannelsDone) {
       this.channelWillChange(props)
     }
   }
 
   channelWillChange(props) {
-    const { dispatch, fetchedMsgsAtBeginning, channelName } = props
+    const { dispatch, fetchedMsgsAtBeginning, channelName, initChannelsDone } = props
 
-    if (!fetchedMsgsAtBeginning[channelName]) {
+    if (!fetchedMsgsAtBeginning[channelName] && initChannelsDone) {
       dispatch(fetchMessages(channelName))
     }
   }
@@ -63,13 +65,14 @@ Channel.propTypes = {
 
 function mapStateToProps(state) {
   let channelId = state.router.params.id
-  let { fetchedMsgsAtBeginning, msgIdsById } = state.channels
+  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone } = state.channels
   let msgIds = msgIdsById[channelId] || []
   let messages = _.compact(msgIds.map(id => state.messages[`${channelId}:${id}`]))
   return {
     channelName: channelId,
     messages,
-    fetchedMsgsAtBeginning
+    fetchedMsgsAtBeginning,
+    initChannelsDone
   }
 }
 

@@ -4,7 +4,8 @@ let initialState = {
   ids: [],
   msgIdsById: {},
   fetchedMsgsAtBeginning: {},
-  hasMore: {}
+  hasMore: {},
+  initChannelsDone: false
 }
 
 export default function channels(state = initialState, action) {
@@ -22,6 +23,13 @@ export default function channels(state = initialState, action) {
         ids: action.response.result,
         ...channels,
         isFetching: false
+      }
+      break
+    case types.INIT_CHANNELS_DONE:
+      console.log('set init channels done')
+      return {
+        ...state,
+        initChannelsDone: true
       }
       break
     case types.RECEIVED_MESSAGE:

@@ -12,12 +12,13 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 - [x] Save messages sent for each channel
 - [x] Fetch past messages on loaded
-- [ ] Join channel before fetching messages to avoid missing new messages
+- [x] Join channel before fetching messages to avoid missing new messages
 - [ ] Use channel id instead of name in frontend
-- [ ] Build user system
+- [ ] Use timestamp as keys of messages
 - [ ] Highlight the active Channel
 - [ ] Show channel info in the channel page
 - [ ] Make the channel creating better
 - [ ] Each channel post input should be different
 - [ ] Format the message sent
 - [ ] Load past messages when user scroll to the top
+- [ ] Build user system
