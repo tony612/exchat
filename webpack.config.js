@@ -13,7 +13,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'},
+      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: {cacheDirectory: true, presets: ['react', 'es2015', 'stage-2']}},
 
       // No need for this. jQuery is a global variable
       // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },

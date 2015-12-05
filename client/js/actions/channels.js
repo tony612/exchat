@@ -42,7 +42,6 @@ export function fetchChannels() {
       successCallback: function(response, store) {
         const {result, entities} = response
         _.forEach(result, (id, i) => {
-          console.log(i, id)
           let item = entities.channels[id]
           initChannel(item.name, store, ()=> {
             if (result.length - 1 === i) {

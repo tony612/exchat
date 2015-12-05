@@ -1,5 +1,5 @@
-import 'babel-core/polyfill'
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ReduxRouter } from 'redux-router'
 
@@ -15,13 +15,11 @@ const store = configureStore()
 
 store.dispatch(fetchChannelsIfNeeded())
 
-React.render(
+ReactDOM.render(
   <Provider store={store}>
-    {() =>
-      <ReduxRouter>
-        { routes }
-      </ReduxRouter>
-    }
+    <ReduxRouter>
+      { routes }
+    </ReduxRouter>
   </Provider>,
   document.getElementById('client_root')
 )
