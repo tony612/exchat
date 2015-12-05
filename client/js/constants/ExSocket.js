@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { Socket as PhoenixSocket } from 'deps/phoenix/web/static/js/phoenix'
+import { Socket as PhoenixSocket } from 'phoenix'
 
 const ExSocket = new PhoenixSocket('/socket')
 ExSocket.connect()
