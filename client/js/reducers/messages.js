@@ -9,11 +9,11 @@ export default function messages(state = initialState, action) {
   case types.RECEIVED_MESSAGE:
     return {
       ...state,
-      [`${action.channel}:${action.ts}`]: _.pick(action, 'text', 'channel', 'ts')
+      [`${action.channelId}:${action.ts}`]: _.pick(action, 'text', 'channel', 'ts')
     }
     break;
   case types.FETCH_MESSAGES_SUCCESS:
-    var msgs = _.mapKeys(action.response.entities.messages, (val, key)=> `${action.channel}:${val.ts}`)
+    var msgs = _.mapKeys(action.response.entities.messages, (val, key)=> `${action.channelId}:${val.ts}`)
     return {
       ...state,
       ...msgs

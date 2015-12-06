@@ -4,8 +4,8 @@ import ExSocket from '../constants/ExSocket'
 import { receivedMessage } from './messages'
 import Schemas from '../store/schema'
 
-let initChannel = function(name, store, callback) {
-  let channel = ExSocket.findChannel(name, callback)
+let initChannel = function(id, store, callback) {
+  let channel = ExSocket.findChannel(id, callback)
   channel.on('new_message', payload => {
     store.dispatch(receivedMessage(payload))
   })
@@ -24,9 +24,8 @@ export function createChannel(name) {
       },
       schema: Schemas.CHANNEL,
       successCallback: function(response, store) {
-        const {result, entities} = response
-        let item = entities.channels[result]
-        initChannel(item.name, store)
+        const {result} = response
+        initChannel(result, store)
       }
     }
   }
@@ -42,8 +41,7 @@ export function fetchChannels() {
       successCallback: function(response, store) {
         const {result, entities} = response
         _.forEach(result, (id, i) => {
-          let item = entities.channels[id]
-          initChannel(item.name, store, ()=> {
+          initChannel(id, store, ()=> {
             if (result.length - 1 === i) {
               console.log('INIT CHANNELS DONE')
               store.dispatch(initChannelsDone())
@@ -67,12 +65,12 @@ export function fetchChannelsIfNeeded() {
   }
 }
 
-export function fetchMessages(channel) {
+export function fetchMessages(channelId) {
   return {
-    channel,
+    channelId: channelId,
     type: types.FETCH_MESSAGES,
     [API_CALL]: {
-      endpoint: `/channels/${channel}/messages`,
+      endpoint: `/channels/${channelId}/messages`,
       method: GET,
       schema: Schemas.MESSAGE_ARRAY,
       successCallback: function(response, store) {

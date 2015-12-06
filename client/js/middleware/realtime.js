@@ -7,10 +7,10 @@ export default store => next => action => {
     return next(action)
   }
 
-  let { channel, event } = rtEvent
+  let {channelId, event} = rtEvent
   let text = action.text
 
-  if (!channel) {
+  if (!channelId) {
     throw new Error('No channel!')
   }
   if (!event) {
@@ -20,7 +20,7 @@ export default store => next => action => {
     throw new Error('No sending body!')
   }
 
-  let foundChannel = ExSocket.findChannel(channel)
+  let foundChannel = ExSocket.findChannel(channelId)
   foundChannel.push(event, {text: text})
     .receive('ok', (msg) => console.log('posted message', msg))
 

@@ -11,25 +11,26 @@ import { fetchMessages } from '../actions/channels'
 class Channel extends Component {
 
   componentDidMount() {
+    console.log(this.props)
     this.channelWillChange(this.props)
   }
 
   componentWillReceiveProps(props) {
-    let channelName = this.props.channelName
-    let nextChannelName = props.channelName
+    let channelId = this.props.channelId
+    let nextchannelId = props.channelId
     let initChannelsDone = this.props.initChannelsDone
     let nextinitChannelsDone = props.initChannelsDone
 
-    if (nextChannelName !== channelName || nextinitChannelsDone !== initChannelsDone) {
+    if (nextchannelId !== channelId || nextinitChannelsDone !== initChannelsDone) {
       this.channelWillChange(props)
     }
   }
 
   channelWillChange(props) {
-    const { dispatch, fetchedMsgsAtBeginning, channelName, initChannelsDone } = props
+    const { dispatch, fetchedMsgsAtBeginning, channelId, initChannelsDone } = props
 
-    if (!fetchedMsgsAtBeginning[channelName] && initChannelsDone) {
-      dispatch(fetchMessages(channelName))
+    if (!fetchedMsgsAtBeginning[channelId] && initChannelsDone) {
+      dispatch(fetchMessages(channelId))
     }
   }
 
@@ -40,7 +41,7 @@ class Channel extends Component {
   }
 
   render() {
-    const { dispatch, messages, channelName } = this.props
+    const { dispatch, messages, channelId } = this.props
 
     return (
       <div>
@@ -48,7 +49,7 @@ class Channel extends Component {
           renderItem={this.renderMessage} />
         <PostMessage
           onPost={text =>
-            dispatch(postMessage(channelName, text))
+            dispatch(postMessage(channelId, text))
           } />
       </div>
     )
@@ -60,16 +61,19 @@ Channel.propTypes = {
     text: PropTypes.string.isRequired,
     ts: PropTypes.string.isRequired
   })),
-  channelName: PropTypes.string.isRequired
+  channelId: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {
-  let channelId = state.router.params.id
-  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone } = state.channels
+  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, channelIdByName } = state.channels
+  let channelId = channelIdByName[state.router.params.id]
+  console.log(channelId)
+  console.log(_.isNumber(channelId))
   let msgIds = msgIdsById[channelId] || []
   let messages = _.compact(msgIds.map(id => state.messages[`${channelId}:${id}`]))
+  console.log(messages)
   return {
-    channelName: channelId,
+    channelId: channelId || 0,
     messages,
     fetchedMsgsAtBeginning,
     initChannelsDone

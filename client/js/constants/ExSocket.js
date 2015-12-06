@@ -8,8 +8,8 @@ ExSocket.connect()
 if (ExSocket.findChannel) {
   console.log('findChannel of ExSocket is defined!')
 } else {
-  ExSocket.findChannel = function(name, callback) {
-    let topicName = `channel:#${name}`
+  ExSocket.findChannel = function(id, callback) {
+    let topicName = `channel:${id}`
     let foundChannel = _.find(this.channels, (ch)=> ch.topic === topicName)
     if (!foundChannel) {
       foundChannel = ExSocket.channel(topicName, {})

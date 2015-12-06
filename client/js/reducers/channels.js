@@ -1,11 +1,27 @@
 import * as types from '../constants/ActionTypes'
+import _ from 'lodash'
 
 let initialState = {
+  // 0: channel0,
+  // 1: channel1,
+  // ...
+  // [1, 2, 3, ...]
   ids: [],
+  // { 1: [1, 2, 3]}
   msgIdsById: {},
+  // {1: true, 2: false, ...}
   fetchedMsgsAtBeginning: {},
+  // {1: true, 2: false, ...}
   hasMore: {},
-  initChannelsDone: false
+  initChannelsDone: false,
+  // {abc: 1, ...}
+  channelIdByName: {}
+}
+
+function getChannelIdByName(channels) {
+  return _.transform(channels, (result, channel, id) => {
+    result[channel.name] = channel.id
+  })
 }
 
 export default function channels(state = initialState, action) {
@@ -18,11 +34,16 @@ export default function channels(state = initialState, action) {
       break
     case types.FETCH_CHANNELS_SUCCESS:
       var channels = action.response.entities.channels
+      console.log(channels)
       return {
         ...state,
         ids: action.response.result,
         ...channels,
-        isFetching: false
+        isFetching: false,
+        channelIdByName: {
+          ...state.channelIdByName,
+          ...getChannelIdByName(channels)
+        }
       }
       break
     case types.INIT_CHANNELS_DONE:
@@ -34,12 +55,12 @@ export default function channels(state = initialState, action) {
       break
     case types.RECEIVED_MESSAGE:
       var ts = action.ts
-      var msgIds = state.msgIdsById[action.channel] || []
+      var msgIds = state.msgIdsById[action.channelId] || []
       return {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
-          [action.channel]: [...msgIds, ts]
+          [action.channelId]: [...msgIds, ts]
         }
       }
       break
@@ -49,15 +70,15 @@ export default function channels(state = initialState, action) {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
-          [action.channel]: [...msgIds]
+          [action.channelId]: [...msgIds]
         },
         fetchedMsgsAtBeginning: {
           ...state.fetchedMsgsAtBeginning,
-          [action.channel]: true
+          [action.channelId]: true
         },
         hasMore: {
           ...state.hasMore,
-          [action.channel]: action.response.hasMore
+          [action.channelId]: action.response.hasMore
         }
       }
       break

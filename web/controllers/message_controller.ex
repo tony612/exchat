@@ -5,7 +5,7 @@ defmodule Exchat.MessageController do
   alias Exchat.Message
 
   def index(conn, params) do
-    channel = Repo.get_by Channel, name: params["channel_id"]
+    channel = Repo.get_by Channel, id: params["channel_id"]
 
     messages = Channel.messages_before(channel, params["ts"] || now)
 

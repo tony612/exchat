@@ -1,6 +1,6 @@
 import { Schema, arrayOf } from 'normalizr'
 
-const channelSchema = new Schema('channels', { idAttribute: 'name' })
+const channelSchema = new Schema('channels', {idAttribute: 'id'})
 const messageSchema = new Schema('messages')
 
 messageSchema.define({
