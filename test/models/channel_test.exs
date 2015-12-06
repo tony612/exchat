@@ -26,9 +26,9 @@ defmodule Exchat.ChannelTest do
     assert Channel.messages_before(channel, Message.to_timestamp(DateTime.utc)) == []
 
     message = %Message{text: "Hello", channel_id: channel.id}
-    Repo.insert(message)
+    {:ok, message1} = Repo.insert(message)
 
-    now = DateTime.utc
+    now = message1.inserted_at
 
     assert_func = fn channel ->
       msgs = Channel.messages_before(channel, Message.to_timestamp(now))
@@ -39,10 +39,6 @@ defmodule Exchat.ChannelTest do
 
     later = %DateTime{now | sec: now.sec + 1}
     Repo.insert(%{message | inserted_at: later})
-    assert_func.(channel)
-
-    channel = Repo.insert!(%Channel{name: "def"})
-    Repo.insert(%Message{text: "Foo", channel_id: channel.id})
     assert_func.(channel)
   end
 end

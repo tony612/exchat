@@ -8,7 +8,7 @@ defmodule Exchat.Channel do
     field :name, :string
     has_many :messages, Message
 
-    timestamps
+    timestamps usec: true
   end
 
   @required_fields ~w(name)

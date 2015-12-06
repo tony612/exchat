@@ -59,7 +59,7 @@ class Channel extends Component {
 Channel.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
-    ts: PropTypes.string.isRequired
+    ts: PropTypes.number.isRequired
   })),
   channelId: PropTypes.number.isRequired
 }

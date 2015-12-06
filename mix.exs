@@ -34,6 +34,7 @@ defmodule Exchat.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.2"},
      {:phoenix_live_reload, "~> 1.0.1", only: :dev},
+     {:ecto, "~> 1.0.7"},
      {:cowboy, "~> 1.0"}]
   end
 end
