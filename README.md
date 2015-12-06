@@ -14,7 +14,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [x] Fetch past messages on loaded
 - [x] Join channel before fetching messages to avoid missing new messages
 - [x] Use channel id instead of name in frontend
-- [ ] Use timestamp as keys of messages
+- [x] Use timestamp as keys of messages
 - [ ] Highlight the active Channel
 - [ ] Show channel info in the channel page
 - [ ] Make the channel creating better

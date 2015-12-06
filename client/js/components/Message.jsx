@@ -6,7 +6,7 @@ export default class Message extends Component {
 
     return (
       <div>
-        [{message.ts}] {message.text}
+        [{new Date(message.ts * 1000).toLocaleString()}] {message.text}
       </div>
     )
   }
