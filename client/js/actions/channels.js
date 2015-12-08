@@ -78,3 +78,10 @@ export function fetchMessages(channelId) {
     }
   }
 }
+
+export function changeChannel(channelName) {
+  return {
+    type: types.CHANGE_CHANNEL,
+    channelName
+  }
+}

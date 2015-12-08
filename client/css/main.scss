@@ -9,8 +9,11 @@ html, body {
   height: 100%;
 }
 
-$sidebar-bg-color: #303E4D;
-$sidebar-color: #CCC;
+$sidebar-bg-color: #282A36;
+$sidebar-color: #FFFFFF;
+$active-channel-color: #8BE9FD;
+$active-channel-bg-color: #44475A;
+$channel-hover-color: #6272A4;
 .sidebar {
   background-color: $sidebar-bg-color;
   color: $sidebar-color;
@@ -18,6 +21,7 @@ $sidebar-color: #CCC;
 
   a {
     color: $sidebar-color;
+    opacity: 0.6;
   }
 }
 
@@ -32,8 +36,16 @@ li.channel-name {
     padding: 0.2rem 1rem;
     text-decoration: none;
     &:hover {
-      background-color: lighten($sidebar-bg-color, 10%);
+      background-color: $channel-hover-color;
     }
+  }
+  &.active a {
+    background-color: $active-channel-bg-color;
+    color: $active-channel-color;
+    opacity: 1;
+  }
+  &.active .prefix {
+    color: $active-channel-color;
   }
 }
 
@@ -43,8 +55,4 @@ li.channel-name {
   padding: 1rem 0.5rem;
   width: 95%;
   box-sizing: border-box;
-}
-
-.message-container {
-
 }

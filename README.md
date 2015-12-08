@@ -15,7 +15,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [x] Join channel before fetching messages to avoid missing new messages
 - [x] Use channel id instead of name in frontend
 - [x] Use timestamp as keys of messages
-- [ ] Highlight the active Channel
+- [x] Highlight the active Channel
+- [ ] Use rscss for css code
 - [ ] Show channel info in the channel page
 - [ ] Make the channel creating better
 - [ ] Each channel post input should be different

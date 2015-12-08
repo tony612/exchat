@@ -6,30 +6,47 @@ import List from './List'
 import Message from '../components/Message'
 import PostMessage from '../components/PostMessage'
 import { postMessage } from '../actions/messages'
-import { fetchMessages } from '../actions/channels'
+import { fetchMessages, changeChannel } from '../actions/channels'
 
 class Channel extends Component {
 
   componentDidMount() {
-    console.log(this.props)
+    this.channelNameChange(this.props)
     this.channelWillChange(this.props)
   }
 
   componentWillReceiveProps(props) {
-    let channelId = this.props.channelId
-    let nextchannelId = props.channelId
-    let initChannelsDone = this.props.initChannelsDone
-    let nextinitChannelsDone = props.initChannelsDone
-
-    if (nextchannelId !== channelId || nextinitChannelsDone !== initChannelsDone) {
+    if (this._channelIdShouldChange(this.props, props)) {
+      this.channelNameChange(props)
+    }
+    if (this._channelShouldChange(this.props, props)) {
       this.channelWillChange(props)
     }
   }
 
-  channelWillChange(props) {
-    const { dispatch, fetchedMsgsAtBeginning, channelId, initChannelsDone } = props
+  _channelIdShouldChange(prevProps, nextProps) {
+    let { channelName, initChannelsDone } = prevProps
+    let nextChannelName = nextProps.channelName
+    let nextInitChannelsDone = nextProps.initChannelsDone
+    return nextChannelName !== channelName || nextInitChannelsDone !== initChannelsDone
+  }
 
-    if (!fetchedMsgsAtBeginning[channelId] && initChannelsDone) {
+  _channelShouldChange(prevProps, nextProps) {
+    let { channelId, initChannelsDone } = prevProps
+    let nextChannelId = nextProps.channelId
+    let nextInitChannelsDone = nextProps.initChannelsDone
+    return nextChannelId !== channelId || nextInitChannelsDone !== initChannelsDone
+  }
+
+  channelNameChange(props) {
+    let { dispatch, channelName } = props
+    dispatch(changeChannel(channelName))
+  }
+
+  channelWillChange(props) {
+    const { dispatch, fetchedMsgsAtBeginning, channelId, channelName, initChannelsDone } = props
+
+    if (channelId && !fetchedMsgsAtBeginning[channelId] && initChannelsDone) {
       dispatch(fetchMessages(channelId))
     }
   }
@@ -61,22 +78,20 @@ Channel.propTypes = {
     text: PropTypes.string.isRequired,
     ts: PropTypes.number.isRequired
   })),
-  channelId: PropTypes.number.isRequired
+  channelId: PropTypes.number
 }
 
 function mapStateToProps(state) {
-  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, channelIdByName } = state.channels
-  let channelId = channelIdByName[state.router.params.id]
-  console.log(channelId)
-  console.log(_.isNumber(channelId))
-  let msgIds = msgIdsById[channelId] || []
-  let messages = _.compact(msgIds.map(id => state.messages[`${channelId}:${id}`]))
-  console.log(messages)
+  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, currentChannelId } = state.channels
+
+  let msgIds = msgIdsById[currentChannelId] || []
+  let messages = _.compact(msgIds.map(id => state.messages[`${currentChannelId}:${id}`]))
   return {
-    channelId: channelId || 0,
     messages,
     fetchedMsgsAtBeginning,
-    initChannelsDone
+    initChannelsDone,
+    channelId: currentChannelId,
+    channelName: state.router.params.id
   }
 }
 

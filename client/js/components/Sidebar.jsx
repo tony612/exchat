@@ -8,7 +8,7 @@ import { createChannel } from '../actions/channels'
 class Sidebar extends Component {
   renderChannel(channel) {
     return (
-      <li className="channel-name" key={channel.id}>
+      <li className={this._channelClass(channel)} key={channel.id}>
         <Link to={`/channels/${channel.name}`}>
           <span className="prefix">#</span>
           {channel.name}
@@ -17,13 +17,22 @@ class Sidebar extends Component {
     )
   }
 
+  _channelClass(channel) {
+    let classes = ["channel-name"]
+    if (channel.id === this.props.channels.currentChannelId) {
+      classes.push("active")
+    }
+    return classes.join(' ')
+  }
+
   render() {
     const { dispatch, channels } = this.props
     let items = channels.ids.map(id => channels[id])
+    let active = id => id === channels.currentChannelId
     return (
       <div>
         <List items={items}
-              renderItem={this.renderChannel}
+              renderItem={this.renderChannel.bind(this)}
               isLoading={channels.isFetching}/>
         <CreateChannel onConfirm={name =>
           dispatch(createChannel(name))}/>

@@ -15,7 +15,8 @@ let initialState = {
   hasMore: {},
   initChannelsDone: false,
   // {abc: 1, ...}
-  channelIdByName: {}
+  channelIdByName: {},
+  currentChannelId: null
 }
 
 function getChannelIdByName(channels) {
@@ -34,7 +35,6 @@ export default function channels(state = initialState, action) {
       break
     case types.FETCH_CHANNELS_SUCCESS:
       var channels = action.response.entities.channels
-      console.log(channels)
       return {
         ...state,
         ids: action.response.result,
@@ -47,7 +47,6 @@ export default function channels(state = initialState, action) {
       }
       break
     case types.INIT_CHANNELS_DONE:
-      console.log('set init channels done')
       return {
         ...state,
         initChannelsDone: true
@@ -91,6 +90,13 @@ export default function channels(state = initialState, action) {
           ...state.ids,
           action.response.result
         ]
+      }
+      break
+    case types.CHANGE_CHANNEL:
+      const { channelIdByName } = state
+      return {
+        ...state,
+        currentChannelId: channelIdByName[action.channelName]
       }
       break
     default:
