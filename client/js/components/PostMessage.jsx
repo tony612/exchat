@@ -12,7 +12,7 @@ export default class PostMessage extends Component {
 
   render() {
     return (
-      <div className="footer">
+      <div className="message-input">
         <input type='text' className="form-control"
           onKeyDown={this.handleSubmit.bind(this)} />
       </div>

@@ -9,8 +9,8 @@ class Sidebar extends Component {
   renderChannel(channel) {
     return (
       <li className={this._channelClass(channel)} key={channel.id}>
-        <Link to={`/channels/${channel.name}`}>
-          <span className="prefix">#</span>
+        <Link to={`/channels/${channel.name}`} className="channel-link">
+          <span className="prefix-icon">#</span>
           {channel.name}
         </Link>
       </li>
@@ -18,9 +18,9 @@ class Sidebar extends Component {
   }
 
   _channelClass(channel) {
-    let classes = ["channel-name"]
+    let classes = ["channel-nav"]
     if (channel.id === this.props.channels.currentChannelId) {
-      classes.push("active")
+      classes.push("-active")
     }
     return classes.join(' ')
   }

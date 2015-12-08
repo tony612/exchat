@@ -14,7 +14,7 @@ class App extends Component {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-2 sidebar">
+          <div className="col-md-2 navigate-sidebar">
             <Sidebar dispatch={dispatch} channels={channels} />
           </div>
           <div className="col-md-10">
