@@ -6,7 +6,7 @@ import List from './List'
 import Message from '../components/Message'
 import PostMessage from '../components/PostMessage'
 import { postMessage } from '../actions/messages'
-import { fetchMessages, changeChannel } from '../actions/channels'
+import { fetchMessages, changeChannel, changeNewMessage } from '../actions/channels'
 
 class Channel extends Component {
 
@@ -59,16 +59,16 @@ class Channel extends Component {
   }
 
   render() {
-    const { dispatch, messages, channelId } = this.props
+    const { dispatch, messages, channelId, newMessage } = this.props
 
     return (
       <div>
         <List items={messages}
-          renderItem={this.renderMessage} />
+        renderItem={this.renderMessage} />
         <PostMessage
-          onPost={text =>
-            dispatch(postMessage(channelId, text))
-          } />
+          message={newMessage}
+          onChange={text => dispatch(changeNewMessage(channelId, text))}
+          onPost={text => dispatch(postMessage(channelId, text))} />
       </div>
     )
   }
@@ -83,7 +83,7 @@ Channel.propTypes = {
 }
 
 function mapStateToProps(state) {
-  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, currentChannelId } = state.channels
+  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, currentChannelId, newMessages } = state.channels
 
   let msgIds = msgIdsById[currentChannelId] || []
   let messages = _.compact(msgIds.map(id => state.messages[`${currentChannelId}:${id}`]))
@@ -91,7 +91,8 @@ function mapStateToProps(state) {
     messages,
     fetchedMsgsAtBeginning,
     initChannelsDone,
-    channelId: currentChannelId
+    channelId: currentChannelId,
+    newMessage: newMessages[currentChannelId] || ""
   }
 }
 

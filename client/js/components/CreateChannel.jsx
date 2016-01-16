@@ -13,8 +13,8 @@ export default class CreateChannel extends Component {
   render() {
     return (
       <div>
-        <input type='text' ref='channelName' />
-        <input type='button' value='create channel' onClick={this.handleConfirm.bind(this)} />
+        <input type='text' className='form-control' ref='channelName' />
+        <input type='button' className='btn btn-default' value='create channel' onClick={this.handleConfirm.bind(this)} />
       </div>
     )
   }

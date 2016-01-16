@@ -85,3 +85,11 @@ export function changeChannel(channelName) {
     channelName
   }
 }
+
+export function changeNewMessage(channelId, text) {
+  return {
+    channelId,
+    type: types.CHANGE_NEW_MESSAGE,
+    text: text
+  }
+}

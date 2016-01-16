@@ -16,7 +16,9 @@ let initialState = {
   initChannelsDone: false,
   // {abc: 1, ...}
   channelIdByName: {},
-  currentChannelId: null
+  currentChannelId: null,
+  // {1: "New msg"}
+  newMessages: {}
 }
 
 function getChannelIdByName(channels) {
@@ -99,6 +101,14 @@ export default function channels(state = initialState, action) {
         currentChannelId: channelIdByName[action.channelName]
       }
       break
+    case types.CHANGE_NEW_MESSAGE:
+      return {
+        ...state,
+        newMessages: {
+          ...state.newMessages,
+          [action.channelId]: action.text
+        }
+      }
     default:
       return state
   }

@@ -10,10 +10,16 @@ export default class PostMessage extends Component {
     }
   }
 
+  messageChange(e) {
+    const text = e.target.value.trim()
+    this.props.onChange(text)
+  }
+
   render() {
     return (
       <div className="message-input">
-        <input type='text' className="form-control"
+        <input type='text' className="form-control" value={this.props.message}
+          onChange={this.messageChange.bind(this)}
           onKeyDown={this.handleSubmit.bind(this)} />
       </div>
     )
@@ -21,5 +27,7 @@ export default class PostMessage extends Component {
 }
 
 PostMessage.propTypes = {
-  onPost: PropTypes.func.isRequired
+  onPost: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  message: PropTypes.string
 }
