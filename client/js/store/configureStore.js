@@ -2,8 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 
-import { reduxReactRouter } from 'redux-router'
-import { createHistory } from 'history'
+import { syncHistory } from 'redux-simple-router'
+import createHistory from 'history/lib/createBrowserHistory';
 
 import rootReducer from '../reducers'
 import realtimeMW from '../middleware/realtime'
@@ -13,21 +13,21 @@ import routes from '../routes'
 const loggerMiddleware = createLogger({
   level: 'info',
   collapsed: true
-});
+})
+
+const history = createHistory();
+const reduxRouterMiddleware = syncHistory(history)
 
 const middlewares = applyMiddleware(
   apiMW,
   realtimeMW,
   thunkMiddleware,
-  loggerMiddleware
+  loggerMiddleware,
+  reduxRouterMiddleware
 )
 
 const composeStore = compose(
-  middlewares,
-  reduxReactRouter({
-    routes,
-    createHistory
-  })
+  middlewares
 )(createStore)
 
 export default function configureStore(initialState) {

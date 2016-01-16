@@ -25,8 +25,9 @@ class Channel extends Component {
   }
 
   _channelIdShouldChange(prevProps, nextProps) {
-    let { channelName, initChannelsDone } = prevProps
-    let nextChannelName = nextProps.channelName
+    let { initChannelsDone } = prevProps
+    let channelName = prevProps.params.id
+    let nextChannelName = nextProps.params.id
     let nextInitChannelsDone = nextProps.initChannelsDone
     return nextChannelName !== channelName || nextInitChannelsDone !== initChannelsDone
   }
@@ -39,12 +40,12 @@ class Channel extends Component {
   }
 
   channelNameChange(props) {
-    let { dispatch, channelName } = props
-    dispatch(changeChannel(channelName))
+    let { dispatch } = props
+    dispatch(changeChannel(props.params.id))
   }
 
   channelWillChange(props) {
-    const { dispatch, fetchedMsgsAtBeginning, channelId, channelName, initChannelsDone } = props
+    const { dispatch, fetchedMsgsAtBeginning, channelId, initChannelsDone } = props
 
     if (channelId && !fetchedMsgsAtBeginning[channelId] && initChannelsDone) {
       dispatch(fetchMessages(channelId))
@@ -53,7 +54,7 @@ class Channel extends Component {
 
   renderMessage(message) {
     return (
-      <Message message={message} key={message.ts} />
+      <Message message={message} key={message.ts}/>
     )
   }
 
@@ -90,8 +91,7 @@ function mapStateToProps(state) {
     messages,
     fetchedMsgsAtBeginning,
     initChannelsDone,
-    channelId: currentChannelId,
-    channelName: state.router.params.id
+    channelId: currentChannelId
   }
 }
 
