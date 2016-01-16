@@ -18,7 +18,11 @@ defmodule Exchat.Web do
 
   def model do
     quote do
-      use Ecto.Model
+      use Ecto.Schema
+
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query, only: [from: 1, from: 2]
     end
   end
 
@@ -27,7 +31,7 @@ defmodule Exchat.Web do
       use Phoenix.Controller
 
       alias Exchat.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Exchat.Router.Helpers
@@ -59,9 +63,8 @@ defmodule Exchat.Web do
       use Phoenix.Channel
 
       alias Exchat.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
-
     end
   end
 

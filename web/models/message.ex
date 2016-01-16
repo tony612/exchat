@@ -59,6 +59,6 @@ defmodule Exchat.Message do
   end
 
   defp get_usec(timestamp) do
-    timestamp * 1000_000 |> trunc |> rem 1000000
+    timestamp * 1000_000 |> trunc |> rem(1000000)
   end
 end
