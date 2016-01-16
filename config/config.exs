@@ -10,6 +10,7 @@ config :exchat, Exchat.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "smY42q0EU5mhdBDG5CL4D+f1enl1q+MrI8OZRG589Ep5+6FwEtvZCKwq/Xvy9g0N",
+  debug_errors: false,
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Exchat.PubSub,
            adapter: Phoenix.PubSub.PG2]
