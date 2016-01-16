@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'eval-cheap-module-source-map',
   entry: [
     './client/js/app.js',
-    'bootstrap-sass!./client/js/bootstrap-sass.config.js'
+    'bootstrap-loader'
   ],
   output: {
     path: './priv/static/js',
