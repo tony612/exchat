@@ -108,7 +108,11 @@ export default function channels(state = initialState, action) {
         ids: [
           ...state.ids,
           action.response.result
-        ]
+        ],
+        channelIdByName: {
+          ...state.channelIdByName,
+          ...getChannelIdByName(channels)
+        }
       }
       break
     case types.CHANGE_CHANNEL:

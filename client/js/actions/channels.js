@@ -1,3 +1,5 @@
+import { routeActions } from 'redux-simple-router'
+
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
 import ExSocket from '../constants/ExSocket'
@@ -24,8 +26,12 @@ export function createChannel(name) {
       },
       schema: Schemas.CHANNEL,
       successCallback: function(response, store) {
-        const {result} = response
-        initChannel(result, store)
+        initChannel(response.result, store, ()=> {
+          store.dispatch(routeActions.push(`/channels/${name}`))
+          // NOTE: now route change doesn't change props in componentWillReceiveProps of Channel
+          // If it works, it's not necessary to call this here
+          store.dispatch(changeChannel(name))
+        })
       }
     }
   }
