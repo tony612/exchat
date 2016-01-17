@@ -12,44 +12,21 @@ class Channel extends Component {
 
   componentDidMount() {
     this.channelNameChange(this.props)
-    this.channelWillChange(this.props)
   }
 
   componentWillReceiveProps(props) {
     if (this._channelIdShouldChange(this.props, props)) {
       this.channelNameChange(props)
     }
-    if (this._channelShouldChange(this.props, props)) {
-      this.channelWillChange(props)
-    }
   }
 
   _channelIdShouldChange(prevProps, nextProps) {
-    let { initChannelsDone } = prevProps
-    let channelName = prevProps.params.id
-    let nextChannelName = nextProps.params.id
-    let nextInitChannelsDone = nextProps.initChannelsDone
-    return nextChannelName !== channelName || nextInitChannelsDone !== initChannelsDone
-  }
-
-  _channelShouldChange(prevProps, nextProps) {
-    let { channelId, initChannelsDone } = prevProps
-    let nextChannelId = nextProps.channelId
-    let nextInitChannelsDone = nextProps.initChannelsDone
-    return nextChannelId !== channelId || nextInitChannelsDone !== initChannelsDone
+    return nextProps.params.id !== prevProps.params.id || nextProps.initChannelsDone !== prevProps.initChannelsDone
   }
 
   channelNameChange(props) {
     let { dispatch } = props
     dispatch(changeChannel(props.params.id))
-  }
-
-  channelWillChange(props) {
-    const { dispatch, fetchedMsgsAtBeginning, channelId, initChannelsDone } = props
-
-    if (channelId && !fetchedMsgsAtBeginning[channelId] && initChannelsDone) {
-      dispatch(fetchMessages(channelId))
-    }
   }
 
   renderMessage(message) {

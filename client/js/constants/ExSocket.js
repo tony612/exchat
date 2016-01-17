@@ -15,10 +15,10 @@ if (ExSocket.findChannel) {
       foundChannel = ExSocket.channel(topicName, {})
     }
     if (foundChannel.state === 'closed') {
-      foundChannel.join().receive('ok', chan => {
+      foundChannel.join().receive('ok', data => {
         console.log(`Joined ${foundChannel.topic}`)
         if (_.isFunction(callback)) {
-          callback()
+          callback(data)
         }
       })
     }

@@ -32,23 +32,25 @@ export function createChannel(name) {
 }
 
 export function fetchChannels() {
+  let successCallback = function(response, store) {
+    const {result, entities} = response
+    _.forEach(result, (id, i) => {
+      initChannel(id, store, (data)=> {
+        store.dispatch(addMessages(id, data.messages))
+        if (result.length - 1 === i) {
+          console.log('INIT CHANNELS DONE')
+          store.dispatch(initChannelsDone())
+        }
+      })
+    })
+  }
   return {
     type: types.FETCH_CHANNELS,
     [API_CALL]: {
       endpoint: '/channels',
       method: GET,
       schema: Schemas.CHANNEL_ARRAY,
-      successCallback: function(response, store) {
-        const {result, entities} = response
-        _.forEach(result, (id, i) => {
-          initChannel(id, store, ()=> {
-            if (result.length - 1 === i) {
-              console.log('INIT CHANNELS DONE')
-              store.dispatch(initChannelsDone())
-            }
-          })
-        })
-      }
+      successCallback: successCallback
     }
   }
 }
@@ -65,6 +67,15 @@ export function fetchChannelsIfNeeded() {
   }
 }
 
+// Just after channel finished joining, messages will be sent back
+export function addMessages(channelId, messages) {
+  return {
+    channelId: channelId,
+    type: types.ADD_MESSAGES,
+    messages: messages
+  }
+}
+
 export function fetchMessages(channelId) {
   return {
     channelId: channelId,
@@ -72,9 +83,7 @@ export function fetchMessages(channelId) {
     [API_CALL]: {
       endpoint: `/channels/${channelId}/messages`,
       method: GET,
-      schema: Schemas.MESSAGE_ARRAY,
-      successCallback: function(response, store) {
-      }
+      schema: Schemas.MESSAGE_ARRAY
     }
   }
 }

@@ -65,6 +65,23 @@ export default function channels(state = initialState, action) {
         }
       }
       break
+    case types.ADD_MESSAGES:
+      var msgIds = action.messages.map(m => m.ts)
+      return {
+        ...state,
+        msgIdsById: {
+          ...state.msgIdsById,
+          [action.channelId]: [...msgIds]
+        },
+        fetchedMsgsAtBeginning: {
+          ...state.fetchedMsgsAtBeginning,
+          [action.channelId]: true
+        },
+        hasMore: {
+          ...state.hasMore,
+          [action.channelId]: action.hasMore
+        }
+      }
     case types.FETCH_MESSAGES_SUCCESS:
       var msgIds = _.values(action.response.entities.messages).map(m => m.ts)
       return {
