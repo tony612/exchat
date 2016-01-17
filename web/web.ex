@@ -49,6 +49,8 @@ defmodule Exchat.Web do
       use Phoenix.HTML
 
       import Exchat.Router.Helpers
+      import Exchat.ErrorHelpers
+      import Exchat.Gettext
     end
   end
 

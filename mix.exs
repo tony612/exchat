@@ -6,7 +6,7 @@ defmodule Exchat.Mixfile do
      version: "0.0.1",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix] ++ Mix.compilers,
+     compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -17,7 +17,7 @@ defmodule Exchat.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {Exchat, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex]]
   end
 
@@ -34,6 +34,7 @@ defmodule Exchat.Mixfile do
      {:postgrex, "~> 0.10.0"},
      {:phoenix_html, "~> 2.3.1"},
      {:phoenix_live_reload, "~> 1.0.3", only: :dev},
+     {:gettext, "~> 0.9.0"},
      {:ecto, "~> 1.1.1"},
      {:cowboy, "~> 1.0"}]
   end
