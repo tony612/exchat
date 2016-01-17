@@ -27,9 +27,8 @@ defmodule Exchat.Channel do
 
   def messages_before(model, ts, limit \\ 100) do
     time = Message.to_datetime(ts)
-    query = from m in Message,
-            where: m.channel_id == ^model.id and m.inserted_at <= ^time,
-            limit: ^limit
-    Repo.all query
+    from m in Message,
+      where: m.channel_id == ^model.id and m.inserted_at <= ^time,
+      limit: ^limit
   end
 end
