@@ -39,9 +39,11 @@ class Channel extends Component {
     const { dispatch, messages, channelId, newMessage } = this.props
 
     return (
-      <div>
-        <List items={messages}
-        renderItem={this.renderMessage} />
+      <div className="chat-container">
+        <div className="message-list">
+          <List items={messages}
+          renderItem={this.renderMessage} />
+        </div>
         <PostMessage
           message={newMessage}
           onChange={text => dispatch(changeNewMessage(channelId, text))}

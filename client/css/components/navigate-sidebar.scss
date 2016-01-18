@@ -5,6 +5,7 @@ $active-channel-bg-color: #44475A;
 $channel-hover-color: #6272A4;
 
 .navigate-sidebar {
+  @include flex(1);
   background-color: $sidebar-bg-color;
   color: $sidebar-color;
   padding: 2rem 1rem;

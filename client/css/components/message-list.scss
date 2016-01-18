@@ -1,0 +1,5 @@
+.message-list {
+  @include flex(1);
+  overflow: auto;
+  padding: 1rem 1rem;
+}

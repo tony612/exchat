@@ -12,14 +12,12 @@ class App extends Component {
     const { dispatch, channels, children } = this.props
 
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-2 navigate-sidebar">
-            <Sidebar dispatch={dispatch} channels={channels} />
-          </div>
-          <div className="col-md-10">
-            { children || 'Loading..' }
-          </div>
+      <div className="app-container">
+        <div className="navigate-sidebar">
+          <Sidebar dispatch={dispatch} channels={channels} />
+        </div>
+        <div className="main-area">
+          { children || 'Loading..' }
         </div>
       </div>
     )

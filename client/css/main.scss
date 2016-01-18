@@ -1,13 +1,30 @@
+@import 'flexbox-mixin';
+
 html, body {
   height: 100%;
+  overflow: hidden;
 }
 #client_root,
-#client_root > .container-fluid,
-#client_root > .container-fluid > .row,
-#client_root > .container-fluid > .row > *,
+#client_root > *,
+#client_root > * > *
 {
+  height: 100%;
+}
+
+.app-container {
+  @include flexbox();
+}
+
+.main-area {
+  @include flex(5);
+}
+
+.chat-container {
+  @include flexbox();
+  flex-direction: column;
   height: 100%;
 }
 
 @import 'components/navigate-sidebar';
 @import 'components/message-input';
+@import 'components/message-list';
