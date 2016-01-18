@@ -9,6 +9,7 @@ $channel-hover-color: #6272A4;
   background-color: $sidebar-bg-color;
   color: $sidebar-color;
   padding: 2rem 1rem;
+  overflow: auto;
 
   .channel-nav {
     color: $sidebar-color;
