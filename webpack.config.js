@@ -1,8 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
 
-module.exports = {
-  devtool: 'eval-cheap-module-source-map',
+var isDev = process.env.NODE_ENV !== 'production';
+
+var config = {
   entry: [
     './client/js/app.js',
     'bootstrap-loader'
@@ -41,7 +42,20 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    })
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin()
   ]
 
 };
+
+if (isDev) {
+  config.devtool = 'eval-cheap-module-source-map'
+}
+
+module.exports = config

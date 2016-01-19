@@ -53,7 +53,7 @@ styles:
   # Reset and dependencies
   normalize: true
   print: true
-  glyphicons: true
+  glyphicons: false
 
   # Core CSS
   scaffolding: true
@@ -62,36 +62,36 @@ styles:
   grid: true
   tables: true
   forms: true
-  buttons: true
+  buttons: false
 
   # Components
   component-animations: true
-  dropdowns: true
+  dropdowns: false
   button-groups: true
   input-groups: true
-  navs: true
-  navbar: true
-  breadcrumbs: true
-  pagination: true
-  pager: true
+  navs: false
+  navbar: false
+  breadcrumbs: false
+  pagination: false
+  pager: false
   labels: true
   badges: true
-  jumbotron: true
+  jumbotron: false
   thumbnails: true
-  alerts: true
-  progress-bars: true
-  media: true
-  list-group: true
-  panels: true
-  wells: true
-  responsive-embed: true
-  close: true
+  alerts: false
+  progress-bars: false
+  media: false
+  list-group: false
+  panels: false
+  wells: false
+  responsive-embed: false
+  close: false
 
   # Components w/ JavaScript
-  modals: true
-  tooltip: true
-  popovers: true
-  carousel: true
+  modals: false
+  tooltip: false
+  popovers: false
+  carousel: false
 
   # Utility classes
   utilities: true
@@ -99,15 +99,15 @@ styles:
 
 ### Bootstrap scripts
 scripts:
-  transition: true
-  alert: true
+  transition: false
+  alert: false
   button: true
-  carousel: true
-  collapse: true
-  dropdown: true
-  modal: true
-  tooltip: true
-  popover: true
-  scrollspy: true
-  tab: true
-  affix: true
+  carousel: false
+  collapse: false
+  dropdown: false
+  modal: false
+  tooltip: false
+  popover: false
+  scrollspy: false
+  tab: false
+  affix: false
