@@ -18,7 +18,7 @@ defmodule Exchat.Mixfile do
   def application do
     [mod: {Exchat, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :comeonin]]
   end
 
   # Specifies which paths to compile per environment
@@ -36,6 +36,7 @@ defmodule Exchat.Mixfile do
      {:phoenix_live_reload, "~> 1.0.3", only: :dev},
      {:gettext, "~> 0.9.0"},
      {:ecto, "~> 1.1.1"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:comeonin, "~> 2.0"}]
   end
 end

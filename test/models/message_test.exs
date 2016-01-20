@@ -1,5 +1,5 @@
 defmodule Exchat.MessageTest do
-  use Exchat.ModelCase
+  use Exchat.ModelCase, async: true
 
   doctest Exchat.Message
 
