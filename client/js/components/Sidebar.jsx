@@ -26,13 +26,13 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { dispatch, channels } = this.props
+    const {dispatch, channels} = this.props
     let items = channels.ids.map(id => channels[id])
     let active = id => id === channels.currentChannelId
     return (
       <div>
         <List items={items}
-              renderItem={this.renderChannel.bind(this)}
+              renderItem={this.renderChannel}
               isLoading={channels.isFetching}/>
         <CreateChannel onConfirm={name =>
           dispatch(createChannel(name))}/>

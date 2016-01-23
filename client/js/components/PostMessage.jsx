@@ -4,7 +4,7 @@ export default class PostMessage extends Component {
 
   handleSubmit(e) {
     const text = e.target.value.trim()
-    const { onPost } = this.props
+    const {onPost} = this.props
     if (e.which === 13) {
       onPost(text)
     }
@@ -19,8 +19,8 @@ export default class PostMessage extends Component {
     return (
       <div className="message-input">
         <input type='text' className="form-control" value={this.props.message}
-          onChange={this.messageChange.bind(this)}
-          onKeyDown={this.handleSubmit.bind(this)} />
+          onChange={::this.messageChange}
+          onKeyDown={::this.handleSubmit} />
       </div>
     )
   }

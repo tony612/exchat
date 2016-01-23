@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom'
 export default class CreateChannel extends Component {
 
   handleConfirm(e) {
-    const { onConfirm } = this.props
+    const {onConfirm} = this.props
     let name = findDOMNode(this.refs.channelName).value
     if (name && name !== '') {
       onConfirm(name)
@@ -15,7 +15,7 @@ export default class CreateChannel extends Component {
     return (
       <div>
         <input type='text' className='form-control' ref='channelName' />
-        <input type='button' className='btn btn-default' value='create channel' onClick={this.handleConfirm.bind(this)} />
+        <input type='button' className='btn btn-default' value='create channel' onClick={::this.handleConfirm} />
       </div>
     )
   }

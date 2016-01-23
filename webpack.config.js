@@ -14,7 +14,12 @@ var config = {
   },
   module: {
     loaders: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: {cacheDirectory: true, presets: ['react', 'es2015', 'stage-2']}},
+      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel',
+        query: {
+          cacheDirectory: true, presets: ['react', 'es2015', 'stage-2'],
+          plugins: ['transform-function-bind']
+        }
+      },
 
       // No need for this. jQuery is a global variable
       // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
