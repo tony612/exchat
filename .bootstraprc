@@ -62,7 +62,7 @@ styles:
   grid: true
   tables: true
   forms: true
-  buttons: false
+  buttons: true
 
   # Components
   component-animations: true
