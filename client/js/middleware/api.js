@@ -5,7 +5,7 @@ import { normalize } from 'normalizr'
 import { API_CALL } from '../constants/ApiTypes'
 import { UNKNOWN } from '../constants/ActionTypes'
 
-function callApi(endpoint, method, data, schema) {
+function callApi(path, method, data, schema) {
   let params = {
     method:  method.toLowerCase(),
     headers: {
@@ -16,7 +16,7 @@ function callApi(endpoint, method, data, schema) {
   if (data) {
     params = {...params, body: JSON.stringify(data)}
   }
-  return fetch('/api' + endpoint, params)
+  return fetch('/api' + path, params)
     .then(response =>
       response.json().then(json => ({ json, response }))
     ).then(({ json, response }) => {
@@ -39,7 +39,7 @@ export default store => next => action => {
     return next(action)
   }
 
-  let { endpoint, method, data, schema } = apiCall
+  let { path, method, data, schema } = apiCall
 
   function actionWith(params) {
     const finalAction = Object.assign({}, action, params);
@@ -53,7 +53,7 @@ export default store => next => action => {
 
   next({type: type + '_BEGIN'})
 
-  return callApi(endpoint, method, data, schema).then(
+  return callApi(path, method, data, schema).then(
     response => {
       if (apiCall.successCallback) {
         apiCall.successCallback(response, store)

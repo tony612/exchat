@@ -17,7 +17,7 @@ export function createChannel(name) {
   return {
     type: types.CREATE_CHANNEL,
     [API_CALL]: {
-      endpoint: '/channels',
+      path: '/channels',
       method: POST,
       data: {
         channel: {
@@ -53,7 +53,7 @@ export function fetchChannels() {
   return {
     type: types.FETCH_CHANNELS,
     [API_CALL]: {
-      endpoint: '/channels',
+      path: '/channels',
       method: GET,
       schema: Schemas.CHANNEL_ARRAY,
       successCallback: successCallback
@@ -87,7 +87,7 @@ export function fetchMessages(channelId) {
     channelId: channelId,
     type: types.FETCH_MESSAGES,
     [API_CALL]: {
-      endpoint: `/channels/${channelId}/messages`,
+      path: `/channels/${channelId}/messages`,
       method: GET,
       schema: Schemas.MESSAGE_ARRAY
     }
