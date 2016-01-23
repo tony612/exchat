@@ -19,6 +19,8 @@ defmodule Exchat.Router do
     resources "channels", ChannelController, only: [:create, :index] do
       resources "messages", MessageController, only: [:index]
     end
+
+    post "/sign_in", SessionController, :create
   end
 
   scope "/", Exchat do

@@ -37,6 +37,7 @@ defmodule Exchat.Mixfile do
      {:gettext, "~> 0.9.0"},
      {:ecto, "~> 1.1.1"},
      {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 2.0"}]
+     {:comeonin, "~> 2.0"},
+     {:joken, "~> 1.0.0"}]
   end
 end

@@ -45,3 +45,6 @@ config :exchat, Exchat.Repo,
   password: "postgres",
   database: "exchat_dev",
   pool_size: 10
+
+# DO NOT use this in prod
+config :exchat, Exchat.User, jwt_secret: "super_secret"
