@@ -32,7 +32,7 @@ class Sidebar extends Component {
     return (
       <div>
         <List items={items}
-              renderItem={this.renderChannel}
+              renderItem={::this.renderChannel}
               isLoading={channels.isFetching}/>
         <CreateChannel onConfirm={name =>
           dispatch(createChannel(name))}/>
