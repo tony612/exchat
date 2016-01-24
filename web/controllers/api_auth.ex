@@ -1,11 +1,12 @@
 defmodule Exchat.ApiAuth do
   import Plug.Conn
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
+  import Joken, only: [token: 1, with_exp: 2, with_signer: 2, sign: 1, get_compact: 1, verify: 1, hs256: 1]
 
   alias Exchat.User
 
   @default_jwt_secret Application.get_env(:exchat, User)[:jwt_secret]
-  @default_expires_in 24 * 60 * 60 # 1 day
+  @default_expires_in 7 * 24 * 60 * 60 # 7 day
 
   def login(conn, user) do
     conn
@@ -28,19 +29,21 @@ defmodule Exchat.ApiAuth do
     end
   end
 
-  def generate_token(user, expires_in \\ current_time + @default_expires_in, jwt_secret \\ @default_jwt_secret)
-      when is_binary(jwt_secret) and is_integer(expires_in) do
+  def generate_token(user, expires \\ :os.system_time(:seconds) + @default_expires_in, jwt_secret \\ @default_jwt_secret)
+      when is_binary(jwt_secret) and is_integer(expires) do
     %{user_id: user.id}
-    |> Joken.token
-    |> Joken.with_exp(expires_in)
-    |> Joken.with_signer(Joken.hs256(jwt_secret))
-    |> Joken.sign
-    |> Joken.get_compact
+    |> token
+    |> with_exp(expires)
+    |> with_signer(hs256(jwt_secret))
+    |> sign
+    |> get_compact
   end
 
-  defp current_time() do
-    {mega, secs, _} = :os.timestamp()
-    mega * 1000000 + secs
+  def parse_token(token, jwt_secret \\ @default_jwt_secret) do
+    token
+    |> token
+    |> with_signer(hs256(jwt_secret))
+    |> verify
   end
 
 end

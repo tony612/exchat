@@ -21,3 +21,6 @@ config :exchat, Exchat.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :comeonin, :bcrypt_log_rounds, 4
+
+# DO NOT use this in prod
+config :exchat, Exchat.User, jwt_secret: "super_secret"
