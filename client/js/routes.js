@@ -14,7 +14,7 @@ const Routes = (
         <Route path=":id" component={Channel}></Route>
       </Route>
     </Route>
-    <Route path="/login" component={SignIn}></Route>
+    <Route path="/login" component={SignIn} onEnter={Auth.rejectAuth}></Route>
   </div>
 )
 

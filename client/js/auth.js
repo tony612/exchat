@@ -7,6 +7,12 @@ const Auth = {
     if (!Auth.loggedIn()) {
       replace({nextPathname: nextState.location.pathname}, '/login')
     }
+  },
+
+  rejectAuth(nextState, replace) {
+    if (Auth.loggedIn()) {
+      replace({nextPathname: nextState.location.pathname}, '/')
+    }
   }
 }
 
