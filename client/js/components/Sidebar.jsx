@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 
 import List from './List'
 import CreateChannel from './CreateChannel'
+import Settings from './Settings'
 import { createChannel } from '../actions/channels'
 
 class Sidebar extends Component {
@@ -31,6 +32,7 @@ class Sidebar extends Component {
     let active = id => id === channels.currentChannelId
     return (
       <div>
+        <Settings dispatch={dispatch}></Settings>
         <List items={items}
               renderItem={::this.renderChannel}
               isLoading={channels.isFetching}/>

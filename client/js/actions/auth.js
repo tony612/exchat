@@ -13,8 +13,16 @@ export function signIn(email, password) {
         email, password
       },
       successCallback: (response, store) => {
-        store.dispatch(routeActions.push('/'))
+        localStorage.setItem('authToken', response.token)
+        store.dispatch(routeActions.replace('/'))
       }
     }
+  }
+}
+
+export function signOut() {
+  return (dispatch, getState) => {
+    localStorage.removeItem('authToken')
+    dispatch(routeActions.replace('/login'))
   }
 }
