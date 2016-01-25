@@ -1,3 +1,5 @@
+import { routeActions } from 'react-router-redux'
+
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
 
@@ -9,6 +11,10 @@ export function signIn(email, password) {
       method: POST,
       data: {
         email, password
+      },
+      successCallback: (response, store) => {
+        console.log('successCallback')
+        store.dispatch(routeActions.push('/'))
       }
     }
   }

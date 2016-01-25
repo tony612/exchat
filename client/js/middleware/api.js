@@ -51,8 +51,6 @@ export default store => next => action => {
 
   let result = next(actionWith({type: type}))
 
-  next({type: type + '_BEGIN'})
-
   return callApi(path, method, data, schema).then(
     response => {
       next(actionWith({

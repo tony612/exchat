@@ -20,3 +20,4 @@ export const CHANGE_NEW_MESSAGE = 'CHANGE_NEW_MESSAGE'
 
 // Auth
 export const SIGN_IN = 'SIGN_IN'
+export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
