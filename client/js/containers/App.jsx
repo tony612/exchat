@@ -2,14 +2,17 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import Sidebar from '../components/Sidebar'
+import {fetchChannelsIfNeeded} from '../actions/channels'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
+  componentDidMount() {
+    const {dispatch} = this.props
+
+    dispatch(fetchChannelsIfNeeded())
   }
 
   render() {
-    const { dispatch, channels, children } = this.props
+    const {dispatch, channels, children} = this.props
 
     return (
       <div className="app-container">

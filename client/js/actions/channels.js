@@ -69,7 +69,9 @@ export function initChannelsDone() {
 
 export function fetchChannelsIfNeeded() {
   return (dispatch, getState) => {
-    return dispatch(fetchChannels())
+    if (!getState().channels.initChannelsDone) {
+      return dispatch(fetchChannels())
+    }
   }
 }
 

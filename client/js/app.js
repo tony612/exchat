@@ -14,8 +14,6 @@ import './../css/main'
 
 const store = configureStore()
 
-store.dispatch(fetchChannelsIfNeeded())
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
