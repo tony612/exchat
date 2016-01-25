@@ -41,7 +41,7 @@
     "react-router": "^1.0.3",
     "redux": "^3.0.5",
     "redux-logger": "^2.3.2",
-    "redux-simple-router": "^2.0.3",
+    "react-router-redux": "^2.1.0",
     "redux-thunk": "^1.0.3",
     "resolve-url-loader": "^1.4.3",
     "sass-loader": "^2.0.1",
