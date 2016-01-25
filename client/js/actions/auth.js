@@ -13,7 +13,6 @@ export function signIn(email, password) {
         email, password
       },
       successCallback: (response, store) => {
-        console.log('successCallback')
         store.dispatch(routeActions.push('/'))
       }
     }
