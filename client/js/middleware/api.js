@@ -1,4 +1,4 @@
-import { camelizeKeys } from 'humps';
+import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
 import { normalize } from 'normalizr'
 
@@ -18,8 +18,8 @@ function callApi(path, method, data, schema) {
   }
   return fetch('/api' + path, params)
     .then(response =>
-      response.json().then(json => ({ json, response }))
-    ).then(({ json, response }) => {
+      response.json().then(json => ({json, response}))
+    ).then(({json, response}) => {
       if (!response.ok) {
         return Promise.reject(json)
       }
@@ -39,33 +39,33 @@ export default store => next => action => {
     return next(action)
   }
 
-  let { path, method, data, schema } = apiCall
+  let {path, method, data, schema} = apiCall
 
   function actionWith(params) {
-    const finalAction = Object.assign({}, action, params);
-    delete finalAction[API_CALL];
-    return finalAction;
+    const finalAction = Object.assign({}, action, params)
+    delete finalAction[API_CALL]
+    return finalAction
   }
 
   let type = action.type || UNKNOWN
 
-  let result = next(actionWith({ type: type }));
+  let result = next(actionWith({type: type}))
 
   next({type: type + '_BEGIN'})
 
   return callApi(path, method, data, schema).then(
     response => {
-      if (apiCall.successCallback) {
-        apiCall.successCallback(response, store)
-      }
       next(actionWith({
         response,
         type: type + '_SUCCESS'
       }))
+      if (apiCall.successCallback) {
+        apiCall.successCallback(response, store)
+      }
     },
     error => next(actionWith({
       type: type + '_FAILURE',
       error: error.message || 'Something bad happened'
     }))
-  );
+  )
 }
