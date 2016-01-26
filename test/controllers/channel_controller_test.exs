@@ -23,6 +23,6 @@ defmodule Exchat.ChannelControllerTest do
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, channel_path(conn, :create), channel: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
+    assert json_response(conn, 400)["errors"] != %{}
   end
 end

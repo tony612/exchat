@@ -3,6 +3,8 @@ import { routeActions } from 'react-router-redux'
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
 
+import Auth from '../auth'
+
 export function signIn(email, password) {
   return {
     type: types.SIGN_IN,
@@ -13,7 +15,7 @@ export function signIn(email, password) {
         email, password
       },
       successCallback: (response, store) => {
-        localStorage.setItem('authToken', response.token)
+        Auth.login(response)
         store.dispatch(routeActions.replace('/'))
       }
     }
@@ -30,7 +32,7 @@ export function signUp(email, password) {
         email, password
       },
       successCallback: (response, store) => {
-        localStorage.setItem('authToken', response.token)
+        Auth.login(response)
         store.dispatch(routeActions.replace('/'))
       }
     }
@@ -39,7 +41,7 @@ export function signUp(email, password) {
 
 export function signOut() {
   return (dispatch, getState) => {
-    localStorage.removeItem('authToken')
+    Auth.logout()
     dispatch(routeActions.replace('/login'))
   }
 }

@@ -9,12 +9,12 @@ import Auth from './auth'
 
 const Routes = (
   <div>
-    <Route path="/" component={App} onEnter={Auth.requireAuth}>
+    <Route path="/" component={App} onEnter={::Auth.requireAuth}>
       <Route path="channels">
         <Route path=":id" component={Channel}></Route>
       </Route>
     </Route>
-    <Route path="/login" component={SignIn} onEnter={Auth.rejectAuth}></Route>
+    <Route path="/login" component={SignIn} onEnter={::Auth.rejectAuth}></Route>
   </div>
 )
 

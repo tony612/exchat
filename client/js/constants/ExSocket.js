@@ -2,17 +2,47 @@ import _ from 'lodash'
 
 import { Socket as PhoenixSocket } from 'phoenix'
 
-const ExSocket = new PhoenixSocket('/socket')
-ExSocket.connect()
+const ExSocket = {
+  socket: null,
 
-if (ExSocket.findChannel) {
-  console.log('findChannel of ExSocket is defined!')
-} else {
-  ExSocket.findChannel = function(id, callback) {
+  connect(token, silent = false) {
+    if (!this.socket) {
+      this.socket = new PhoenixSocket('/socket', {
+        params: {token: token}
+      })
+      this.socket.connect()
+      console.log("Socket connected!")
+    } else if (!this.connAvaiable()) {
+      this.socket.connect()
+      console.log("Socket reconnected!")
+    } else if (!silent) {
+      console.warn("Try to connect a connected socket.")
+    }
+  },
+
+  connAvaiable() {
+    return this.socket && (this.socket.connectionState() === 'open' ||
+                           this.socket.connectionState() === 'connecting')
+  },
+
+  disconnect() {
+    this.socket.disconnect()
+    console.log('Socket disconnected!')
+  },
+
+  socketAvaiable() {
+    this.socket && this.socket.connectionState() === 'closing'
+  },
+
+  findChannel(id, callback) {
+    if (!this.socket) {
+      console.error("No socket connection, please connect first")
+      return false
+    }
     let topicName = `channel:${id}`
-    let foundChannel = _.find(this.channels, (ch)=> ch.topic === topicName)
+    let foundChannel = _.find(this.socket.channels, (ch)=> ch.topic === topicName)
     if (!foundChannel) {
-      foundChannel = ExSocket.channel(topicName, {})
+      foundChannel = this.socket.channel(topicName, {})
     }
     if (foundChannel.state === 'closed') {
       foundChannel.join().receive('ok', data => {
@@ -24,6 +54,7 @@ if (ExSocket.findChannel) {
     }
     return foundChannel
   }
+
 }
 
 export default ExSocket

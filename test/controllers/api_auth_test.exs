@@ -17,7 +17,7 @@ defmodule Exchat.ApiAuthTest do
   test "generate_token/1 generate a token" do
     user = %User{id: 1}
     token = ApiAuth.generate_token(user)
-    parsed = ApiAuth.parse_token(token)
+    parsed = ApiAuth.parse_token(token) |> Joken.verify
     assert %{"exp" => _exp, "user_id" => 1} = parsed.claims
   end
 
@@ -26,7 +26,7 @@ defmodule Exchat.ApiAuthTest do
     token = ApiAuth.generate_token(user, 1453644008)
     assert token == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0NTM2NDQwMDh9" <>
                       ".98ZXWW3UQ6CeuYi9YSzJI3orKB5b96-gFelCJ2c-TG0"
-    parsed = ApiAuth.parse_token(token)
+    parsed = ApiAuth.parse_token(token) |> Joken.verify
     assert %{"exp" => 1453644008, "user_id" => 1} = parsed.claims
   end
 

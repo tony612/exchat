@@ -43,7 +43,6 @@ defmodule Exchat.ApiAuth do
     token
     |> token
     |> with_signer(hs256(jwt_secret))
-    |> verify
   end
 
 end
