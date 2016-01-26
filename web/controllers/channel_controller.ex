@@ -20,8 +20,8 @@ defmodule Exchat.ChannelController do
         |> render("show.json", channel: channel)
       {:error, changeset} ->
         conn
-        |> put_status(:unprocessable_entity)
-        |> render(Exchat.ChangesetView, "error.json", changeset: changeset)
+        |> put_status(:bad_request)
+        |> render(ChangesetView, :error, changeset: changeset)
     end
   end
 end

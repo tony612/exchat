@@ -32,6 +32,8 @@ defmodule Exchat.Web do
 
       alias Exchat.Repo
       alias Exchat.ErrorView
+      alias Exchat.ChangesetView
+
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 

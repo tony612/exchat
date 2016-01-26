@@ -3,7 +3,7 @@ import { Route } from 'react-router'
 
 import App from './containers/App'
 import Channel from './components/Channel'
-import SignIn from './components/auth/SignIn'
+import SignIn from './components/session/SignIn'
 
 import Auth from './auth'
 

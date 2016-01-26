@@ -3,14 +3,21 @@ import { connect } from 'react-redux'
 
 import Auth from '../../auth'
 import { signIn } from '../../actions/auth'
+import { signUp } from '../../actions/auth'
 
-class Channel extends Component {
-
+class SignIn extends Component {
   _signIn(e) {
     e.preventDefault()
     let {email, password} = this.refs
     const {dispatch} = this.props
     dispatch(signIn(email.value, password.value))
+  }
+
+  _signUp(e) {
+    e.preventDefault()
+    let {email, password} = this.refs
+    const {dispatch} = this.props
+    dispatch(signUp(email.value, password.value))
   }
 
   render() {
@@ -31,7 +38,8 @@ class Channel extends Component {
           </div>
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-10">
-              <button type="submit" className="btn btn-default" onClick={::this._signIn}>Sign in</button>
+              <button type="submit" className="btn btn-default" onClick={::this._signIn}>Sign In</button>{' '}
+              <button type="submit" className="btn btn-primary" onClick={::this._signUp}>Sign Up</button>
             </div>
           </div>
         </form>
@@ -47,9 +55,6 @@ const style = {
   }
 }
 
-Channel.propTypes = {
-}
-
 function mapStateToProps(state) {
   return {
   }
@@ -57,4 +62,4 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps
-)(Channel)
+)(SignIn)

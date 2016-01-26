@@ -9,7 +9,7 @@ defmodule Exchat.SessionController do
         render(conn, token: conn.assigns[:auth_token])
       {:error, _reason, conn} ->
         conn
-        |> put_status(401)
+        |> put_status(:unauthorized)
         |> render(ErrorView, :error, message: "Invalid email or password!")
     end
 

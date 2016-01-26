@@ -21,7 +21,7 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
-  dispatch: React.PropTypes.function
+  dispatch: React.PropTypes.func
 }
 
 export default Settings

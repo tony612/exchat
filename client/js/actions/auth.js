@@ -20,6 +20,23 @@ export function signIn(email, password) {
   }
 }
 
+export function signUp(email, password) {
+  return {
+    type: types.SIGN_UP,
+    [API_CALL]: {
+      path: '/sign_up',
+      method: POST,
+      data: {
+        email, password
+      },
+      successCallback: (response, store) => {
+        localStorage.setItem('authToken', response.token)
+        store.dispatch(routeActions.replace('/'))
+      }
+    }
+  }
+}
+
 export function signOut() {
   return (dispatch, getState) => {
     localStorage.removeItem('authToken')

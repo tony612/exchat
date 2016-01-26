@@ -51,8 +51,8 @@ styles:
   mixins: true
 
   # Reset and dependencies
-  normalize: true
-  print: true
+  normalize: false
+  print: false
   glyphicons: false
 
   # Core CSS

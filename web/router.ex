@@ -21,6 +21,7 @@ defmodule Exchat.Router do
     end
 
     post "/sign_in", SessionController, :create
+    post "/sign_up", UserController, :create
   end
 
   scope "/", Exchat do
