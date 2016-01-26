@@ -2,7 +2,6 @@ defmodule Exchat.Channel do
   use Exchat.Web, :model
 
   alias Exchat.Message
-  alias Exchat.Repo
 
   schema "channels" do
     field :name, :string
