@@ -75,7 +75,7 @@ defmodule Exchat.ApiAuth do
   defp get_user_id(conn) do
     case Plug.Conn.get_req_header(conn, "authorization") do
       [token] -> get_user_id_from_token(token)
-      true    -> nil
+      _       -> nil
     end
   end
 
@@ -86,7 +86,7 @@ defmodule Exchat.ApiAuth do
           |> get_claims
           |> Map.fetch("user_id") do
       {:ok, user_id} -> user_id
-      :error         -> nil
+      _              -> nil
     end
   end
 
