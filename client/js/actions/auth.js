@@ -14,6 +14,7 @@ export function signIn(email, password) {
       data: {
         email, password
       },
+      skipAuth: true,
       successCallback: (response, store) => {
         Auth.login(response)
         store.dispatch(routeActions.replace('/'))
@@ -31,6 +32,7 @@ export function signUp(email, password) {
       data: {
         email, password
       },
+      skipAuth: true,
       successCallback: (response, store) => {
         Auth.login(response)
         store.dispatch(routeActions.replace('/'))
