@@ -5,13 +5,14 @@ import { normalize } from 'normalizr'
 import { API_CALL } from '../constants/ApiTypes'
 import { UNKNOWN } from '../constants/ActionTypes'
 
-function callApi(path, method, data, schema) {
+function callApi(options) {
+  let {path, method, data, schema, headers} = options
   let params = {
-    method:  method.toLowerCase(),
-    headers: {
+    method: method.toLowerCase(),
+    headers: Object.assign({
       Accept: 'application/json',
       'Content-Type': 'application/json'
-    }
+    }, headers)
   }
   if (data) {
     params = {...params, body: JSON.stringify(data)}
@@ -39,8 +40,6 @@ export default store => next => action => {
     return next(action)
   }
 
-  let {path, method, data, schema} = apiCall
-
   function actionWith(params) {
     const finalAction = Object.assign({}, action, params)
     delete finalAction[API_CALL]
@@ -51,7 +50,7 @@ export default store => next => action => {
 
   let result = next(actionWith({type: type}))
 
-  return callApi(path, method, data, schema).then(
+  return callApi(apiCall).then(
     response => {
       next(actionWith({
         response,

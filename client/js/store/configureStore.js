@@ -6,8 +6,9 @@ import { syncHistory } from 'react-router-redux'
 import createHistory from 'history/lib/createBrowserHistory'
 
 import rootReducer from '../reducers'
-import realtimeMW from '../middleware/realtime'
-import apiMW from '../middleware/api'
+import realtime from '../middleware/realtime'
+import api from '../middleware/api'
+import auth from '../middleware/auth'
 import routes from '../routes'
 
 const loggerMiddleware = createLogger({
@@ -19,8 +20,9 @@ export const history = createHistory()
 const reduxRouterMiddleware = syncHistory(history)
 
 const middlewares = applyMiddleware(
-  apiMW,
-  realtimeMW,
+  auth,
+  api,
+  realtime,
   thunkMiddleware,
   loggerMiddleware,
   reduxRouterMiddleware
