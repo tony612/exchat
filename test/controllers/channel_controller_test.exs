@@ -1,12 +1,15 @@
 defmodule Exchat.ChannelControllerTest do
   use Exchat.ConnCase
 
-  alias Exchat.Channel
+  alias Exchat.{Channel, User}
   @valid_attrs %{name: "general"}
   @invalid_attrs %{}
 
   setup do
-    conn = conn() |> put_req_header("accept", "application/json")
+    user = Repo.insert(%User{email: "tony@ex.chat", password: "password"})
+    conn = conn
+    |> put_req_header("accept", "application/json")
+    |> assign(:current_user, user)
     {:ok, conn: conn}
   end
 

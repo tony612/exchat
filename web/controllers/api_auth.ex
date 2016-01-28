@@ -15,9 +15,13 @@ defmodule Exchat.ApiAuth do
   end
 
   def call(conn, repo) do
-    user_id = get_user_id(conn)
-    user = user_id && repo.get_by!(User, id: user_id)
-    assign(conn, :current_user, user)
+    if conn.assigns[:current_user] do
+      conn
+    else
+      user_id = get_user_id(conn)
+      user = user_id && repo.get(User, user_id)
+      assign(conn, :current_user, user)
+    end
   end
 
   def authenticate_user(conn, _opts) do
