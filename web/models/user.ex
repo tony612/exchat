@@ -12,6 +12,8 @@ defmodule Exchat.User do
   @required_fields ~w(email password)
   @optional_fields ~w()
 
+  @email_regex ~r/\A[^@\s]+@([^@\s]+\.)+[^@\W]+\z/i
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 
@@ -21,7 +23,7 @@ defmodule Exchat.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_format(:email, ~r/\w+@\w+/)
+    |> validate_format(:email, @email_regex)
     |> validate_length(:password, min: 6)
     |> put_pass_hash()
   end

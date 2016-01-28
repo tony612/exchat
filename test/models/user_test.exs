@@ -19,6 +19,12 @@ defmodule Exchat.UserTest do
     refute changeset3.valid?
   end
 
+  test "test invalid email" do
+    refute User.changeset(%User{}, %{email: "a@wrong@email"}).valid?
+    refute User.changeset(%User{}, %{email: "wrong@email."}).valid?
+    refute User.changeset(%User{}, %{email: "wrong@email. "}).valid?
+  end
+
   test "put_pass_hash will be set" do
     changeset = User.changeset(%User{}, @valid_attrs)
     %{password: password, password_hash: pass_hash} = changeset.changes
