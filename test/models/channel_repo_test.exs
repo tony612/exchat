@@ -12,7 +12,8 @@ defmodule Exchat.ChannelRepoTest do
 
     assert Channel.messages_before(channel, Message.to_timestamp(DateTime.utc)) |> Repo.all == []
 
-    message = %Message{text: "Hello", channel_id: channel.id}
+    user = insert_user
+    message = %Message{text: "Hello", channel_id: channel.id, user_id: user.id}
     {:ok, message1} = Repo.insert(message)
 
     now = message1.inserted_at

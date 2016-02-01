@@ -4,11 +4,12 @@ defmodule Exchat.Message do
   schema "messages" do
     field :text, :string
     belongs_to :channel, Exchat.Channel
+    belongs_to :user, Exchat.User
 
     timestamps usec: true
   end
 
-  @required_fields ~w(text channel_id)
+  @required_fields ~w(text channel_id user_id)
   @optional_fields ~w()
 
   epoch = {{1970, 1, 1}, {0, 0, 0}}

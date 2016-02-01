@@ -1,4 +1,5 @@
 import { routeActions } from 'react-router-redux'
+import { camelizeKeys } from 'humps'
 
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
@@ -9,6 +10,7 @@ import Schemas from '../store/schema'
 let initChannel = function(id, store, callback) {
   let channel = ExSocket.findChannel(id, callback)
   channel.on('new_message', payload => {
+    payload = camelizeKeys(payload)
     store.dispatch(receivedMessage(payload))
   })
 }

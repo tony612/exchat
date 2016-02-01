@@ -1,13 +1,11 @@
 defmodule Exchat.MessageChannel do
   use Phoenix.Channel
-  alias Exchat.Message
-  alias Exchat.Repo
-  alias Exchat.Channel
+  alias Exchat.{Message, Repo, Channel}
 
   def join("channel:" <> _public_channel_id, _auth_msg, socket) do
     channel_id = channel_from_topic(socket.topic)
     channel = Repo.get_by Channel, id: channel_id
-    messages = Channel.messages_before(channel, now) |> Repo.all
+    messages = Channel.messages_before(channel, now) |> Repo.all |> Repo.preload(:user)
     resp = %{messages: Phoenix.View.render_many(messages, Exchat.MessageView, "message.json")}
 
     {:ok, resp, socket}
@@ -16,18 +14,23 @@ defmodule Exchat.MessageChannel do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def handle_in("new_message", %{"text" => _text} = params, socket) do
+  def handle_in(event, params, socket) do
+    user = Repo.get(Exchat.User, socket.assigns.user_id)
+    if user do
+      handle_in(event, params, user, socket)
+    else
+      {:reply, :error, socket}
+    end
+  end
+
+  def handle_in("new_message", %{"text" => _text} = params, user, socket) do
     channel_id = channel_from_topic(socket.topic)
     channel = Repo.get_by(Exchat.Channel, id: channel_id)
     if channel do
-      changeset = Message.changeset(%Message{}, Dict.put(params, "channel_id", channel.id))
+      changeset = Message.changeset(%Message{}, message_params(params, channel, user))
       case Repo.insert(changeset) do
         {:ok, message} ->
-          data = %{
-            text: message.text,
-            channelId: channel_id,
-            ts: Message.ts(message)
-          }
+          data = Exchat.MessageView.build("message.json", message, user: user)
           broadcast! socket, "new_message", data
           {:noreply, socket}
         {:error, _changeset} ->
@@ -48,5 +51,9 @@ defmodule Exchat.MessageChannel do
   end
 
   defp now, do: Message.to_timestamp(Ecto.DateTime.utc)
+
+  defp message_params(%{"text" => text}, channel, user) do
+    Map.merge(%{text: text}, %{channel_id: channel.id, user_id: user.id})
+  end
 
 end

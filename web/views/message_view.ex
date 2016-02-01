@@ -7,10 +7,17 @@ defmodule Exchat.MessageView do
     render_many(messages, Exchat.MessageView, "message.json")
   end
 
-  def render("message.json", %{message: message}) do
-    %{id: message.id,
-      text: message.text,
+  def render(type = "message.json", %{message: message}) do
+    build(type, message, user: message.user)
+  end
+
+  def build("message.json", message, user: user) do
+    %{text: message.text,
       channel_id: message.channel_id,
-      ts: Message.ts(message)}
+      ts: Message.ts(message),
+      user: %{
+        id: user.id
+      }
+    }
   end
 end
