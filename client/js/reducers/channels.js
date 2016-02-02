@@ -55,13 +55,14 @@ export default function channels(state = initialState, action) {
       }
       break
     case types.RECEIVED_MESSAGE:
-      var ts = action.ts
-      var msgIds = state.msgIdsById[action.channelId] || []
+      var payload = action.payload
+      var ts = payload.ts
+      var msgIds = state.msgIdsById[payload.channelId] || []
       return {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
-          [action.channelId]: [...msgIds, ts]
+          [payload.channelId]: [...msgIds, ts]
         }
       }
       break
@@ -116,7 +117,7 @@ export default function channels(state = initialState, action) {
       }
       break
     case types.CHANGE_CHANNEL:
-      const { channelIdByName } = state
+      const {channelIdByName} = state
       return {
         ...state,
         currentChannelId: channelIdByName[action.channelName]

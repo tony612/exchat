@@ -6,7 +6,6 @@ import createHistory             from 'history/lib/createBrowserHistory'
 
 import configureStore, { history }            from './store/configureStore'
 import App                       from './containers/App'
-import { receivedMessage }       from './actions/messages'
 import { fetchChannelsIfNeeded } from './actions/channels'
 import routes                    from './routes'
 

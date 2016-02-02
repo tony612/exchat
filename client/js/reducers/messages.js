@@ -5,16 +5,17 @@ import * as types from '../constants/ActionTypes'
 const initialState = {}
 
 export default function messages(state = initialState, action) {
+  let {payload} = action
   switch (action.type) {
   case types.RECEIVED_MESSAGE:
     return {
       ...state,
-      [`${action.channelId}:${action.ts}`]: _.pick(action, 'text', 'ts')
+      [`${payload.channelId}:${payload.ts}`]: _.pick(payload, 'text', 'ts', 'user')
     }
-    break;
+    break
   case types.ADD_MESSAGES:
     var msgs = _.keyBy(action.messages, (m) => `${action.channelId}:${m.ts}`)
-    msgs = _.mapValues(msgs, (m) => _.pick(m, 'text', 'ts'))
+    msgs = _.mapValues(msgs, (m) => _.pick(m, 'text', 'ts', 'user'))
     return {
       ...state,
       ...msgs

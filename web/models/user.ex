@@ -36,4 +36,8 @@ defmodule Exchat.User do
         changeset
     end
   end
+
+  def username(%{email: email} = _user) do
+    String.split(email, "@") |> List.first
+  end
 end

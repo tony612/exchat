@@ -16,8 +16,6 @@ export function postMessage(channelId, text) {
 export function receivedMessage(payload) {
   return {
     type: types.RECEIVED_MESSAGE,
-    text: payload.text,
-    channelId: payload.channelId,
-    ts: payload.ts
+    payload
   }
 }
