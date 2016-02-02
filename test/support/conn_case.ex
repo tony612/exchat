@@ -25,6 +25,7 @@ defmodule Exchat.ConnCase do
       import Ecto.Query, only: [from: 2]
 
       import Exchat.Router.Helpers
+      import Exchat.TestHelpers
 
       # The default endpoint for testing
       @endpoint Exchat.Endpoint

@@ -25,7 +25,7 @@ defmodule Exchat.ApiAuth do
   end
 
   def authenticate_user(conn, _opts) do
-    if conn.assigns.current_user do
+    if conn.assigns[:current_user] do
       conn
     else
       conn
@@ -38,7 +38,7 @@ defmodule Exchat.ApiAuth do
   def login(conn, user) do
     conn
     |> assign(:current_user, user)
-    |> assign(:auth_token, generate_token(user))
+    |> assign(:auth_token, generate_token_from_user(user))
   end
 
   def login_by_email_pass(conn, email, pass, opts) do
@@ -56,9 +56,15 @@ defmodule Exchat.ApiAuth do
     end
   end
 
-  def generate_token(user, expires \\ :os.system_time(:seconds) + @default_expires_in, jwt_secret \\ @default_jwt_secret)
-      when is_binary(jwt_secret) and is_integer(expires) do
-    %{user_id: user.id}
+  def generate_token_from_user(user, expires \\ &default_expires/0, jwt_secret \\ @default_jwt_secret)
+      when is_binary(jwt_secret) and is_function(expires) do
+    %{user_id: user.id} |> generate_token(expires.(), jwt_secret)
+  end
+
+  defp default_expires, do: :os.system_time(:seconds) + @default_expires_in
+
+  def generate_token(data, expires, jwt_secret) do
+    data
     |> token
     |> with_exp(expires)
     |> with_signer(hs256(jwt_secret))
