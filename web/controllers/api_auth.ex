@@ -3,7 +3,8 @@ defmodule Exchat.ApiAuth do
 
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Joken, only: [token: 1, with_exp: 2, with_signer: 2, sign: 1,
-                       get_compact: 1, verify: 1, hs256: 1, get_claims: 1]
+                       get_compact: 1, verify: 1, hs256: 1, get_claims: 1,
+                       with_validation: 3]
 
   alias Exchat.User
 
@@ -72,6 +73,7 @@ defmodule Exchat.ApiAuth do
     |> get_compact
   end
 
+  # This only parse the token, doesn't validate exp
   def parse_token(token, jwt_secret \\ @default_jwt_secret)
   def parse_token("Bearer " <> token, jwt_secret) do
     parse_token(token, jwt_secret)
@@ -92,6 +94,7 @@ defmodule Exchat.ApiAuth do
   defp get_user_id_from_token(token) do
     case token
           |> parse_token
+          |> with_validation("exp", &(&1 >= :os.system_time(:seconds)))
           |> verify
           |> get_claims
           |> Map.fetch("user_id") do

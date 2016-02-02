@@ -67,13 +67,14 @@ defmodule Exchat.ApiAuthTest do
     assert %User{id: ^user_id} = conn.assigns.current_user
   end
 
+  @tag capture_log: true
   test "call/2 not set current_user from expired token in header", %{conn: conn} do
-    user = %User{id: user_id} = insert_user
+    user = insert_user
     token = ApiAuth.generate_token_from_user(user, fn -> 1453644008 end)
     conn = conn
             |> put_req_header("authorization", token)
             |> ApiAuth.call(Repo)
-    assert %User{id: ^user_id} = conn.assigns.current_user
+    assert conn.assigns.current_user == nil
   end
 
   test "call/2 set current_user to nil when no header", %{conn: conn} do
@@ -90,7 +91,7 @@ defmodule Exchat.ApiAuthTest do
   end
 
   test "call/2 set current_user to nil when no user_id in token", %{conn: conn} do
-    token = ApiAuth.generate_token(%{id: 1}, 1453644008, "super_secret")
+    token = ApiAuth.generate_token(%{id: 1}, :os.system_time(:seconds) + 100, "super_secret")
     conn = conn
             |> put_req_header("authorization", token)
             |> ApiAuth.call(Repo)
