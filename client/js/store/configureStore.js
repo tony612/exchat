@@ -2,8 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 
+import { browserHistory } from 'react-router'
 import { syncHistory } from 'react-router-redux'
-import createHistory from 'history/lib/createBrowserHistory'
 
 import rootReducer from '../reducers'
 import realtime from '../middleware/realtime'
@@ -16,8 +16,7 @@ const loggerMiddleware = createLogger({
   collapsed: true
 })
 
-export const history = createHistory()
-const reduxRouterMiddleware = syncHistory(history)
+const reduxRouterMiddleware = syncHistory(browserHistory)
 
 const middlewares = applyMiddleware(
   auth,
