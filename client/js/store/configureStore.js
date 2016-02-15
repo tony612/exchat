@@ -9,6 +9,7 @@ import rootReducer from '../reducers'
 import realtime from '../middleware/realtime'
 import api from '../middleware/api'
 import auth from '../middleware/auth'
+import permission from '../middleware/permission'
 import routes from '../routes'
 
 const loggerMiddleware = createLogger({
@@ -21,6 +22,7 @@ const reduxRouterMiddleware = syncHistory(browserHistory)
 const middlewares = applyMiddleware(
   auth,
   api,
+  permission,
   realtime,
   thunkMiddleware,
   loggerMiddleware,

@@ -22,7 +22,7 @@ function callApi(options) {
       response.json().then(json => ({json, response}))
     ).then(({json, response}) => {
       if (!response.ok) {
-        return Promise.reject(json)
+        return Promise.reject({error: json, response})
       }
 
       let normalizedJson = camelizeKeys(json)
@@ -60,9 +60,10 @@ export default store => next => action => {
         apiCall.successCallback(response, store)
       }
     },
-    error => next(actionWith({
+    ({error, response}) => next(actionWith({
       type: type + '_FAILURE',
-      error: error.message || 'Something bad happened'
+      error: error.message || 'Something bad happened',
+      response
     }))
   )
 }

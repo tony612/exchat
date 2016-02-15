@@ -26,8 +26,11 @@ const ExSocket = {
   },
 
   disconnect() {
-    this.socket.disconnect()
-    console.log('Socket disconnected!')
+    this.socket.disconnect(()=> {
+      this.socket.reconnectTimer.reset()
+      this.socket = null
+      console.log('Socket disconnected!')
+    })
   },
 
   socketAvaiable() {
