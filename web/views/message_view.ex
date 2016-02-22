@@ -17,7 +17,8 @@ defmodule Exchat.MessageView do
       ts: Message.ts(message),
       user: %{
         id: user.id,
-        username: Exchat.User.username(user)
+        username: Exchat.User.username(user),
+        email: user.email
       }
     }
   end

@@ -19,8 +19,9 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [x] Highlight the active Channel
 - [x] Use rscss for css code
 - [x] Each channel post input should be different
-- [ ] Build user system
+- [x] Build user system
 - [ ] Load past messages when user scroll to the top
-- [ ] Format the message sent
+- [x] Format the message sent
 - [ ] Show channel info in the channel page
 - [ ] Make the channel creating better
+- [ ] Display the error message properly

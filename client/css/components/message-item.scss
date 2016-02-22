@@ -1,0 +1,18 @@
+.message-item {
+  @include flexbox;
+  margin-bottom: 1rem;
+}
+
+.message-item .user-avatar {
+  margin-right: 1rem;
+}
+
+.message-item .message-main {
+  @include flex(1);
+  @include flexbox;
+  flex-direction: column;
+}
+
+.message-item .message-time {
+  color: #959595;
+}
