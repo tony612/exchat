@@ -25,6 +25,7 @@ defmodule Exchat.User do
     |> cast(params, @required_fields, @optional_fields)
     |> validate_format(:email, @email_regex)
     |> validate_length(:password, min: 6)
+    |> unique_constraint(:email)
     |> put_pass_hash()
   end
 
