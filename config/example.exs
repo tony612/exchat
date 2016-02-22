@@ -15,4 +15,4 @@ config :logger, level: :info
 config :exchat, Exchat.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
-  pool_size: 20
+  pool_size: 8
