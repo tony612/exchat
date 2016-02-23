@@ -18,7 +18,7 @@ defmodule Exchat.Mixfile do
   def application do
     [mod: {Exchat, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :comeonin]]
+                    :phoenix_ecto, :postgrex, :comeonin, :joken]]
   end
 
   # Specifies which paths to compile per environment
