@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
-import List from './List'
-import CreateChannel from './CreateChannel'
-import Settings from './Settings'
-import { createChannel } from '../actions/channels'
+import List from '../shared/List'
+import CreateChannel from './_CreateChannel'
+import Settings from './_Settings'
+import { createChannel } from '../../actions/channels'
 
 class Sidebar extends Component {
   renderChannel(channel) {

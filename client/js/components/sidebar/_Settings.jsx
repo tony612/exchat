@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 
-import {signOut} from '../actions/auth'
+import {signOut} from '../../actions/auth'
 
 class Settings extends Component {
   _signOut(e) {

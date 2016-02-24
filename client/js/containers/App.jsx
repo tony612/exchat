@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/sidebar/Sidebar'
 import {fetchChannelsIfNeeded} from '../actions/channels'
 
 class App extends Component {

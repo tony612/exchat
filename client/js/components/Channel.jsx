@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import List from './List'
+import List from './shared/List'
 import Message from '../components/Message'
 import PostMessage from '../components/PostMessage'
 import { postMessage } from '../actions/messages'
@@ -25,7 +25,7 @@ class Channel extends Component {
   }
 
   channelNameChange(props) {
-    let { dispatch } = props
+    let {dispatch} = props
     dispatch(changeChannel(props.params.id))
   }
 
@@ -36,7 +36,7 @@ class Channel extends Component {
   }
 
   render() {
-    const { dispatch, messages, channelId, newMessage } = this.props
+    const {dispatch, messages, channelId, newMessage} = this.props
 
     return (
       <div className="chat-container">
@@ -62,7 +62,7 @@ Channel.propTypes = {
 }
 
 function mapStateToProps(state) {
-  let { fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, currentChannelId, newMessages } = state.channels
+  let {fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, currentChannelId, newMessages} = state.channels
 
   let msgIds = msgIdsById[currentChannelId] || []
   let messages = _.compact(msgIds.map(id => state.messages[`${currentChannelId}:${id}`]))
