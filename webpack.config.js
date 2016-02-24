@@ -1,7 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
-
-var isDev = process.env.NODE_ENV !== 'production';
+var path = require('path')
+var webpack = require('webpack')
 
 var config = {
   entry: [
@@ -57,10 +55,6 @@ var config = {
     new webpack.optimize.DedupePlugin()
   ]
 
-};
-
-if (isDev) {
-  config.devtool = 'eval-cheap-module-source-map'
 }
 
 module.exports = config
