@@ -1,4 +1,4 @@
-import { routeActions } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
@@ -17,7 +17,7 @@ export function signIn(email, password) {
       skipAuth: true,
       successCallback: (response, store) => {
         Auth.login(response)
-        store.dispatch(routeActions.replace('/'))
+        browserHistory.replace('/')
       }
     }
   }
@@ -35,7 +35,7 @@ export function signUp(email, password) {
       skipAuth: true,
       successCallback: (response, store) => {
         Auth.login(response)
-        store.dispatch(routeActions.replace('/'))
+        browserHistory.replace('/')
       }
     }
   }
@@ -44,6 +44,6 @@ export function signUp(email, password) {
 export function signOut() {
   return (dispatch, getState) => {
     Auth.logout()
-    dispatch(routeActions.replace('/login'))
+    browserHistory.replace('/login')
   }
 }

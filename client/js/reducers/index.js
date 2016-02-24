@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { routeReducer } from 'react-router-redux'
+import { routerReducer } from 'react-router-redux'
 
 import messages from './messages'
 import channels from './channels'
@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   messages,
   channels,
   session,
-  routing: routeReducer
+  routing: routerReducer
 })
 
 export default rootReducer

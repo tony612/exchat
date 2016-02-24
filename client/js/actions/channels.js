@@ -1,4 +1,4 @@
-import { routeActions } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 import { camelizeKeys } from 'humps'
 
 import * as types from '../constants/ActionTypes'
@@ -29,7 +29,7 @@ export function createChannel(name) {
       schema: Schemas.CHANNEL,
       successCallback: function(response, store) {
         initChannel(response.result, store, ()=> {
-          store.dispatch(routeActions.push(`/channels/${name}`))
+          browserHistory.push(`/channels/${name}`)
           // NOTE: now route change doesn't change props in componentWillReceiveProps of Channel
           // If it works, it's not necessary to call this here
           store.dispatch(changeChannel(name))

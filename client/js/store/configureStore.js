@@ -3,7 +3,6 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 
 import { browserHistory } from 'react-router'
-import { syncHistory } from 'react-router-redux'
 
 import rootReducer from '../reducers'
 import realtime from '../middleware/realtime'
@@ -17,16 +16,13 @@ const loggerMiddleware = createLogger({
   collapsed: true
 })
 
-const reduxRouterMiddleware = syncHistory(browserHistory)
-
 const middlewares = applyMiddleware(
   auth,
   api,
   permission,
   realtime,
   thunkMiddleware,
-  loggerMiddleware,
-  reduxRouterMiddleware
+  loggerMiddleware
 )
 
 const composeStore = compose(
