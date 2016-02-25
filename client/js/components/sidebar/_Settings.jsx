@@ -12,8 +12,8 @@ class Settings extends Component {
   }
 
   render() {
-    const {dispatch} = this.props
-    let title = 'Tony'
+    const {dispatch, currentUser} = this.props
+    let title = currentUser && currentUser.username
     return (
       <DropdownButton bsStyle={'link'} bsClass='navbar-settings dropdown' title={title} id="settings-button">
         <MenuItem onClick={::this._signOut}>Sign Out</MenuItem>
@@ -23,7 +23,8 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
-  dispatch: React.PropTypes.func
+  dispatch: PropTypes.func,
+  currentUser: PropTypes.object
 }
 
 export default Settings

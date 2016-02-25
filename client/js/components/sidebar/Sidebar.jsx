@@ -27,12 +27,12 @@ class Sidebar extends Component {
   }
 
   render() {
-    const {dispatch, channels} = this.props
+    const {dispatch, channels, currentUser} = this.props
     let items = channels.ids.map(id => channels[id])
     let active = id => id === channels.currentChannelId
     return (
       <div>
-        <Settings dispatch={dispatch}></Settings>
+        <Settings dispatch={dispatch} currentUser={currentUser}></Settings>
         <div className="sidebar-main">
           <List items={items}
                 renderItem={::this.renderChannel}
@@ -46,7 +46,8 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  channels: PropTypes.object
+  channels: PropTypes.object,
+  currentUser: PropTypes.object
 }
 
 export default Sidebar
