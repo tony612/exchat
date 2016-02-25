@@ -33,11 +33,13 @@ class Sidebar extends Component {
     return (
       <div>
         <Settings dispatch={dispatch}></Settings>
-        <List items={items}
-              renderItem={::this.renderChannel}
-              isLoading={channels.isFetching}/>
-        <CreateChannel onConfirm={name =>
-          dispatch(createChannel(name))}/>
+        <div className="sidebar-main">
+          <List items={items}
+                renderItem={::this.renderChannel}
+                isLoading={channels.isFetching}/>
+          <CreateChannel onConfirm={name =>
+            dispatch(createChannel(name))}/>
+        </div>
       </div>
     )
   }

@@ -66,7 +66,7 @@ styles:
 
   # Components
   component-animations: true
-  dropdowns: false
+  dropdowns: true
   button-groups: true
   input-groups: true
   navs: false

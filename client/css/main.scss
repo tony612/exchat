@@ -26,7 +26,12 @@ html, body {
   height: 100%;
 }
 
+li:focus, a:focus, button:focus {
+  outline:0 !important;
+}
+
 @import 'components/navigate-sidebar';
 @import 'components/message-input';
 @import 'components/message-list';
 @import 'components/message-item';
+@import 'components/sidebar-setting';

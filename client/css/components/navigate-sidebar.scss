@@ -8,13 +8,16 @@ $channel-hover-color: #6272A4;
   @include flex(1);
   background-color: $sidebar-bg-color;
   color: $sidebar-color;
-  padding: 2rem 1rem;
   overflow: auto;
 
   .channel-nav {
     color: $sidebar-color;
     opacity: 0.6;
   }
+}
+
+.sidebar-main {
+  padding: 2rem 0rem;
 }
 
 .channel-nav {

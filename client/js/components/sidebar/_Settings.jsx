@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 import {signOut} from '../../actions/auth'
 
@@ -12,10 +13,11 @@ class Settings extends Component {
 
   render() {
     const {dispatch} = this.props
+    let title = 'Tony'
     return (
-      <button className="btn btn-default" onClick={::this._signOut}>
-        Sign out
-      </button>
+      <DropdownButton bsStyle={'link'} bsClass='navbar-settings dropdown' title={title} id="settings-button">
+        <MenuItem onClick={::this._signOut}>Sign Out</MenuItem>
+      </DropdownButton>
     )
   }
 }

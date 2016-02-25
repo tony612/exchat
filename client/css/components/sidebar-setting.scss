@@ -1,0 +1,17 @@
+.btn-group.navbar-settings {
+  width: 100%;
+  &:hover {
+    background-color: $active-channel-bg-color;
+  }
+}
+
+#settings-button {
+  width: 100%;
+  text-align: left;
+  color: white;
+  padding: 1.5rem 1rem;
+  font-weight: bold;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
