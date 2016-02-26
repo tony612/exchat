@@ -9,8 +9,8 @@ defmodule Exchat.Message do
     timestamps usec: true
   end
 
-  @required_fields ~w(text channel_id user_id)
-  @optional_fields ~w()
+  @required_fields ~w(text channel_id user_id)a
+  @allowed_fields @required_fields
 
   epoch = {{1970, 1, 1}, {0, 0, 0}}
   @epoch :calendar.datetime_to_gregorian_seconds(epoch)
@@ -21,9 +21,10 @@ defmodule Exchat.Message do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @allowed_fields)
+    |> validate_required(@required_fields)
   end
 
   def ts(model) do
