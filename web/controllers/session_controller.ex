@@ -6,7 +6,7 @@ defmodule Exchat.SessionController do
   def create(conn, %{"email" => email, "password" => password}) do
     case ApiAuth.login_by_email_pass(conn, email, password, repo: Repo) do
       {:ok, conn} ->
-        render(conn, token: conn.assigns[:auth_token], user: conn.assigns[:current_user])
+        render(conn, token: conn.assigns[:auth_token])
       {:error, _reason, conn} ->
         conn
         |> put_status(:unauthorized)

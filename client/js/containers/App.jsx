@@ -12,12 +12,12 @@ class App extends Component {
   }
 
   render() {
-    const {dispatch, channels, children, currentUser} = this.props
+    const {dispatch, channels, children} = this.props
 
     return (
       <div className="app-container">
         <div className="navigate-sidebar">
-          <Sidebar dispatch={dispatch} channels={channels} currentUser={currentUser}/>
+          <Sidebar dispatch={dispatch} channels={channels} />
         </div>
         <div className="main-area">
           { children || 'Loading..' }
@@ -29,14 +29,12 @@ class App extends Component {
 
 App.propTypes = {
   channels: PropTypes.object,
-  children: PropTypes.node,
-  currentUser: PropTypes.object
+  children: PropTypes.node
 }
 
 function mapStateToProps(state) {
   return {
-    channels: state.channels,
-    currentUser: state.session.currentUser
+    channels: state.channels
   }
 }
 
