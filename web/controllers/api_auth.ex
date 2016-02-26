@@ -59,7 +59,8 @@ defmodule Exchat.ApiAuth do
 
   def generate_token_from_user(user, expires \\ &default_expires/0, jwt_secret \\ @default_jwt_secret)
       when is_binary(jwt_secret) and is_function(expires) do
-    %{user_id: user.id} |> generate_token(expires.(), jwt_secret)
+    %{user_id: user.id, username: Exchat.User.username(user)}
+    |> generate_token(expires.(), jwt_secret)
   end
 
   defp default_expires, do: :os.system_time(:seconds) + @default_expires_in

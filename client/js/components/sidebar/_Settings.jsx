@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 import {signOut} from '../../actions/auth'
+import Auth from '../../auth'
 
 class Settings extends Component {
   _signOut(e) {
@@ -13,7 +14,7 @@ class Settings extends Component {
 
   render() {
     const {dispatch} = this.props
-    let title = 'Tony'
+    let title = Auth.username()
     return (
       <DropdownButton bsStyle={'link'} bsClass='navbar-settings dropdown' title={title} id="settings-button">
         <MenuItem onClick={::this._signOut}>Sign Out</MenuItem>

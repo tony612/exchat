@@ -1,3 +1,5 @@
+import jwtDecode from 'jwt-decode'
+
 import ExSocket from './constants/ExSocket'
 
 const Auth = {
@@ -29,6 +31,11 @@ const Auth = {
     if (this.loggedIn()) {
       replace({nextPathname: nextState.location.pathname}, '/')
     }
+  },
+
+  username() {
+    let decoded = jwtDecode(localStorage.authToken)
+    return decoded.username
   }
 }
 
