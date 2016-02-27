@@ -23,6 +23,7 @@ class SignIn extends Component {
   render() {
     return (
       <div style={style.container}>
+        <h1 style={style.title}>Exchat</h1>
         <form className="form-horizontal">
           <div className="form-group">
             <label className="col-sm-2">Email</label>
@@ -52,6 +53,9 @@ const style = {
   container: {
     margin: '10rem auto',
     width: '40%'
+  },
+  title: {
+    height: '5rem'
   }
 }
 
