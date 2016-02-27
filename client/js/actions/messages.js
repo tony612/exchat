@@ -4,11 +4,16 @@ import { RT_EVENT } from '../constants/ApiTypes'
 export function postMessage(channelId, text) {
   return {
     type: types.POST_MESSAGE,
-    text: text,
+    payload: {
+      channelId: channelId
+    },
     [RT_EVENT]: {
       channelId: channelId,
       // TODO: change new_message to const
-      event: 'new_message'
+      event: 'new_message',
+      payload: {
+        text: text
+      }
     }
   }
 }

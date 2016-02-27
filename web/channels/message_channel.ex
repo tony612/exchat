@@ -32,7 +32,7 @@ defmodule Exchat.MessageChannel do
         {:ok, message} ->
           data = Exchat.MessageView.build("message.json", message, user: user)
           broadcast! socket, "new_message", data
-          {:noreply, socket}
+          {:reply, :ok, socket}
         {:error, _changeset} ->
           {:reply, :error, socket}
       end

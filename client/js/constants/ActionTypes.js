@@ -3,6 +3,7 @@ export const UNKNOWN = 'UNKNOWN'
 
 // Message
 export const POST_MESSAGE = 'POST_MESSAGE'
+export const POST_MESSAGE_SUCCESS = 'POST_MESSAGE_SUCCESS'
 export const RECEIVED_MESSAGE = 'RECEIVED_MESSAGE'
 
 // Channel

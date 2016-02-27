@@ -131,6 +131,14 @@ export default function channels(state = initialState, action) {
           [action.channelId]: action.text
         }
       }
+    case types.POST_MESSAGE_SUCCESS:
+      return {
+        ...state,
+        newMessages: {
+          ...state.newMessages,
+          [action.payload.channelId]: ''
+        }
+      }
     default:
       return state
   }

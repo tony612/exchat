@@ -7,8 +7,7 @@ export default store => next => action => {
     return next(action)
   }
 
-  let {channelId, event} = rtEvent
-  let text = action.text
+  let {channelId, event, payload} = rtEvent
 
   if (!channelId) {
     throw new Error('No channel!')
@@ -16,13 +15,21 @@ export default store => next => action => {
   if (!event) {
     throw new Error('No event!')
   }
-  if (!text) {
-    throw new Error('No sending body!')
+  if (!payload) {
+    throw new Error('No payload!')
+  }
+
+  function actionWith(params) {
+    const finalAction = Object.assign({}, action, params)
+    delete finalAction[RT_EVENT]
+    return finalAction
   }
 
   let foundChannel = ExSocket.findChannel(channelId)
-  foundChannel.push(event, {text: text})
-    .receive('ok', (msg) => console.log('posted message', msg))
+  foundChannel.push(event, payload)
+    .receive('ok', (msg) => {
+      next(actionWith({type: action.type + '_SUCCESS'}))
+    })
 
-  return next(action)
+  return next(actionWith({}))
 }
