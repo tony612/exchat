@@ -8,35 +8,35 @@ defmodule Exchat.ApiAuthTest do
   end
 
   test "login/2 assigns :current_user and :auth_token to conn", %{conn: conn} do
-    user = %User{id: 1}
+    user = %User{id: 1, email: "tony@e.x"}
     conn = ApiAuth.login(conn, user)
     assert user == conn.assigns[:current_user]
     assert conn.assigns[:auth_token]
   end
 
   test "generate_token_from_user/1 generate a token" do
-    user = %User{id: 1}
+    user = %User{id: 1, email: "tony@e.x"}
     token = ApiAuth.generate_token_from_user(user)
     parsed = ApiAuth.parse_token(token) |> Joken.verify
     assert %{"exp" => _exp, "user_id" => 1} = parsed.claims
   end
 
   test "generate_token_from_user/2 uses custom expires" do
-    user = %User{id: 1}
+    user = %User{id: 1, email: "tony@e.x"}
     token = ApiAuth.generate_token_from_user(user, fn -> 1453644008 end)
-    assert token == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0NTM2NDQwMDh9" <>
-                      ".98ZXWW3UQ6CeuYi9YSzJI3orKB5b96-gFelCJ2c-TG0"
+    assert token == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InRvbnkiLCJleHAiOjE0NTM2NDQwMDh9" <>
+                      ".Am9JyXCj2o23hnWsO3zLlOshlDI8k5yeW2JPTUCheBw"
     parsed = ApiAuth.parse_token(token) |> Joken.verify
     assert %{"exp" => 1453644008, "user_id" => 1} = parsed.claims
   end
 
   test "generate_token_from_user/3 uses custom secret" do
-    user = %User{id: 1}
+    user = %User{id: 1, email: "tony@e.x"}
     token1 = ApiAuth.generate_token_from_user(user, fn -> 1453644008 end)
     token2 = ApiAuth.generate_token_from_user(user, fn -> 1453644008 end, "secret")
     refute token1 == token2
-    assert token2 == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0NTM2NDQwMDh9" <>
-                      ".tgQpy-MImnAR0-UyaRPeAGqRjVBM721ZSLyKbikTrJQ"
+    assert token2 == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InRvbnkiLCJleHAiOjE0NTM2NDQwMDh9" <>
+                      ".Hy-Ux5ZY1q76lCxLD9LCexEr9TQUNDKFbjfNZ5nuXkY"
   end
 
   test "login_by_email_pass/4 return :ok for right email and password pair", %{conn: conn} do
@@ -100,7 +100,7 @@ defmodule Exchat.ApiAuthTest do
 
   test "call/2 set current_user to nil when user_id is wrong in token", %{conn: conn} do
     user = insert_user
-    token = ApiAuth.generate_token_from_user(%User{id: user.id + 1})
+    token = ApiAuth.generate_token_from_user(%User{id: user.id + 1, email: "tony@e.x"})
     conn = conn
             |> put_req_header("authorization", token)
             |> ApiAuth.call(Repo)
