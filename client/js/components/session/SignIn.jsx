@@ -32,6 +32,7 @@ class SignIn extends Component {
             <label className="col-sm-2">Email</label>
             <div className="col-sm-10">
               <input type="email" className="form-control" placeholder="Email" ref="email"></input>
+              <span className="help-block">A fake but well-formed email is ok. (No email confirmation)</span>
             </div>
           </div>
           <div className="form-group">
