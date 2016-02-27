@@ -11,7 +11,7 @@ export default class PostMessage extends Component {
   }
 
   messageChange(e) {
-    const text = e.target.value.trim()
+    const text = e.target.value
     this.props.onChange(text)
   }
 
