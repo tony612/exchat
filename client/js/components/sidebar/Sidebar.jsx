@@ -2,15 +2,25 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
 import List from '../shared/List'
-import CreateChannel from './_CreateChannel'
 import Settings from './_Settings'
-import { createChannel } from '../../actions/channels'
+import { openNewChannelModal } from '../../actions/local'
 
 class Sidebar extends Component {
+  _renderChannelHeader() {
+    const {dispatch} = this.props
+    return (
+      <div className='list-unstyled sidebar-item header-item'>
+        <span>Channels</span>
+        <span className="glyphicon glyphicon-plus pull-right new-button"
+              aria-hidden="true" onClick={()=> dispatch(openNewChannelModal())}></span>
+      </div>
+    )
+  }
+
   renderChannel(channel) {
     return (
       <li className={this._channelClass(channel)} key={channel.id}>
-        <Link to={`/channels/${channel.name}`} className="channel-link">
+        <Link to={`/channels/${channel.name}`} className="channel-link sidebar-item">
           <span className="prefix-icon">#</span>
           {channel.name}
         </Link>
@@ -34,11 +44,10 @@ class Sidebar extends Component {
       <div>
         <Settings dispatch={dispatch}></Settings>
         <div className="sidebar-main">
+          {this._renderChannelHeader()}
           <List items={items}
                 renderItem={::this.renderChannel}
                 isLoading={channels.isFetching}/>
-          <CreateChannel onConfirm={name =>
-            dispatch(createChannel(name))}/>
         </div>
       </div>
     )
@@ -46,7 +55,8 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  channels: PropTypes.object
+  channels: PropTypes.object,
+  dispatch: PropTypes.func
 }
 
 export default Sidebar

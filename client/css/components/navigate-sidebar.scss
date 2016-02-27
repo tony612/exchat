@@ -18,17 +18,37 @@ $channel-hover-color: #6272A4;
 
 .sidebar-main {
   padding: 2rem 0rem;
+
+  .sidebar-item {
+    padding: 0.2rem 1rem;
+    color: $sidebar-color;
+  }
+}
+
+.header-item {
+  margin: 0.2rem 0;
+  font-weight: 400;
+  text-transform: uppercase;
+  span {
+    opacity: 0.6;
+  }
+  .new-button {
+    font-size: 2rem;
+    top: -3px;
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
 }
 
 .channel-nav {
   .prefix-icon {
     margin-right: 0.5rem;
-    color: darken($sidebar-color, 30%);
+    color: darken($sidebar-color, 40%);
   }
   .channel-link {
-    color: $sidebar-color;
     display: block;
-    padding: 0.2rem 1rem;
     text-decoration: none;
     border-radius: 2px;
     &:hover {
@@ -44,5 +64,6 @@ $channel-hover-color: #6272A4;
   }
   .prefix-icon {
     color: $active-channel-color;
+    opacity: 0.6;
   }
 }

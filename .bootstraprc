@@ -53,7 +53,7 @@ styles:
   # Reset and dependencies
   normalize: false
   print: false
-  glyphicons: false
+  glyphicons: true
 
   # Core CSS
   scaffolding: true
@@ -85,10 +85,10 @@ styles:
   panels: false
   wells: false
   responsive-embed: false
-  close: false
+  close: true
 
   # Components w/ JavaScript
-  modals: false
+  modals: true
   tooltip: false
   popovers: false
   carousel: false

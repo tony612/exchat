@@ -23,3 +23,7 @@ export const SIGN_IN = 'SIGN_IN'
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
 export const SIGN_UP = 'SIGN_UP'
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
+
+// Local
+export const OPEN_NEW_CHANNEL_MODAL = 'OPEN_NEW_CHANNEL_MODAL'
+export const CLOSE_NEW_CHANNEL_MODAL = 'CLOSE_NEW_CHANNEL_MODAL'
