@@ -28,13 +28,19 @@ class Channel extends Component {
   // http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
   componentWillUpdate() {
     let node = this.refs.messageList
-    this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight
+    this.shouldScrollBottom = (node.scrollTop + node.clientHeight) === node.scrollHeight
+    this.cachedScrollHeight = node.scrollHeight
   }
 
   componentDidUpdate() {
+    let node = this.refs.messageList
     if (this.shouldScrollBottom) {
-      let node = this.refs.messageList
       node.scrollTop = node.scrollHeight
+    } else {
+      // After new messages are fetched and rendering is over, new scrollHeight
+      // will be larger than old one. So scrollTop should be increased with the diff.
+      // Otherwise, they're same
+      node.scrollTop = node.scrollTop + (node.scrollHeight - this.cachedScrollHeight)
     }
   }
 
