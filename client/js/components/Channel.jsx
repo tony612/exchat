@@ -20,6 +20,19 @@ class Channel extends Component {
     }
   }
 
+  // http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
+  componentWillUpdate() {
+    let node = this.refs.messageList
+    this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight
+  }
+
+  componentDidUpdate() {
+    if (this.shouldScrollBottom) {
+      let node = this.refs.messageList
+      node.scrollTop = node.scrollHeight
+    }
+  }
+
   _channelIdShouldChange(prevProps, nextProps) {
     return nextProps.params.id !== prevProps.params.id || nextProps.initChannelsDone !== prevProps.initChannelsDone
   }
@@ -40,7 +53,7 @@ class Channel extends Component {
 
     return (
       <div className="chat-container">
-        <div className="message-list">
+        <div className="message-list" ref="messageList">
           <List items={messages}
           renderItem={this.renderMessage} />
         </div>
