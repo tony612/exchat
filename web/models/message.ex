@@ -51,7 +51,11 @@ defmodule Exchat.Message do
     iex> Exchat.Message.to_datetime(1446912799.000321)
     %Ecto.DateTime{year: 2015, month: 11, day: 7, hour: 16, min: 13, sec: 19, usec: 321}
   """
-  def to_datetime(timestamp) do
+  def to_datetime(timestamp) when is_binary(timestamp) do
+    {timestamp, _} = Float.parse(timestamp)
+    to_datetime(timestamp)
+  end
+  def to_datetime(timestamp) when is_number(timestamp) do
     datetime = timestamp
                 |> +(@epoch)
                 |> trunc

@@ -1,7 +1,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 const channelSchema = new Schema('channels', {idAttribute: 'id'})
-const messageSchema = new Schema('messages')
+const messageSchema = new Schema('messages', {idAttribute: 'ts'})
 
 messageSchema.define({
   channel: channelSchema
@@ -12,5 +12,5 @@ const Schemas = {
   CHANNEL_ARRAY: arrayOf(channelSchema),
   MESSAGE: messageSchema,
   MESSAGE_ARRAY: arrayOf(messageSchema)
-};
+}
 export default Schemas

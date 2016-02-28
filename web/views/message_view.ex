@@ -3,8 +3,11 @@ defmodule Exchat.MessageView do
 
   alias Exchat.Message
 
-  def render("index.json", %{messages: messages}) do
-    render_many(messages, Exchat.MessageView, "message.json")
+  # should use `count + 1` to get messages, length of messages and count will
+  # be compared to get `has_more`
+  def render("index.json", %{messages: messages, count: count}) do
+    %{has_more: length(messages) > count,
+      messages: render_many(Enum.take(messages, count), Exchat.MessageView, "message.json")}
   end
 
   def render(type = "message.json", %{message: message}) do

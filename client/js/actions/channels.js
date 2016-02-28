@@ -44,7 +44,7 @@ export function fetchChannels() {
     const {result, entities} = response
     _.forEach(result, (id, i) => {
       initChannel(id, store, (data)=> {
-        store.dispatch(addMessages(id, data.messages))
+        store.dispatch(addMessages(id, camelizeKeys(data)))
         if (result.length - 1 === i) {
           console.log('INIT CHANNELS DONE')
           store.dispatch(initChannelsDone())
@@ -78,22 +78,23 @@ export function fetchChannelsIfNeeded() {
 }
 
 // Just after channel finished joining, messages will be sent back
-export function addMessages(channelId, messages) {
+export function addMessages(channelId, payload) {
   return {
     channelId: channelId,
     type: types.ADD_MESSAGES,
-    messages: messages
+    payload: payload
   }
 }
 
-export function fetchMessages(channelId) {
+export function fetchMessages(channelId, ts) {
   return {
     channelId: channelId,
     type: types.FETCH_MESSAGES,
     [API_CALL]: {
       path: `/channels/${channelId}/messages`,
       method: GET,
-      schema: Schemas.MESSAGE_ARRAY
+      data: {ts: ts},
+      schema: {messages: Schemas.MESSAGE_ARRAY}
     }
   }
 }

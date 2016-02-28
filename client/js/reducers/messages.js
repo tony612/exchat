@@ -14,7 +14,7 @@ export default function messages(state = initialState, action) {
     }
     break
   case types.ADD_MESSAGES:
-    var msgs = _.keyBy(action.messages, (m) => `${action.channelId}:${m.ts}`)
+    var msgs = _.keyBy(action.payload.messages, (m) => `${action.channelId}:${m.ts}`)
     msgs = _.mapValues(msgs, (m) => _.pick(m, 'text', 'ts', 'user'))
     return {
       ...state,

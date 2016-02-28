@@ -5,11 +5,12 @@ defmodule Exchat.MessageChannel do
   def join("channel:" <> _public_channel_id, _auth_msg, socket) do
     channel_id = channel_from_topic(socket.topic)
     channel = Repo.get_by Channel, id: channel_id
-    messages = Channel.messages_before(channel, now)
+    count = 100
+    messages = Channel.messages_before(channel, now, count + 1)
                 |> Repo.all
                 |> Repo.preload(:user)
                 |> Enum.reverse
-    resp = %{messages: Phoenix.View.render_many(messages, Exchat.MessageView, "message.json")}
+    resp = Exchat.MessageView.render("index.json", %{messages: messages, count: count})
 
     {:ok, resp, socket}
   end

@@ -10,8 +10,6 @@ let initialState = {
   // { 1: [1, 2, 3]}
   msgIdsById: {},
   // {1: true, 2: false, ...}
-  fetchedMsgsAtBeginning: {},
-  // {1: true, 2: false, ...}
   hasMore: {},
   initChannelsDone: false,
   // {abc: 1, ...}
@@ -67,33 +65,25 @@ export default function channels(state = initialState, action) {
       }
       break
     case types.ADD_MESSAGES:
-      var msgIds = action.messages.map(m => m.ts)
+      var msgIds = action.payload.messages.map(m => m.ts)
       return {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
           [action.channelId]: [...msgIds]
-        },
-        fetchedMsgsAtBeginning: {
-          ...state.fetchedMsgsAtBeginning,
-          [action.channelId]: true
         },
         hasMore: {
           ...state.hasMore,
-          [action.channelId]: action.hasMore
+          [action.channelId]: action.payload.hasMore
         }
       }
     case types.FETCH_MESSAGES_SUCCESS:
-      var msgIds = _.values(action.response.entities.messages).map(m => m.ts)
+      var msgIds = action.response.result.messages
       return {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
           [action.channelId]: [...msgIds]
-        },
-        fetchedMsgsAtBeginning: {
-          ...state.fetchedMsgsAtBeginning,
-          [action.channelId]: true
         },
         hasMore: {
           ...state.hasMore,

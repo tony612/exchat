@@ -12,6 +12,11 @@ class Channel extends Component {
 
   componentDidMount() {
     this.channelNameChange(this.props)
+    this.refs.messageList.addEventListener('scroll', ::this.handleScroll)
+  }
+
+  componentWillUnmount() {
+    this.refs.messageList.removeEventListener('scroll', ::this.handleScroll)
   }
 
   componentWillReceiveProps(props) {
@@ -30,6 +35,13 @@ class Channel extends Component {
     if (this.shouldScrollBottom) {
       let node = this.refs.messageList
       node.scrollTop = node.scrollHeight
+    }
+  }
+
+  handleScroll(event) {
+    const {messages, dispatch, channelId, hasMore} = this.props
+    if (event.target.scrollTop === 0 && hasMore) {
+      dispatch(fetchMessages(channelId, messages[0].ts))
     }
   }
 
@@ -71,17 +83,19 @@ Channel.propTypes = {
     text: PropTypes.string.isRequired,
     ts: PropTypes.number.isRequired
   })),
-  channelId: PropTypes.number
+  channelId: PropTypes.number,
+  hasMore: PropTypes.bool
 }
 
 function mapStateToProps(state) {
-  let {fetchedMsgsAtBeginning, msgIdsById, initChannelsDone, currentChannelId, newMessages} = state.channels
+  let {msgIdsById, initChannelsDone, currentChannelId, newMessages, hasMore} = state.channels
 
   let msgIds = msgIdsById[currentChannelId] || []
   let messages = _.compact(msgIds.map(id => state.messages[`${currentChannelId}:${id}`]))
+  hasMore = hasMore[currentChannelId]
   return {
+    hasMore,
     messages,
-    fetchedMsgsAtBeginning,
     initChannelsDone,
     channelId: currentChannelId,
     newMessage: newMessages[currentChannelId] || ""

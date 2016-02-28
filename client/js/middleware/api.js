@@ -2,8 +2,14 @@ import { camelizeKeys } from 'humps'
 import 'isomorphic-fetch'
 import { normalize } from 'normalizr'
 
-import { API_CALL } from '../constants/ApiTypes'
+import { API_CALL, GET } from '../constants/ApiTypes'
 import { UNKNOWN } from '../constants/ActionTypes'
+
+function objToParams(obj) {
+  return Object.keys(obj).map(k =>
+    `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`
+  ).join('&')
+}
 
 function callApi(options) {
   let {path, method, data, schema, headers} = options
@@ -15,7 +21,11 @@ function callApi(options) {
     }, headers)
   }
   if (data) {
-    params = {...params, body: JSON.stringify(data)}
+    if (method !== GET) {
+      params = {...params, body: JSON.stringify(data)}
+    } else {
+      path = `${path}?${objToParams(data)}`
+    }
   }
   return fetch('/api' + path, params)
     .then(response =>
@@ -60,10 +70,16 @@ export default store => next => action => {
         apiCall.successCallback(response, store)
       }
     },
-    ({error, response}) => next(actionWith({
-      type: type + '_FAILURE',
-      error: error.message || 'Something bad happened',
-      response
-    }))
+    response => {
+      if (!response.response) {
+        return console.error(response)
+      }
+      var {error, response} = response
+      return next(actionWith({
+        type: type + '_FAILURE',
+        error: error.message || 'Something bad happened',
+        response
+      }))
+    }
   )
 }
