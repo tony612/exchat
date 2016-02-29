@@ -1,12 +1,12 @@
 defmodule Exchat.MessageChannel do
-  use Phoenix.Channel
+  use Exchat.Web, :channel
   alias Exchat.{Message, Repo, Channel}
 
   def join("channel:" <> _public_channel_id, _auth_msg, socket) do
     channel_id = channel_from_topic(socket.topic)
     channel = Repo.get_by Channel, id: channel_id
     count = 100
-    messages = Channel.messages_before(channel, now, count + 1)
+    messages = Channel.messages_before(channel, Extime.now_ts, count + 1)
                 |> Repo.all
                 |> Repo.preload(:user)
                 |> Enum.reverse
@@ -48,8 +48,6 @@ defmodule Exchat.MessageChannel do
   defp channel_from_topic(topic) do
     String.replace(topic, ~r/.*:#?/, "")
   end
-
-  defp now, do: Extime.to_timestamp(Ecto.DateTime.utc)
 
   defp message_params(%{"text" => text}, channel, user) do
     Map.merge(%{text: text}, %{channel_id: channel.id, user_id: user.id})

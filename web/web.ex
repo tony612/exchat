@@ -71,6 +71,8 @@ defmodule Exchat.Web do
       use Phoenix.Channel
 
       alias Exchat.Repo
+      alias Exchat.Time, as: Extime
+
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
     end

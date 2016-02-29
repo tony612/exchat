@@ -15,4 +15,10 @@ defmodule Exchat.MessageTest do
     changeset = Message.changeset(%Message{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "ts returns timestamp of inserted_at" do
+    ts = 1446912799.000321
+    message = %Message{inserted_at: Extime.to_datetime(ts)}
+    assert Message.ts(message) == ts
+  end
 end

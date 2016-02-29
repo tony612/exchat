@@ -38,6 +38,11 @@ defmodule Exchat.Time do
     %Ecto.DateTime{datetime | usec: get_usec(timestamp)}
   end
 
+  def now_ts do
+    {megasec, sec, microsec} = :os.timestamp
+    megasec * 1_000_000 + sec + microsec * 0.000_001
+  end
+
   defp get_usec(timestamp) do
     timestamp * 1000_000 |> trunc |> rem(1000000)
   end
