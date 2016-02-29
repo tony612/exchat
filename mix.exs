@@ -9,6 +9,8 @@ defmodule Exchat.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: preferred_cli_env,
      deps: deps]
   end
 
@@ -38,6 +40,11 @@ defmodule Exchat.Mixfile do
      {:ecto, "~> 2.0.0-beta.1"},
      {:cowboy, "~> 1.0.4"},
      {:comeonin, "~> 2.1.0"},
+     {:excoveralls, "~> 0.5.1", only: :test},
      {:joken, "~> 1.1.0"}]
+  end
+
+  defp preferred_cli_env do
+    ["coveralls": :test, "coveralls.detail": :test, "coveralls.html": :test]
   end
 end

@@ -20,3 +20,5 @@ erl_crash.dump
 /priv/static/
 
 /tmp
+
+/cover

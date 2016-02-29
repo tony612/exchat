@@ -45,11 +45,6 @@ defmodule Exchat.MessageChannel do
     end
   end
 
-  def unix_timestamp do
-    {megasec, sec, microsec} = :os.timestamp
-    megasec * 1_000_000 + sec + microsec * 0.000_001
-  end
-
   defp channel_from_topic(topic) do
     String.replace(topic, ~r/.*:#?/, "")
   end
