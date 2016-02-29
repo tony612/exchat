@@ -26,7 +26,7 @@ defmodule Exchat.Channel do
   end
 
   def messages_before(model, ts, limit \\ 100) do
-    time = Message.to_datetime(ts)
+    time = Extime.to_datetime(ts)
     from m in Message,
       where: m.channel_id == ^model.id and m.inserted_at < ^time,
       limit: ^limit,

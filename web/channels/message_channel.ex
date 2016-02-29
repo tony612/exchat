@@ -54,7 +54,7 @@ defmodule Exchat.MessageChannel do
     String.replace(topic, ~r/.*:#?/, "")
   end
 
-  defp now, do: Message.to_timestamp(Ecto.DateTime.utc)
+  defp now, do: Extime.to_timestamp(Ecto.DateTime.utc)
 
   defp message_params(%{"text" => text}, channel, user) do
     Map.merge(%{text: text}, %{channel_id: channel.id, user_id: user.id})

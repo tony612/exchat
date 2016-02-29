@@ -15,5 +15,5 @@ defmodule Exchat.MessageController do
     render(conn, "index.json", messages: messages, count: count)
   end
 
-  defp now, do: Message.to_timestamp(Ecto.DateTime.utc)
+  defp now, do: Extime.to_timestamp(Ecto.DateTime.utc)
 end

@@ -23,6 +23,8 @@ defmodule Exchat.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
+
+      alias Exchat.Time, as: Extime
     end
   end
 
@@ -33,6 +35,7 @@ defmodule Exchat.Web do
       alias Exchat.Repo
       alias Exchat.ErrorView
       alias Exchat.ChangesetView
+      alias Exchat.Time, as: Extime
 
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]

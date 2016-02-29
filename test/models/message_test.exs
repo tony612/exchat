@@ -1,8 +1,6 @@
 defmodule Exchat.MessageTest do
   use Exchat.ModelCase, async: true
 
-  doctest Exchat.Message
-
   alias Exchat.Message
 
   @valid_attrs %{text: "some content", channel_id: 123, user_id: 321}

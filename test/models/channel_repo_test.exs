@@ -8,7 +8,7 @@ defmodule Exchat.ChannelRepoTest do
     channel = %Channel{name: "abc"}
     channel = Repo.insert!(channel)
 
-    assert Channel.messages_before(channel, Message.to_timestamp(DateTime.utc)) |> Repo.all == []
+    assert Channel.messages_before(channel, Extime.to_timestamp(DateTime.utc)) |> Repo.all == []
 
     user = insert_user
     message = %Message{text: "Hello", channel_id: channel.id, user_id: user.id}
@@ -17,7 +17,7 @@ defmodule Exchat.ChannelRepoTest do
     time1 = message1.inserted_at
 
     assert_func = fn (channel, time, num) ->
-      msgs = Channel.messages_before(channel, Message.to_timestamp(time)) |> Repo.all
+      msgs = Channel.messages_before(channel, Extime.to_timestamp(time)) |> Repo.all
       assert length(msgs) == num
     end
 
@@ -30,9 +30,9 @@ defmodule Exchat.ChannelRepoTest do
   test "the result of messages_before is ordered by desc inserted_at" do
     channel = Repo.insert!(%Channel{name: "abc"})
     user = insert_user
-    Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Message.to_datetime(1456590686)})
-    %{id: id2} = Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Message.to_datetime(1456590687)})
-    %{id: id3} = Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Message.to_datetime(1456590688)})
+    Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590686)})
+    %{id: id2} = Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590687)})
+    %{id: id3} = Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590688)})
     msgs = Channel.messages_before(channel, 1456590689, 2) |> Repo.all
     assert [%Message{id: ^id3}, %Message{id: ^id2}] = msgs
   end
