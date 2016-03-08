@@ -78,7 +78,7 @@ styles:
   badges: true
   jumbotron: false
   thumbnails: true
-  alerts: false
+  alerts: true
   progress-bars: false
   media: false
   list-group: false

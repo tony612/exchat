@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Auth from '../../auth'
 import { signIn } from '../../actions/auth'
 import { signUp } from '../../actions/auth'
+import { SIGN_IN } from '../../constants/ActionTypes'
 
 class SignIn extends Component {
   _signIn(e) {
@@ -20,10 +21,20 @@ class SignIn extends Component {
     dispatch(signUp(email.value, password.value))
   }
 
+  _renderError() {
+    const {error} = this.props
+    if (error) {
+      return (
+        <div className="alert alert-danger" role="alert">{error}</div>
+      )
+    }
+  }
+
   render() {
     return (
       <div style={style.container}>
         <h1 style={style.title}>Exchat</h1>
+        { this._renderError() }
         <form className="form-horizontal">
           <div className="form-group">
             <label className="col-sm-2">Email</label>
@@ -61,6 +72,7 @@ const style = {
 
 function mapStateToProps(state) {
   return {
+    error: state.errors[SIGN_IN]
   }
 }
 

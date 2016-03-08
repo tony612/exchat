@@ -23,5 +23,5 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [x] Load past messages when user scroll to the top
 - [x] Format the message sent
 - [x] Make the channel creating better
-- [ ] Display the error message properly
+- [x] Display the error message properly
 - [x] Refactor time in message
