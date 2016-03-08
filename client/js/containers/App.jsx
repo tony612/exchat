@@ -16,12 +16,12 @@ class App extends Component {
     const {dispatch, channels, children, local} = this.props
 
     return (
-      <div className="app-container" stype={style.container}>
-        <Overlay local={local} dispatch={dispatch}  stype={style.container}></Overlay>
-        <div className="navigate-sidebar"  stype={style.container}>
+      <div className="app-container" style={style.container}>
+        <Overlay local={local} dispatch={dispatch}  style={style.container}></Overlay>
+      <div className="navigate-sidebar"  style={style.container}>
           <Sidebar dispatch={dispatch} channels={channels}/>
         </div>
-        <div className="main-area" stype={style.container}>
+        <div className="main-area" style={style.container}>
           { children || 'Loading..' }
         </div>
       </div>
