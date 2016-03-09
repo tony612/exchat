@@ -11,17 +11,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 # TODO
 
-- [x] Save messages sent for each channel
-- [x] Fetch past messages on loaded
-- [x] Join channel before fetching messages to avoid missing new messages
-- [x] Use channel id instead of name in frontend
-- [x] Use timestamp as keys of messages
-- [x] Highlight the active Channel
-- [x] Use rscss for css code
-- [x] Each channel post input should be different
-- [x] Build user system
-- [x] Load past messages when user scroll to the top
-- [x] Format the message sent
-- [x] Make the channel creating better
-- [x] Display the error message properly
-- [x] Refactor time in message
+- [ ] Display unread number for channels
+- [ ] Track and display unread messages
+- [ ] Mention users
+- [ ] Direct message
+- [ ] User online/offline status
