@@ -18,11 +18,13 @@ class Sidebar extends Component {
   }
 
   renderChannel(channel) {
+    const {channels} = this.props
+    let unread = channels.unreadMsgs[channel.id]
     return (
       <li className={this._channelClass(channel)} key={channel.id}>
         <Link to={`/channels/${channel.name}`} className="channel-link sidebar-item">
           <span className="prefix-icon">#</span>
-          {channel.name}
+          {channel.name} {unread && `(${unread.length})`}
         </Link>
       </li>
     )

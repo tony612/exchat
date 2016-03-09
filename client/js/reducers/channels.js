@@ -16,7 +16,9 @@ let initialState = {
   channelIdByName: {},
   currentChannelId: null,
   // {1: "New msg"}
-  newMessages: {}
+  newMessages: {},
+  // {1: [1, 2, 3]}
+  unreadMsgs: {}
 }
 
 function getChannelIdByName(channels) {
@@ -56,11 +58,19 @@ export default function channels(state = initialState, action) {
       var payload = action.payload
       var ts = payload.ts
       var msgIds = state.msgIdsById[payload.channelId] || []
+      var unreadMsgs = state.unreadMsgs[payload.channelId]
+      if (payload.channelId !== state.currentChannelId) {
+        unreadMsgs = [...(unreadMsgs || []), ts]
+      }
       return {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
           [payload.channelId]: [...msgIds, ts]
+        },
+        unreadMsgs: {
+          ...state.unreadMsgs,
+          [payload.channelId]: unreadMsgs
         }
       }
       break
