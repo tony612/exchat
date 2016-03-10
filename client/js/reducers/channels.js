@@ -27,6 +27,16 @@ function getChannelIdByName(channels) {
   })
 }
 
+function getNewUnreadMsgs(state, channelId, ts) {
+  const {currentChannelId, unreadMsgs} = state
+  let currentUnreadMsgs = unreadMsgs[channelId]
+  let newUnreadMsgs
+  if (channelId !== currentChannelId) {
+    newUnreadMsgs = [...(currentUnreadMsgs || []), ts]
+  }
+  return newUnreadMsgs || currentUnreadMsgs
+}
+
 export default function channels(state = initialState, action) {
   switch (action.type) {
     case types.FETCH_CHANNELS_BEGIN:
@@ -56,21 +66,18 @@ export default function channels(state = initialState, action) {
       break
     case types.RECEIVED_MESSAGE:
       var payload = action.payload
-      var ts = payload.ts
-      var msgIds = state.msgIdsById[payload.channelId] || []
-      var unreadMsgs = state.unreadMsgs[payload.channelId]
-      if (payload.channelId !== state.currentChannelId) {
-        unreadMsgs = [...(unreadMsgs || []), ts]
-      }
+      let ts = payload.ts,
+          channelId = payload.channelId
+      let msgIds = state.msgIdsById[channelId] || []
       return {
         ...state,
         msgIdsById: {
           ...state.msgIdsById,
-          [payload.channelId]: [...msgIds, ts]
+          [channelId]: [...msgIds, ts]
         },
         unreadMsgs: {
           ...state.unreadMsgs,
-          [payload.channelId]: unreadMsgs
+          [channelId]: getNewUnreadMsgs(state, channelId, ts)
         }
       }
       break
@@ -117,10 +124,15 @@ export default function channels(state = initialState, action) {
       }
       break
     case types.CHANGE_CHANNEL:
-      const {channelIdByName} = state
+      const {channelIdByName, unreadMsgs} = state
+      let currentChannelId = channelIdByName[action.channelName]
       return {
         ...state,
-        currentChannelId: channelIdByName[action.channelName]
+        currentChannelId: currentChannelId,
+        unreadMsgs: {
+          ...unreadMsgs,
+          [currentChannelId]: null
+        }
       }
       break
     case types.CHANGE_NEW_MESSAGE:
