@@ -39,12 +39,22 @@ export function createChannel(name) {
   }
 }
 
+export function updateChannel(id, payload) {
+  return {
+    channelId: id,
+    type: types.UPDATE_CHANNEL,
+    payload: payload
+  }
+}
+
 export function fetchChannels() {
   let successCallback = function(response, store) {
     const {result, entities} = response
     _.forEach(result, (id, i) => {
       initChannel(id, store, (data)=> {
-        store.dispatch(addMessages(id, camelizeKeys(data)))
+        data = camelizeKeys(data)
+        store.dispatch(updateChannel(id, {unreadCount: data.unreadCount}))
+        store.dispatch(addMessages(id, data))
         if (result.length - 1 === i) {
           console.log('INIT CHANNELS DONE')
           store.dispatch(initChannelsDone())

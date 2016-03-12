@@ -18,23 +18,23 @@ let initialState = {
   // {1: "New msg"}
   newMessages: {},
   // {1: [1, 2, 3]}
-  unreadMsgs: {}
+  unreadMsgsCounts: {}
+}
+
+function getNewUnreadCount(state, channelId) {
+  const {currentChannelId, unreadMsgsCounts} = state
+  let currentCount = unreadMsgsCounts[channelId]
+  if (channelId !== currentChannelId) {
+    return (currentCount || 0) + 1
+  } else {
+    return currentCount
+  }
 }
 
 function getChannelIdByName(channels) {
   return _.transform(channels, (result, channel, id) => {
     result[channel.name] = channel.id
   })
-}
-
-function getNewUnreadMsgs(state, channelId, ts) {
-  const {currentChannelId, unreadMsgs} = state
-  let currentUnreadMsgs = unreadMsgs[channelId]
-  let newUnreadMsgs
-  if (channelId !== currentChannelId) {
-    newUnreadMsgs = [...(currentUnreadMsgs || []), ts]
-  }
-  return newUnreadMsgs || currentUnreadMsgs
 }
 
 export default function channels(state = initialState, action) {
@@ -58,6 +58,14 @@ export default function channels(state = initialState, action) {
         }
       }
       break
+    case types.UPDATE_CHANNEL:
+      return {
+        ...state,
+        unreadMsgsCounts: {
+          ...state.unreadMsgsCounts,
+          [action.channelId]: action.payload.unreadCount
+        }
+      }
     case types.INIT_CHANNELS_DONE:
       return {
         ...state,
@@ -66,8 +74,8 @@ export default function channels(state = initialState, action) {
       break
     case types.RECEIVED_MESSAGE:
       var payload = action.payload
-      let ts = payload.ts,
-          channelId = payload.channelId
+      let ts = payload.ts
+      let channelId = payload.channelId
       let msgIds = state.msgIdsById[channelId] || []
       return {
         ...state,
@@ -75,9 +83,9 @@ export default function channels(state = initialState, action) {
           ...state.msgIdsById,
           [channelId]: [...msgIds, ts]
         },
-        unreadMsgs: {
-          ...state.unreadMsgs,
-          [channelId]: getNewUnreadMsgs(state, channelId, ts)
+        unreadMsgsCounts: {
+          ...state.unreadMsgsCounts,
+          [channelId]: getNewUnreadCount(state, channelId)
         }
       }
       break
@@ -124,13 +132,13 @@ export default function channels(state = initialState, action) {
       }
       break
     case types.CHANGE_CHANNEL:
-      const {channelIdByName, unreadMsgs} = state
+      const {channelIdByName, unreadMsgsCounts} = state
       let currentChannelId = channelIdByName[action.channelName]
       return {
         ...state,
         currentChannelId: currentChannelId,
-        unreadMsgs: {
-          ...unreadMsgs,
+        unreadMsgsCounts: {
+          ...unreadMsgsCounts,
           [currentChannelId]: null
         }
       }

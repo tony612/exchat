@@ -17,14 +17,20 @@ class Sidebar extends Component {
     )
   }
 
+  _unreadCount(count) {
+    if (count && count >= 0) {
+      return `(${count})`
+    }
+  }
+
   renderChannel(channel) {
     const {channels} = this.props
-    let unread = channels.unreadMsgs[channel.id]
+    let unread = channels.unreadMsgsCounts[channel.id]
     return (
       <li className={this._channelClass(channel)} key={channel.id}>
         <Link to={`/channels/${channel.name}`} className="channel-link sidebar-item">
           <span className="prefix-icon">#</span>
-          {channel.name} {unread && `(${unread.length})`}
+          {channel.name} {this._unreadCount(unread)}
         </Link>
       </li>
     )
