@@ -25,11 +25,18 @@ defmodule Exchat.Channel do
     |> validate_required(@required_fields)
   end
 
-  def messages_before(model, ts, limit \\ 100) do
+  def messages_before(channel, ts, limit \\ 100) do
     time = Extime.to_datetime(ts)
     from m in Message,
-      where: m.channel_id == ^model.id and m.inserted_at < ^time,
+      where: m.channel_id == ^channel.id and m.inserted_at < ^time,
       limit: ^limit,
       order_by: [desc: m.inserted_at]
+  end
+
+  def messages_count_after(channel, ts) when is_integer(ts) do
+    time = Extime.to_datetime(ts)
+    from m in Message,
+      where: m.channel_id == ^channel.id and m.inserted_at > ^time,
+      select: count(m.id)
   end
 end
