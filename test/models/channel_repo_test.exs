@@ -5,8 +5,7 @@ defmodule Exchat.ChannelRepoTest do
   alias Ecto.DateTime
 
   test "messages_before returns channels's messages before time" do
-    channel = %Channel{name: "abc"}
-    channel = Repo.insert!(channel)
+    channel = insert_channel
 
     assert Channel.messages_before(channel, Extime.to_timestamp(DateTime.utc)) |> Repo.all == []
 
@@ -28,7 +27,7 @@ defmodule Exchat.ChannelRepoTest do
   end
 
   test "the result of messages_before is ordered by desc inserted_at" do
-    channel = Repo.insert!(%Channel{name: "abc"})
+    channel = insert_channel
     user = insert_user
     Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590686)})
     %{id: id2} = Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590687)})
