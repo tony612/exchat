@@ -1,14 +1,12 @@
 defmodule Exchat.MessageChannel do
   use Exchat.Web, :channel
-  alias Exchat.{Message, Repo, Channel}
+  alias Exchat.{Message, Repo, Channel, MessageService}
 
   @default_history_count 100
 
   def join("channel:" <> _public_channel_id, _auth_msg, socket) do
-    messages = Channel.messages_before(channel, Extime.now_ts, @default_history_count + 1)
-                |> Repo.all
-                |> Repo.preload(:user)
-                |> Enum.reverse
+    channel = channel_from_topic(socket.topic)
+    messages = MessageService.load_messages(channel, Extime.now_ts) |> Repo.preload(:user)
     resp = Exchat.MessageView.render("index.json", %{messages: messages, count: @default_history_count})
             # TODO implement this
             |> Map.put(:unread_count, 0)

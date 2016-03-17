@@ -28,6 +28,16 @@ defmodule Exchat.Web do
     end
   end
 
+  def service do
+    quote do
+      alias Exchat.Repo
+      import Ecto
+      import Ecto.Query, only: [from: 1, from: 2]
+
+      alias Exchat.Time, as: Extime
+    end
+  end
+
   def controller do
     quote do
       use Phoenix.Controller
