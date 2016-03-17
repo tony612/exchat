@@ -27,9 +27,15 @@ defmodule Exchat.TestHelpers do
       text: "Hello, Exchat!"
     }, attrs)
 
-    %Message{}
-    |> Message.changeset(changes)
-    |> Repo.insert!
+    super_changeset = fn model, params ->
+      required_fields = ~w(text channel_id user_id)a
+      allowed_fields = Enum.concat [required_fields, [:inserted_at]]
+      model
+      |> Ecto.Changeset.cast(params, allowed_fields)
+      |> Ecto.Changeset.validate_required(required_fields)
+    end
+
+    super_changeset.(%Message{}, changes) |> Repo.insert!
   end
 
   def insert_read_message(attrs = %{}) do

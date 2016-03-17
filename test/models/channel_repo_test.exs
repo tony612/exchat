@@ -35,4 +35,16 @@ defmodule Exchat.ChannelRepoTest do
     msgs = Channel.messages_before(channel, 1456590689, 2) |> Repo.all
     assert [%Message{id: ^id3}, %Message{id: ^id2}] = msgs
   end
+
+  test "messages_count_after/2 returns messages count after the time" do
+    channel = insert_channel
+    user = insert_user
+    assert Repo.one(Channel.messages_count_after(channel, 0)) == 0
+
+    insert_message(%{channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1458231490)})
+    insert_message(%{channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1458231491)})
+    assert Repo.one(Channel.messages_count_after(channel, 1458231489)) == 2
+    assert Repo.one(Channel.messages_count_after(channel, 1458231490)) == 1
+    assert Repo.one(Channel.messages_count_after(channel, 1458231491)) == 0
+  end
 end
