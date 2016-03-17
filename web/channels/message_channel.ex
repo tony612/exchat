@@ -5,8 +5,6 @@ defmodule Exchat.MessageChannel do
   @default_history_count 100
 
   def join("channel:" <> _public_channel_id, _auth_msg, socket) do
-    channel_id = channel_from_topic(socket.topic)
-    channel = Repo.get_by Channel, id: channel_id
     messages = Channel.messages_before(channel, Extime.now_ts, @default_history_count + 1)
                 |> Repo.all
                 |> Repo.preload(:user)
@@ -31,8 +29,7 @@ defmodule Exchat.MessageChannel do
   end
 
   def handle_in("new_message", %{"text" => _text} = params, user, socket) do
-    channel_id = channel_from_topic(socket.topic)
-    channel = Repo.get_by(Exchat.Channel, id: channel_id)
+    channel = channel_from_topic(socket.topic)
     if channel do
       changeset = Message.changeset(%Message{}, message_params(params, channel, user))
       case Repo.insert(changeset) do
@@ -49,7 +46,8 @@ defmodule Exchat.MessageChannel do
   end
 
   defp channel_from_topic(topic) do
-    String.replace(topic, ~r/.*:#?/, "")
+    channel_id = String.replace(topic, ~r/.*:#?/, "")
+    Repo.get_by Channel, id: channel_id
   end
 
   defp message_params(%{"text" => text}, channel, user) do
