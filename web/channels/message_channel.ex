@@ -22,7 +22,7 @@ defmodule Exchat.MessageChannel do
   end
 
   def handle_in(event, params, socket) do
-    user = Repo.get(Exchat.User, socket.assigns.user_id)
+    user = socket.assigns.user
     if user do
       handle_in(event, params, user, socket)
     else

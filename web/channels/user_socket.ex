@@ -22,9 +22,15 @@ defmodule Exchat.UserSocket do
   def connect(%{"token" => token}, socket) do
     case Exchat.ApiAuth.parse_token(token) |> Joken.verify! do
       {:ok, %{"user_id" => user_id}} ->
-        {:ok, assign(socket, :user_id, user_id)}
+        connect(user_id, socket)
       {:error, _reason} ->
         :error
+    end
+  end
+  def connect(user_id, socket) when is_integer(user_id) do
+    case Exchat.Repo.get(Exchat.User, user_id) do
+      nil  -> :error
+      user -> {:ok, assign(socket, :user, user)}
     end
   end
 
@@ -38,5 +44,5 @@ defmodule Exchat.UserSocket do
   #     Exchat.Endpoint.broadcast("users_socket:" <> user.id, "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(socket), do: "user_socket:#{socket.assigns.user_id}"
+  def id(socket), do: "user_socket:#{socket.assigns.user.id}"
 end
