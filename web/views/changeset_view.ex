@@ -25,7 +25,6 @@ defmodule Exchat.ChangesetView do
 
   defp errors_message(changeset) do
     errors = translate_errors(changeset)
-    IO.inspect errors
     Enum.reduce(errors, "", fn({field, msgs}, acc) ->
       field = field |> to_string |> String.capitalize
       msg = Enum.join(msgs)

@@ -3,17 +3,19 @@ defmodule Exchat.UnreadService do
 
   alias Exchat.{Channel, UserReadMessage}
 
-  def unread_count(channel, latest_read_ts) when is_integer(latest_read_ts) do
-    Channel.messages_count_after(channel, latest_read_ts) |> Repo.one
-  end
   def unread_count(user, channel) do
-    latest_ts = fetch_latest_ts(user, channel)
-    if latest_ts, do: unread_count(channel, latest_ts), else: 0
+    latest_read_time = fetch_latest_time(user, channel)
+    if latest_read_time do
+      Channel.messages_count_after(channel, latest_read_time) |> Repo.one
+    else
+      # to prevent no UserReadMessage created for user and channel
+      0
+    end
   end
 
-  defp fetch_latest_ts(user, channel) do
+  defp fetch_latest_time(user, channel) do
     struct = UserReadMessage.latest_ts_of(user, channel) |> Repo.one
-    if struct, do: Extime.to_timestamp(struct.latest_ts)
+    if struct, do: struct.latest_ts
   end
 
 end
