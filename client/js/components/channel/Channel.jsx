@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import List from './shared/List'
-import Message from '../components/Message'
-import PostMessage from '../components/PostMessage'
-import { postMessage } from '../actions/messages'
-import { fetchMessages, changeChannel, changeNewMessage } from '../actions/channels'
+import List from '../shared/List'
+import Message from '../message/Message'
+import PostMessage from './PostMessage'
+import UnreadDivider from './UnreadDivider'
+import { postMessage } from '../../actions/messages'
+import { fetchMessages, changeChannel, changeNewMessage } from '../../actions/channels'
 
 class Channel extends Component {
 
@@ -60,7 +61,21 @@ class Channel extends Component {
     dispatch(changeChannel(props.params.id))
   }
 
-  renderMessage(message) {
+  renderItem(message, index, messages) {
+    const {unreadCount} = this.props
+    if (messages.length - index === unreadCount) {
+      return (
+        <div key={message.ts}>
+          <UnreadDivider></UnreadDivider>
+          {this.renderMessage(message)}
+        </div>
+      )
+    } else {
+      return this.renderMessage(message)
+    }
+  }
+
+  renderMessage(message, index, messages) {
     return (
       <Message message={message} key={message.ts}/>
     )
@@ -73,7 +88,7 @@ class Channel extends Component {
       <div className="chat-container">
         <div className="message-list" ref="messageList">
           <List items={messages}
-          renderItem={this.renderMessage} />
+          renderItem={::this.renderItem} />
         </div>
         <PostMessage
           message={newMessage}
@@ -94,15 +109,17 @@ Channel.propTypes = {
 }
 
 function mapStateToProps(state) {
-  let {msgIdsById, initChannelsDone, currentChannelId, newMessages, hasMore} = state.channels
+  let {msgIdsById, initChannelsDone, currentChannelId, newMessages, hasMore, unreadMsgsCounts} = state.channels
 
   let msgIds = msgIdsById[currentChannelId] || []
   let messages = _.compact(msgIds.map(id => state.messages[`${currentChannelId}:${id}`]))
   hasMore = hasMore[currentChannelId]
+  let unreadCount = unreadMsgsCounts[currentChannelId]
   return {
     hasMore,
     messages,
     initChannelsDone,
+    unreadCount,
     channelId: currentChannelId,
     newMessage: newMessages[currentChannelId] || ""
   }

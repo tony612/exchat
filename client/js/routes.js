@@ -2,7 +2,7 @@ import React from 'react'
 import { Route } from 'react-router'
 
 import App from './containers/App'
-import Channel from './components/Channel'
+import Channel from './components/channel/Channel'
 import SignIn from './components/session/SignIn'
 
 import Auth from './auth'

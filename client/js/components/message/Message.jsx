@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-import Avatar from './shared/Avatar'
+import Avatar from '../shared/Avatar'
 
 export default class Message extends Component {
   render() {
