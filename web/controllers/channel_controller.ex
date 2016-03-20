@@ -1,7 +1,7 @@
 defmodule Exchat.ChannelController do
   use Exchat.Web, :controller
 
-  alias Exchat.Channel
+  alias Exchat.{Channel, Message}
 
   plug :scrub_params, "channel" when action in [:create, :update]
 
@@ -24,4 +24,19 @@ defmodule Exchat.ChannelController do
         |> render(ChangesetView, :error, changeset: changeset)
     end
   end
+
+  def read(conn, %{"channel_id" => channel_id, "ts" => ts}) do
+    channel = Repo.get(Channel, channel_id)
+    case Exchat.UnreadService.mark_read(conn.assigns.current_user, channel, ts) do
+      {:ok, _struct} ->
+        conn
+        |> put_status(:ok)
+        |> json(%{})
+      {:error, message} ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{message: message})
+    end
+  end
+
 end

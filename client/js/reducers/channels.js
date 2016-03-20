@@ -136,11 +136,7 @@ export default function channels(state = initialState, action) {
       let currentChannelId = channelIdByName[action.channelName]
       return {
         ...state,
-        currentChannelId: currentChannelId,
-        unreadMsgsCounts: {
-          ...unreadMsgsCounts,
-          [currentChannelId]: null
-        }
+        currentChannelId: currentChannelId
       }
       break
     case types.CHANGE_NEW_MESSAGE:
@@ -157,6 +153,14 @@ export default function channels(state = initialState, action) {
         newMessages: {
           ...state.newMessages,
           [action.payload.channelId]: ''
+        }
+      }
+    case types.MARK_MESSAGE_READ_SUCCESS:
+      return {
+        ...state,
+        unreadMsgsCounts: {
+          ...state.unreadMsgsCounts,
+          [action.payload.channelId]: null
         }
       }
     default:

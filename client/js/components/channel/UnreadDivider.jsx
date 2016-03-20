@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 class UnreadDivider extends React.Component {
   render() {
     return (
-      <div style={style.container}>
+      <div style={style.container} className="unread-divider">
         <span style={style.text}>new messages</span>
       </div>
     )

@@ -123,3 +123,19 @@ export function changeNewMessage(channelId, text) {
     text: text
   }
 }
+
+export function markMessageRead(channelId, message) {
+  return {
+    type: types.MARK_MESSAGE_READ,
+    payload: {
+      channelId
+    },
+    [API_CALL]: {
+      path: `/channels/${channelId}/messages/read`,
+      method: POST,
+      data: {
+        ts: message.ts
+      }
+    }
+  }
+}

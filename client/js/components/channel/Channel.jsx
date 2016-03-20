@@ -7,7 +7,7 @@ import Message from '../message/Message'
 import PostMessage from './PostMessage'
 import UnreadDivider from './UnreadDivider'
 import { postMessage } from '../../actions/messages'
-import { fetchMessages, changeChannel, changeNewMessage } from '../../actions/channels'
+import { fetchMessages, changeChannel, changeNewMessage, markMessageRead } from '../../actions/channels'
 
 class Channel extends Component {
 
@@ -49,6 +49,16 @@ class Channel extends Component {
     const {messages, dispatch, channelId, hasMore} = this.props
     if (event.target.scrollTop === 0 && hasMore) {
       dispatch(fetchMessages(channelId, messages[0].ts))
+    }
+    let unreadDivider = document.querySelector('.unread-divider')
+    let judgeMark = ()=> unreadDivider && unreadDivider.getBoundingClientRect().top > 0
+    // FIXME: Many duplicated requests will be sent
+    if (judgeMark()) {
+      window.setTimeout(()=> {
+        if (judgeMark()) {
+          dispatch(markMessageRead(channelId, messages[messages.length - 1]))
+        }
+      }, 3000)
     }
   }
 

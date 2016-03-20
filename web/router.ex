@@ -21,6 +21,9 @@ defmodule Exchat.Router do
 
     resources "channels", ChannelController, only: [:create, :index] do
       resources "messages", MessageController, only: [:index]
+      resources "messages", MessageController, only: [], singleton: true do
+        post "/read", ChannelController, :read, singleton: true
+      end
     end
   end
 
