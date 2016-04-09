@@ -13,11 +13,11 @@ class Channel extends Component {
 
   componentDidMount() {
     this.channelNameChange(this.props)
-    this.refs.messageList.addEventListener('scroll', ::this.handleScroll)
+    this.refs.messageList.addEventListener('scroll', _.debounce(::this.handleScroll, 200))
   }
 
   componentWillUnmount() {
-    this.refs.messageList.removeEventListener('scroll', ::this.handleScroll)
+    this.refs.messageList.removeEventListener('scroll', _.debounce(::this.handleScroll, 200))
   }
 
   componentWillReceiveProps(props) {
@@ -52,7 +52,6 @@ class Channel extends Component {
     }
     let unreadDivider = document.querySelector('.unread-divider')
     let judgeMark = ()=> unreadDivider && unreadDivider.getBoundingClientRect().top > 0
-    // FIXME: Many duplicated requests will be sent
     if (judgeMark()) {
       window.setTimeout(()=> {
         if (judgeMark()) {

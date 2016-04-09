@@ -58,7 +58,7 @@ export default store => next => action => {
 
   let type = action.type || UNKNOWN
 
-  let result = next(actionWith({type: type}))
+  next(actionWith({type: type}))
 
   return callApi(apiCall).then(
     response => {
