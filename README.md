@@ -11,8 +11,9 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 # TODO
 
-- [ ] Display unread number for channels
-- [ ] Track and display unread messages
+- [x] Display unread number for channels
+- [x] Track and display unread messages
+- [ ] Build connection between user and channel
 - [ ] Mention users
 - [ ] Direct message
 - [ ] User online/offline status

@@ -6,6 +6,7 @@ defmodule Exchat.Channel do
   schema "channels" do
     field :name, :string
     has_many :messages, Message
+    many_to_many :users, Exchat.User, join_through: Exchat.ChannelUser
 
     timestamps usec: true
   end

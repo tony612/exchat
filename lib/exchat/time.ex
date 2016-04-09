@@ -43,6 +43,10 @@ defmodule Exchat.Time do
     megasec * 1_000_000 + sec + microsec * 0.000_001
   end
 
+  def now_datetime do
+    now_ts |> to_datetime
+  end
+
   defp get_usec(timestamp) do
     timestamp * 1000_000 |> trunc |> rem(1000000)
   end

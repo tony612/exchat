@@ -1,7 +1,7 @@
 defmodule Exchat.ChannelController do
   use Exchat.Web, :controller
 
-  alias Exchat.{Channel, Message}
+  alias Exchat.{Channel}
 
   plug :scrub_params, "channel" when action in [:create, :update]
 
@@ -11,9 +11,7 @@ defmodule Exchat.ChannelController do
   end
 
   def create(conn, %{"channel" => channel_params}) do
-    changeset = Channel.changeset(%Channel{}, channel_params)
-
-    case Repo.insert(changeset) do
+    case ChannelUserService.insert_channel(channel_params, conn.assigns.current_user) do
       {:ok, channel} ->
         conn
         |> put_status(:created)
