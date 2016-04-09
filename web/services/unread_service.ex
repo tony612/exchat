@@ -26,7 +26,7 @@ defmodule Exchat.UnreadService do
       nil -> %UserReadMessage{user_id: user.id, channel_id: channel.id}
       user_read_message -> user_read_message
     end
-    if !read_message.id || time > read_message.latest_ts do
+    if !read_message.id || ts > Extime.to_timestamp(read_message.latest_ts) do
       read_message
       |> UserReadMessage.changeset(%{latest_ts: time, message_id: message.id})
       |> Repo.insert_or_update
