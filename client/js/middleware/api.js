@@ -29,6 +29,7 @@ function callApi(options) {
   }
   return fetch('/api' + path, params)
     .then(response =>
+      // FIXME: When there is an error, it may not be json
       response.json().then(json => ({json, response}))
     ).then(({json, response}) => {
       if (!response.ok) {

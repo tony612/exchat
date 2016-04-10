@@ -25,6 +25,8 @@ defmodule Exchat.Router do
         post "/read", ChannelController, :read, singleton: true
       end
     end
+
+    resources "channel_users", ChannelUserController, only: [:create]
   end
 
   scope "/api", Exchat do

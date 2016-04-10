@@ -18,7 +18,7 @@ class JoinChannel extends React.Component {
 
   confirm() {
     if (!this.state.joinChannelId) { return }
-    this.props.dispatch(joinChannel(this.state.joinChannelId, Auth.currentUser('userId')))
+    this.props.dispatch(joinChannel(this.state.joinChannelId))
   }
 
   channelChange(data) {
