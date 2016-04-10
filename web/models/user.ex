@@ -6,6 +6,7 @@ defmodule Exchat.User do
     field :password_hash, :string
     field :password, :string, virtual: true
     many_to_many :channels, Exchat.Channel, join_through: Exchat.ChannelUser
+    has_many :channel_users, Exchat.ChannelUser
 
     timestamps
   end

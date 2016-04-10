@@ -1,5 +1,5 @@
 defmodule Exchat.TestHelpers do
-  alias Exchat.{Repo, User, Channel, Message}
+  alias Exchat.{Repo, User, Channel, Message, ChannelUser}
 
   def insert_user(attrs \\ %{}) do
     changes = Map.merge(%{
@@ -42,6 +42,10 @@ defmodule Exchat.TestHelpers do
     %Exchat.UserReadMessage{}
     |> Exchat.UserReadMessage.changeset(attrs)
     |> Repo.insert!
+  end
+
+  def insert_channel_user(channel, user) do
+    Repo.insert!(%ChannelUser{channel_id: channel.id, user_id: user.id})
   end
 
 end

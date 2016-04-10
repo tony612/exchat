@@ -1,4 +1,4 @@
-defmodule ChannelUserService do
+defmodule Exchat.ChannelUserService do
   use Exchat.Web, :service
 
   alias Exchat.{Channel, ChannelUser, UserReadMessage}
@@ -17,4 +17,10 @@ defmodule ChannelUserService do
       end
     end)
   end
+
+  def joined_channels_status(user) do
+    channel_users = Repo.all assoc(user, :channel_users)
+    Enum.reduce(channel_users, %{}, fn(x, acc) -> Map.put(acc, x.channel_id, true) end)
+  end
+
 end
