@@ -159,6 +159,7 @@ export default function channels(state = initialState, action) {
           [action.channelId]: action.text
         }
       }
+      break
     case types.POST_MESSAGE_SUCCESS:
       return {
         ...state,
@@ -167,6 +168,7 @@ export default function channels(state = initialState, action) {
           [action.payload.channelId]: ''
         }
       }
+      break
     case types.MARK_MESSAGE_READ_SUCCESS:
       return {
         ...state,
@@ -175,6 +177,16 @@ export default function channels(state = initialState, action) {
           [action.payload.channelId]: null
         }
       }
+      break
+    case types.JOIN_CHANNEL_SUCCESS:
+      return {
+        ...state,
+        ids: [
+          ...state.ids,
+          action.payload.channelId
+        ]
+      }
+      break
     default:
       return state
   }

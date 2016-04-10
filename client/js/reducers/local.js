@@ -27,6 +27,7 @@ export default function session(state = initialState, action) {
     }
     break
   case types.CLOSE_JOIN_CHANNEL_MODAL:
+  case types.JOIN_CHANNEL_SUCCESS:
     return {
       ...state,
       openJoinChannelModal: false
