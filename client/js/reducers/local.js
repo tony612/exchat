@@ -1,7 +1,8 @@
 import * as types from '../constants/ActionTypes'
 
 const initialState = {
-  openNewChannelModal: false
+  openNewChannelModal: false,
+  openJoinChannelModal: false
 }
 
 export default function session(state = initialState, action) {
@@ -17,6 +18,18 @@ export default function session(state = initialState, action) {
     return {
       ...state,
       openNewChannelModal: false
+    }
+    break
+  case types.OPEN_JOIN_CHANNEL_MODAL:
+    return {
+      ...state,
+      openJoinChannelModal: true
+    }
+    break
+  case types.CLOSE_JOIN_CHANNEL_MODAL:
+    return {
+      ...state,
+      openJoinChannelModal: false
     }
     break
   default:

@@ -5,6 +5,7 @@ let initialState = {
   // 0: channel0, 1: channel1, ...
   items: {},
   // [1, 2, 3, ...]
+  // The ids of channels current user is in
   ids: [],
   // { 1: [1, 2, 3]}
   msgIdsById: {},
@@ -46,9 +47,11 @@ export default function channels(state = initialState, action) {
       break
     case types.FETCH_CHANNELS_SUCCESS:
       var channels = action.response.entities.channels
+      let joinedIds = _.chain(channels).values().filter((ch)=> ch.joined).map('id').value()
       return {
         ...state,
-        ids: action.response.result,
+        allIds: action.response.result,
+        ids: joinedIds,
         items: {
           ...state.items,
           ...channels
@@ -126,6 +129,10 @@ export default function channels(state = initialState, action) {
           ...state.items,
           ...channels
         },
+        allIds: [
+          ...state.allIds,
+          action.response.result
+        ],
         ids: [
           ...state.ids,
           action.response.result

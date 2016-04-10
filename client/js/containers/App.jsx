@@ -17,8 +17,8 @@ class App extends Component {
 
     return (
       <div className="app-container" style={style.container}>
-        <Overlay local={local} dispatch={dispatch}  style={style.container}></Overlay>
-      <div className="navigate-sidebar"  style={style.container}>
+        <Overlay local={local} dispatch={dispatch} channels={channels} style={style.container}></Overlay>
+        <div className="navigate-sidebar"  style={style.container}>
           <Sidebar dispatch={dispatch} channels={channels}/>
         </div>
         <div className="main-area" style={style.container}>

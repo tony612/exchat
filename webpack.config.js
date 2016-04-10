@@ -28,7 +28,8 @@ var config = {
       {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: 'file'},
       {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: 'url?limit=10000&mimetype=image/svg+xml'},
 
-      {test: /\.scss$/, loader: 'style!css!sass'}
+      {test: /\.scss$/, loader: 'style!css!sass'},
+      {test: /\.css$/, loader: 'style!css'}
     ]
   },
 
@@ -37,7 +38,7 @@ var config = {
       path.join(__dirname, '')
     ],
 
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx', '.scss', '.css']
   },
 
   plugins: [

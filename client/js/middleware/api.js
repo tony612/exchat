@@ -1,4 +1,4 @@
-import { camelizeKeys } from 'humps'
+import { camelizeKeys, decamelizeKeys, decamelize } from 'humps'
 import 'isomorphic-fetch'
 import { normalize } from 'normalizr'
 
@@ -7,7 +7,7 @@ import { UNKNOWN } from '../constants/ActionTypes'
 
 function objToParams(obj) {
   return Object.keys(obj).map(k =>
-    `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`
+    `${encodeURIComponent(decamelize(k))}=${encodeURIComponent(obj[k])}`
   ).join('&')
 }
 
@@ -22,7 +22,7 @@ function callApi(options) {
   }
   if (data) {
     if (method !== GET) {
-      params = {...params, body: JSON.stringify(data)}
+      params = {...params, body: JSON.stringify(decamelizeKeys(data))}
     } else {
       path = `${path}?${objToParams(data)}`
     }

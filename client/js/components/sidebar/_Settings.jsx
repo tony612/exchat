@@ -14,7 +14,7 @@ class Settings extends Component {
 
   render() {
     const {dispatch} = this.props
-    let title = Auth.username()
+    let title = Auth.currentUser('username')
     return (
       <DropdownButton bsStyle={'link'} bsClass='navbar-settings dropdown' title={title} id="settings-button">
         <MenuItem onClick={::this._signOut}>Sign Out</MenuItem>

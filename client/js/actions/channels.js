@@ -139,3 +139,17 @@ export function markMessageRead(channelId, message) {
     }
   }
 }
+
+export function joinChannel(channelId, userId) {
+  return {
+    type: types.JOIN_CHANNEL,
+    payload: {
+      channelId
+    },
+    [API_CALL]: {
+      path: `/channel_users`,
+      method: POST,
+      data: {channelId, userId}
+    }
+  }
+}

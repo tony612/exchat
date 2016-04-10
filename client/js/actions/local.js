@@ -11,3 +11,15 @@ export function closeNewChannelModal() {
     type: types.CLOSE_NEW_CHANNEL_MODAL
   }
 }
+
+export function openJoinChannelModal() {
+  return {
+    type: types.OPEN_JOIN_CHANNEL_MODAL
+  }
+}
+
+export function closeJoinChannelModal() {
+  return {
+    type: types.CLOSE_JOIN_CHANNEL_MODAL
+  }
+}

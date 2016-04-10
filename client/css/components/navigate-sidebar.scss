@@ -65,3 +65,17 @@ $channel-hover-color: #6272A4;
     opacity: 0.6;
   }
 }
+
+.newchannel-button {
+  a {
+    border-bottom: 1px dotted;
+    opacity: 0.6;
+    color: $sidebar-color;
+    &:hover {
+      color: $sidebar-color;
+      text-decoration: none;
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+}

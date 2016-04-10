@@ -3,16 +3,23 @@ import { Link } from 'react-router'
 
 import List from '../shared/List'
 import Settings from './_Settings'
-import { openNewChannelModal } from '../../actions/local'
+import { openNewChannelModal, openJoinChannelModal } from '../../actions/local'
 
 class Sidebar extends Component {
-  _renderChannelHeader() {
-    const {dispatch} = this.props
+  render() {
+    const {dispatch, channels} = this.props
+    let items = channels.ids.map(id => channels.items[id])
+    let active = id => id === channels.currentChannelId
     return (
-      <div className='list-unstyled sidebar-item header-item'>
-        <span>Channels</span>
-        <span className="glyphicon glyphicon-plus pull-right new-button"
-              aria-hidden="true" onClick={()=> dispatch(openNewChannelModal())}></span>
+      <div>
+        <Settings dispatch={dispatch}></Settings>
+        <div className="sidebar-main">
+          {this._renderChannelHeader()}
+          <List items={items}
+                renderItem={::this._renderChannel}
+                isLoading={channels.isFetching}/>
+          {this._renderNewChannelButton()}
+        </div>
       </div>
     )
   }
@@ -22,8 +29,14 @@ class Sidebar extends Component {
       return `(${count})`
     }
   }
-
-  renderChannel(channel) {
+  _channelClass(channel) {
+    let classes = ["channel-nav"]
+    if (channel.id === this.props.channels.currentChannelId) {
+      classes.push("-active")
+    }
+    return classes.join(' ')
+  }
+  _renderChannel(channel) {
     const {channels} = this.props
     let unread = channels.unreadMsgsCounts[channel.id]
     return (
@@ -36,30 +49,26 @@ class Sidebar extends Component {
     )
   }
 
-  _channelClass(channel) {
-    let classes = ["channel-nav"]
-    if (channel.id === this.props.channels.currentChannelId) {
-      classes.push("-active")
-    }
-    return classes.join(' ')
-  }
-
-  render() {
-    const {dispatch, channels} = this.props
-    let items = channels.ids.map(id => channels.items[id])
-    let active = id => id === channels.currentChannelId
+  _renderChannelHeader() {
+    const {dispatch} = this.props
     return (
-      <div>
-        <Settings dispatch={dispatch}></Settings>
-        <div className="sidebar-main">
-          {this._renderChannelHeader()}
-          <List items={items}
-                renderItem={::this.renderChannel}
-                isLoading={channels.isFetching}/>
-        </div>
+      <div className='list-unstyled sidebar-item header-item'>
+        <span>Channels</span>
+        <span className="glyphicon glyphicon-plus pull-right new-button"
+              aria-hidden="true" onClick={()=> dispatch(openJoinChannelModal())}></span>
       </div>
     )
   }
+
+  _renderNewChannelButton() {
+    const {dispatch} = this.props
+    return (
+      <div className="sidebar-item newchannel-button">
+        <a onClick={()=> dispatch(openNewChannelModal())}>+ New Channel</a>
+      </div>
+    )
+  }
+
 }
 
 Sidebar.propTypes = {

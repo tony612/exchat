@@ -9,6 +9,7 @@ import App                        from './containers/App'
 import { fetchChannelsIfNeeded }  from './actions/channels'
 import routes                     from './routes'
 
+import 'react-select/dist/react-select.css'
 import './../css/main'
 
 const store = configureStore()

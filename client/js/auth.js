@@ -33,9 +33,13 @@ const Auth = {
     }
   },
 
-  username() {
+  currentUser(key = null) {
     let decoded = jwtDecode(localStorage.authToken)
-    return decoded.username
+    if (key) {
+      return decoded[_.snakeCase(key)]
+    } else {
+      return decoded
+    }
   }
 }
 
