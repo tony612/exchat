@@ -2,7 +2,10 @@ import _ from 'lodash'
 
 import * as types from '../constants/ActionTypes'
 
-const initialState = {}
+const initialState = {
+  // "1:14203123123": message1, "2:1423231312": message2, ...
+  items: {}
+}
 
 export default function messages(state = initialState, action) {
   let {payload} = action
@@ -10,7 +13,10 @@ export default function messages(state = initialState, action) {
   case types.RECEIVED_MESSAGE:
     return {
       ...state,
-      [`${payload.channelId}:${payload.ts}`]: _.pick(payload, 'text', 'ts', 'user')
+      items: {
+        ...state.items,
+        [`${payload.channelId}:${payload.ts}`]: _.pick(payload, 'text', 'ts', 'user')
+      }
     }
     break
   case types.ADD_MESSAGES:
@@ -18,13 +24,19 @@ export default function messages(state = initialState, action) {
     msgs = _.mapValues(msgs, (m) => _.pick(m, 'text', 'ts', 'user'))
     return {
       ...state,
-      ...msgs
+      items: {
+        ...state.items,
+        ...msgs
+      }
     }
   case types.FETCH_MESSAGES_SUCCESS:
     var msgs = _.mapKeys(action.response.entities.messages, (val, key)=> `${action.channelId}:${val.ts}`)
     return {
       ...state,
-      ...msgs
+      items: {
+        ...state.items,
+        ...msgs
+      }
     }
   default:
     return state

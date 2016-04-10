@@ -46,7 +46,7 @@ class Sidebar extends Component {
 
   render() {
     const {dispatch, channels} = this.props
-    let items = channels.ids.map(id => channels[id])
+    let items = channels.ids.map(id => channels.items[id])
     let active = id => id === channels.currentChannelId
     return (
       <div>

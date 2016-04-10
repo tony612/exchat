@@ -121,7 +121,7 @@ function mapStateToProps(state) {
   let {msgIdsById, initChannelsDone, currentChannelId, newMessages, hasMore, unreadMsgsCounts} = state.channels
 
   let msgIds = msgIdsById[currentChannelId] || []
-  let messages = _.compact(msgIds.map(id => state.messages[`${currentChannelId}:${id}`]))
+  let messages = _.compact(msgIds.map(id => state.messages.items[`${currentChannelId}:${id}`]))
   hasMore = hasMore[currentChannelId]
   let unreadCount = unreadMsgsCounts[currentChannelId]
   return {

@@ -2,9 +2,8 @@ import * as types from '../constants/ActionTypes'
 import _ from 'lodash'
 
 let initialState = {
-  // 0: channel0,
-  // 1: channel1,
-  // ...
+  // 0: channel0, 1: channel1, ...
+  items: {},
   // [1, 2, 3, ...]
   ids: [],
   // { 1: [1, 2, 3]}
@@ -50,7 +49,10 @@ export default function channels(state = initialState, action) {
       return {
         ...state,
         ids: action.response.result,
-        ...channels,
+        items: {
+          ...state.items,
+          ...channels
+        },
         isFetching: false,
         channelIdByName: {
           ...state.channelIdByName,
@@ -120,7 +122,10 @@ export default function channels(state = initialState, action) {
       var channels = action.response.entities.channels
       return {
         ...state,
-        ...channels,
+        items: {
+          ...state.items,
+          ...channels
+        },
         ids: [
           ...state.ids,
           action.response.result
