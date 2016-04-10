@@ -14,10 +14,12 @@ class Channel extends Component {
   componentDidMount() {
     this.channelNameChange(this.props)
     this.refs.messageList.addEventListener('scroll', _.debounce(::this.handleScroll, 200))
+    // handle the situation when messages is few
+    window.setTimeout(()=> this.handleScroll({target: this.refs.messageList}), 2000)
   }
 
   componentWillUnmount() {
-    this.refs.messageList.removeEventListener('scroll', _.debounce(::this.handleScroll, 200))
+    this.refs.messageList.removeEventListener('scroll', ::this.handleScroll, 200)
   }
 
   componentWillReceiveProps(props) {
@@ -51,7 +53,7 @@ class Channel extends Component {
       dispatch(fetchMessages(channelId, messages[0].ts))
     }
     let unreadDivider = document.querySelector('.unread-divider')
-    let judgeMark = ()=> unreadDivider && unreadDivider.getBoundingClientRect().top > 0
+    let judgeMark = ()=> unreadDivider && unreadDivider.getBoundingClientRect().top >= 0
     if (judgeMark()) {
       window.setTimeout(()=> {
         if (judgeMark()) {
