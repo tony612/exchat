@@ -9,8 +9,8 @@ defmodule Exchat.Repo.Migrations.CreateChannelUser do
 
       timestamps
     end
-    create index(:channels_users, [:channel_id])
     create index(:channels_users, [:user_id])
+    create index(:channels_users, [:channel_id, :user_id], unique: true)
 
   end
 end

@@ -25,7 +25,8 @@ defmodule Exchat.ChannelUserService do
     Repo.transaction(fn ->
       params = %{channel_id: channel.id, user_id: user.id}
       Repo.insert!(ChannelUser.changeset(%ChannelUser{}, Map.put(params, :joined_at, Extime.now_datetime)))
-      Repo.insert(UserReadMessage.changeset(%UserReadMessage{}, Map.put(params, :latest_ts, Extime.now_datetime)))
+      # Use now datetime is OK, not necessary to use datetime of channel's latest message
+      Repo.insert!(UserReadMessage.changeset(%UserReadMessage{}, Map.put(params, :latest_ts, Extime.now_datetime)))
     end)
   end
 
