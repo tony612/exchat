@@ -10,16 +10,20 @@ import { postMessage } from '../../actions/messages'
 import { fetchMessages, changeChannel, changeNewMessage, markMessageRead } from '../../actions/channels'
 
 class Channel extends Component {
+  constructor(props) {
+    super(props)
+    this.betterHandleScroll = _.debounce(::this.handleScroll, 200)
+  }
 
   componentDidMount() {
     this.channelNameChange(this.props)
-    this.refs.messageList.addEventListener('scroll', _.debounce(::this.handleScroll, 200))
+    this.refs.messageList.addEventListener('scroll', this.betterHandleScroll)
     // handle the situation when messages is few
-    window.setTimeout(()=> this.handleScroll({target: this.refs.messageList}), 2000)
+    window.setTimeout(()=> this.betterHandleScroll({target: this.refs.messageList}), 1000)
   }
 
   componentWillUnmount() {
-    this.refs.messageList.removeEventListener('scroll', ::this.handleScroll, 200)
+    this.refs.messageList.removeEventListener('scroll', this.betterHandleScroll)
   }
 
   componentWillReceiveProps(props) {

@@ -24,11 +24,7 @@ let initialState = {
 function getNewUnreadCount(state, channelId) {
   const {currentChannelId, unreadMsgsCounts} = state
   let currentCount = unreadMsgsCounts[channelId]
-  if (channelId !== currentChannelId) {
-    return (currentCount || 0) + 1
-  } else {
-    return currentCount
-  }
+  return (currentCount || 0) + 1
 }
 
 function getChannelIdByName(channels) {
