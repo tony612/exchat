@@ -30,4 +30,12 @@ defmodule Exchat.ChannelUserService do
     end)
   end
 
+  def join_default_channels(user) do
+    names = Application.get_env(:exchat, Channel)[:default_channels]
+    channels = Repo.all(from ch in Channel, where: ch.name in ^names)
+    Enum.each channels, fn (channel) ->
+      create_channel_user(channel, user)
+    end
+  end
+
 end

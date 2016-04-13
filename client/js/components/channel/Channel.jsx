@@ -19,7 +19,7 @@ class Channel extends Component {
     this.channelNameChange(this.props)
     this.refs.messageList.addEventListener('scroll', this.betterHandleScroll)
     // handle the situation when messages is few
-    window.setTimeout(()=> this.betterHandleScroll({target: this.refs.messageList}), 1000)
+    window.setTimeout(()=> this.betterHandleScroll({target: this.refs.messageList}), 200)
   }
 
   componentWillUnmount() {
@@ -29,6 +29,7 @@ class Channel extends Component {
   componentWillReceiveProps(props) {
     if (this._channelIdShouldChange(this.props, props)) {
       this.channelNameChange(props)
+      window.setTimeout(()=> this.betterHandleScroll({target: this.refs.messageList}), 200)
     }
   }
 

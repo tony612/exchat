@@ -7,6 +7,7 @@ defmodule Exchat.UserController do
     changeset = User.changeset(%User{}, params)
     case Repo.insert(changeset) do
       {:ok, user} ->
+        Exchat.ChannelUserService.join_default_channels(user)
         conn = Exchat.ApiAuth.login(conn, user)
         render(conn, Exchat.SessionView, :create, token: conn.assigns[:auth_token])
       {:error, changeset} ->
