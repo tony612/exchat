@@ -24,6 +24,7 @@ defmodule Exchat.Channel do
     model
     |> cast(params, @allowed_fields)
     |> validate_required(@required_fields)
+    |> unique_constraint(:name)
   end
 
   def messages_before(channel, ts, limit \\ 100)

@@ -20,7 +20,7 @@ defmodule Exchat.ChannelController do
       {:error, changeset} ->
         conn
         |> put_status(:bad_request)
-        |> render(ChangesetView, :error, changeset: changeset)
+        |> render(ChangesetView, :message, changeset: changeset)
     end
   end
 
