@@ -26,6 +26,7 @@ const ExSocket = {
   },
 
   disconnect() {
+    if (!this.socket) { return }
     this.socket.disconnect(()=> {
       this.socket.reconnectTimer.reset()
       this.socket = null

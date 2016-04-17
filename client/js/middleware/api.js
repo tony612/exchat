@@ -3,7 +3,7 @@ import 'isomorphic-fetch'
 import { normalize } from 'normalizr'
 
 import { API_CALL, GET } from '../constants/ApiTypes'
-import { UNKNOWN } from '../constants/ActionTypes'
+import { UNKNOWN, FETCHING_FAILURE, FETCHING_SUCCESS } from '../constants/ActionTypes'
 
 function objToParams(obj) {
   return Object.keys(obj).map(k =>
@@ -70,17 +70,27 @@ export default store => next => action => {
       if (apiCall.successCallback) {
         apiCall.successCallback(response, store)
       }
+      next({
+        type: FETCHING_SUCCESS,
+        actualType: type
+      })
     },
     response => {
       if (!response.response) {
         return console.error(response)
       }
       var {error, response} = response
-      return next(actionWith({
+      let errorMsg = error.message || 'Something bad happened'
+      next(actionWith({
         type: type + '_FAILURE',
-        error: error.message || 'Something bad happened',
+        error: errorMsg,
         response
       }))
+      next({
+        type: FETCHING_FAILURE,
+        error: errorMsg,
+        actualType: type
+      })
     }
   )
 }

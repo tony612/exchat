@@ -4,18 +4,28 @@ const initialState = {}
 
 export default function errors(state = initialState, action) {
   switch (action.type) {
-  case types.SIGN_IN_FAILURE:
-  case types.SIGN_UP_FAILURE:
+  case types.FETCHING_FAILURE:
     return {
       ...state,
-      [types.SIGN_IN]: action.error
+      [action.actualType]: action.error
     }
     break
-  case types.SIGN_IN_SUCCESS:
-  case types.SIGN_UP_SUCCESS:
+  case types.FETCHING_SUCCESS:
+    if (state[action.actualType]) {
+      return {
+        ...state,
+        [action.actualType]: null
+      }
+    } else {
+      return state
+    }
+    break
+  case types.SIGN_IN:
+  case types.SIGN_UP:
     return {
       ...state,
-      [types.SIGN_IN]: null
+      [types.SIGN_IN]: null,
+      [types.SIGN_UP]: null
     }
     break
   default:
