@@ -3,6 +3,8 @@ import { Modal } from 'react-bootstrap'
 
 import { closeNewChannelModal } from '../../actions/local'
 import { createChannel } from '../../actions/channels'
+import ErrorMessage from '../shared/ErrorMessage'
+import { CREATE_CHANNEL } from '../../constants/ActionTypes'
 
 class NewChannel extends React.Component {
   close() {
@@ -17,13 +19,14 @@ class NewChannel extends React.Component {
   }
 
   render() {
-    const {local} = this.props
+    const {local, errors} = this.props
     return (
       <Modal show={local.openNewChannelModal} onHide={::this.close}>
         <Modal.Header closeButton>
           <Modal.Title>New Channel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <ErrorMessage error={errors[CREATE_CHANNEL]}></ErrorMessage>
           <input type="text" className="form-control" placeholder="New Channel Name"
                  ref="newChannelName"></input>
         </Modal.Body>

@@ -13,11 +13,11 @@ class App extends Component {
   }
 
   render() {
-    const {dispatch, channels, children, local} = this.props
+    const {dispatch, channels, children, local, errors} = this.props
 
     return (
       <div className="app-container" style={style.container}>
-        <Overlay local={local} dispatch={dispatch} channels={channels} style={style.container}></Overlay>
+        <Overlay {...{local, channels, dispatch, errors}} style={style.container}></Overlay>
         <div className="navigate-sidebar"  style={style.container}>
           <Sidebar dispatch={dispatch} channels={channels}/>
         </div>
@@ -44,7 +44,8 @@ App.propTypes = {
 function mapStateToProps(state) {
   return {
     channels: state.channels,
-    local: state.local
+    local: state.local,
+    errors: state.errors
   }
 }
 
