@@ -18,7 +18,7 @@ defmodule Exchat.TestHelpers do
     }, attrs)
 
     %Channel{}
-    |> Channel.changeset(changes)
+    |> Channel.public_changeset(changes)
     |> Repo.insert!
   end
 

@@ -5,25 +5,34 @@ defmodule Exchat.Channel do
 
   schema "channels" do
     field :name, :string
+    field :type, :integer
     has_many :messages, Message
     many_to_many :users, Exchat.User, join_through: Exchat.ChannelUser
 
     timestamps usec: true
   end
 
-  @required_fields ~w(name)a
-  @allowed_fields @required_fields
+  @type_public 1
+  @type_direct 2
 
-  @doc """
-  Creates a changeset based on the `model` and `params`.
+  @allowed_fields ~w(name type)a
 
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
-  """
-  def changeset(model, params \\ %{}) do
+  def public_changeset(model, params \\ %{}) do
+    changeset(model, params)
+    |> put_change(:type, @type_public)
+    |> validate_required([:type])
+  end
+
+  def direct_changeset(model, params \\ %{}) do
+    changeset(model, params)
+    |> put_change(:type, @type_direct)
+    |> validate_required([:type])
+  end
+
+  defp changeset(model, params \\ %{}) do
     model
     |> cast(params, @allowed_fields)
-    |> validate_required(@required_fields)
+    |> validate_required([:name])
     |> unique_constraint(:name)
   end
 

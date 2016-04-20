@@ -5,7 +5,7 @@ defmodule Exchat.ChannelUserService do
 
   def insert_channel(params, user) do
     Repo.transaction(fn ->
-      changeset = Channel.changeset(%Channel{}, params)
+      changeset = Channel.public_changeset(%Channel{}, params)
       case Repo.insert(changeset) do
         {:ok, channel} ->
           create_channel_user(channel, user)
