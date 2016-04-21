@@ -1,5 +1,5 @@
 defmodule Exchat.ChannelRepoTest do
-  use Exchat.ModelCase
+  use Exchat.ModelCase, async: true
 
   alias Exchat.{Channel, Repo, Message}
   alias Ecto.DateTime

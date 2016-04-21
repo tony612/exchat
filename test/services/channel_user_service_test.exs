@@ -1,5 +1,5 @@
 defmodule Exchat.ChannelUserServiceTest do
-  use Exchat.ModelCase
+  use Exchat.ModelCase, async: true
 
   alias Exchat.{ChannelUserService, User, ChannelUser, UserReadMessage}
 

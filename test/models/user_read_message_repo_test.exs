@@ -1,5 +1,5 @@
 defmodule Exchat.UserReadMessageRepoTest do
-  use Exchat.ModelCase
+  use Exchat.ModelCase, async: true
 
   alias Exchat.UserReadMessage
 

@@ -1,5 +1,5 @@
 defmodule Exchat.UnreadServiceTest do
-  use Exchat.ModelCase
+  use Exchat.ModelCase, async: true
 
   alias Exchat.{UnreadService}
 

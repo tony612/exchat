@@ -1,5 +1,5 @@
 defmodule Exchat.ChannelControllerTest do
-  use Exchat.ConnCase
+  use Exchat.ConnCase, async: true
 
   alias Exchat.{Channel, User, UserReadMessage}
   @valid_attrs %{name: "general"}

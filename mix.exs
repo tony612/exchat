@@ -11,6 +11,7 @@ defmodule Exchat.Mixfile do
      start_permanent: Mix.env == :prod,
      test_coverage: [tool: ExCoveralls],
      preferred_cli_env: preferred_cli_env,
+     aliases: aliases,
      deps: deps]
   end
 
@@ -27,6 +28,10 @@ defmodule Exchat.Mixfile do
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
   defp elixirc_paths(_),     do: ["lib", "web"]
 
+  defp aliases do
+    [test: ["ecto.create --quiet", "ecto.migrate", "test"]]
+  end
+
   # Specifies your project dependencies
   #
   # Type `mix help deps` for examples and options
@@ -37,7 +42,7 @@ defmodule Exchat.Mixfile do
      {:phoenix_html, "~> 2.5.1"},
      {:phoenix_live_reload, "~> 1.0.3", only: :dev},
      {:gettext, "~> 0.11.0"},
-     {:ecto, "~> 2.0.0-rc.0"},
+     {:ecto, "~> 2.0.0-rc.1"},
      {:cowboy, "~> 1.0.4"},
      {:comeonin, "~> 2.4.0"},
      {:excoveralls, "~> 0.5.2", only: :test},

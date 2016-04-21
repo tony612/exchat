@@ -1,5 +1,5 @@
 defmodule Exchat.ApiAuthTest do
-  use Exchat.ConnCase
+  use Exchat.ConnCase, async: true
 
   alias Exchat.{ApiAuth, User}
 

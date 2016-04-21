@@ -25,8 +25,14 @@ defmodule Exchat.ModelCase do
     end
   end
 
-  setup do
+  setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Exchat.Repo)
+
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(Exchat.Repo, {:shared, self()})
+    end
+
+    :ok
   end
 
   @doc """
