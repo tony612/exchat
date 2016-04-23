@@ -3,7 +3,7 @@ defmodule Exchat.TestHelpers do
 
   def insert_user(attrs \\ %{}) do
     changes = Map.merge(%{
-      email: "tony@ex.chat",
+      email: "user#{System.unique_integer([:positive])}@ex.chat",
       password: "password"
     }, attrs)
 
@@ -14,7 +14,7 @@ defmodule Exchat.TestHelpers do
 
   def insert_channel(attrs \\ %{}) do
     changes = Map.merge(%{
-      name: "general"
+      name: "channel-#{System.unique_integer([:positive])}"
     }, attrs)
 
     %Channel{}

@@ -40,8 +40,8 @@ defmodule Exchat.ApiAuthTest do
   end
 
   test "login_by_email_pass/4 return :ok for right email and password pair", %{conn: conn} do
-    Repo.insert!(User.changeset(%User{}, %{email: "tony@ex.chat", password: "password"}))
-    assert {:ok, _} = ApiAuth.login_by_email_pass(conn, "tony@ex.chat", "password", repo: Repo)
+    %{email: email} = insert_user(%{password: "password"})
+    assert {:ok, _} = ApiAuth.login_by_email_pass(conn, email, "password", repo: Repo)
   end
 
   test "parse_token/2 can parse token in header" do
