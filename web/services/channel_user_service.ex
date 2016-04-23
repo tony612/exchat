@@ -1,7 +1,7 @@
 defmodule Exchat.ChannelUserService do
   use Exchat.Web, :service
 
-  alias Exchat.{Channel, ChannelUser, UserReadMessage}
+  alias Exchat.{Channel, ChannelUser, UserReadMessage, User}
 
   def insert_channel(params, user) do
     Repo.transaction(fn ->
@@ -17,6 +17,7 @@ defmodule Exchat.ChannelUserService do
   end
 
   def joined_channels_status(user) do
+    # TODO: only channel_users of joined channels are needed
     channel_users = Repo.all assoc(user, :channel_users)
     Enum.reduce(channel_users, %{}, fn(x, acc) -> Map.put(acc, x.channel_id, true) end)
   end
@@ -36,6 +37,17 @@ defmodule Exchat.ChannelUserService do
     Enum.each channels, fn (channel) ->
       create_channel_user(channel, user)
     end
+  end
+
+  def direct_user_ids(%{id: user_id}, channels) do
+    channel_ids = Enum.map(channels, &(&1.id))
+    channel_users = Repo.all(from cu in ChannelUser, where: cu.channel_id in ^channel_ids and not(cu.user_id == ^user_id))
+    Enum.reduce(channel_users, %{}, fn(cu, acc) -> Map.put(acc, cu.channel_id, cu.user_id) end)
+  end
+
+  def direct_channels(%User{id: user_id}) do
+    Repo.all(from ch in Channel.direct, join: cu in ChannelUser, on: ch.id == cu.channel_id,
+                                        where: cu.user_id == ^user_id and not(is_nil(cu.joined_at)), select: ch)
   end
 
 end

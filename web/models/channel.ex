@@ -36,6 +36,14 @@ defmodule Exchat.Channel do
     |> unique_constraint(:name)
   end
 
+  def public(query \\ __MODULE__) do
+    from query, where: [type: @type_public]
+  end
+
+  def direct(query \\ __MODULE__) do
+    from query, where: [type: @type_direct]
+  end
+
   def messages_before(channel, ts, limit \\ 100)
   def messages_before(channel, ts, limit) when is_number(ts) do
     time = Extime.to_datetime(ts)

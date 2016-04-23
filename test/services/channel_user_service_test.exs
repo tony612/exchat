@@ -1,7 +1,7 @@
 defmodule Exchat.ChannelUserServiceTest do
   use Exchat.ModelCase, async: true
 
-  alias Exchat.{ChannelUserService, ChannelUser, UserReadMessage}
+  alias Exchat.{ChannelUserService, ChannelUser, UserReadMessage, Channel}
 
   test "joined_channels_status returns joined channels as bool hash" do
     channel1 = insert_channel(%{name: "foo"})
@@ -21,4 +21,32 @@ defmodule Exchat.ChannelUserServiceTest do
     assert %{user_id: ^user_id, channel_id: ^channel_id} = channel_user
     assert %{user_id: ^user_id, channel_id: ^channel_id} = user_read_message
   end
+
+  test "direct_channel_users returns channel_users of channels but not for current user" do
+    channel1 = insert_direct_channel
+    channel2 = insert_direct_channel
+    user1 = insert_user
+    user2 = insert_user
+    user3 = insert_user
+    insert_channel_user(channel1, user1)
+    insert_channel_user(channel1, user2)
+    insert_channel_user(channel2, user1)
+    insert_channel_user(channel2, user3)
+    user_ids = ChannelUserService.direct_user_ids(user1, [channel1, channel2])
+    assert user_ids == %{channel1.id => user2.id, channel2.id => user3.id}
+  end
+
+  test "direct_channels returns direct channels of the user" do
+    %{id: channel_id1} = channel1 = insert_direct_channel
+    %{id: channel_id2} = channel2 = insert_direct_channel
+    channel3 = insert_direct_channel
+    insert_channel
+    user = insert_user
+    insert_channel_user(channel1, user)
+    insert_channel_user(channel2, user)
+    insert_channel_user(channel3, user, nil)
+    channels = ChannelUserService.direct_channels(user)
+    assert [%Channel{id: ^channel_id1}, %Channel{id: ^channel_id2}] = channels
+  end
+
 end

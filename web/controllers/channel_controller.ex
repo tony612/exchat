@@ -6,7 +6,7 @@ defmodule Exchat.ChannelController do
   plug :scrub_params, "channel" when action in [:create, :update]
 
   def index(conn, _params) do
-    channels = Repo.all(Channel)
+    channels = Repo.all(Channel.public)
     joined_status = ChannelUserService.joined_channels_status(conn.assigns.current_user)
     render(conn, "index.json", channels: channels, joined_status: joined_status)
   end

@@ -22,6 +22,16 @@ defmodule Exchat.TestHelpers do
     |> Repo.insert!
   end
 
+  def insert_direct_channel(attrs \\ %{}) do
+    changes = Map.merge(%{
+      name: "direct-channel-#{System.unique_integer([:positive])}"
+    }, attrs)
+
+    %Channel{}
+    |> Channel.direct_changeset(changes)
+    |> Repo.insert!
+  end
+
   def insert_message(attrs \\ %{}) do
     changes = Map.merge(%{
       text: "Hello, Exchat!"
@@ -44,8 +54,8 @@ defmodule Exchat.TestHelpers do
     |> Repo.insert!
   end
 
-  def insert_channel_user(channel, user) do
-    Repo.insert!(%ChannelUser{channel_id: channel.id, user_id: user.id})
+  def insert_channel_user(channel, user, joined_at \\ Exchat.Time.now_datetime) do
+    Repo.insert!(%ChannelUser{channel_id: channel.id, user_id: user.id, joined_at: joined_at})
   end
 
 end
