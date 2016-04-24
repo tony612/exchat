@@ -6,10 +6,12 @@ import channels from './channels'
 import session from './session'
 import local from './local'
 import errors from './errors'
+import directChannels from './directChannels'
 
 const rootReducer = combineReducers({
   messages,
   channels,
+  directChannels,
   session,
   local,
   errors,

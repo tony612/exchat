@@ -6,7 +6,6 @@ import { syncHistoryWithStore }   from 'react-router-redux'
 
 import configureStore             from './store/configureStore'
 import App                        from './containers/App'
-import { fetchChannelsIfNeeded }  from './actions/channels'
 import routes                     from './routes'
 
 import 'react-select/dist/react-select.css'
