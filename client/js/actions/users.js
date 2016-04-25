@@ -2,13 +2,13 @@ import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET, PUT, DELETE } from '../constants/ApiTypes'
 import Schemas from '../store/schema'
 
-export function fetchDirectChannels() {
+export function fetchUsers() {
   return {
-    type: types.FETCH_DIRECT_CHANNELS,
+    type: types.FETCH_USERS,
     [API_CALL]: {
-      path: "/direct_channels",
+      path: '/users',
       method: GET,
-      schema: Schemas.channelArray,
+      schema: Schemas.userArray
     }
   }
 }

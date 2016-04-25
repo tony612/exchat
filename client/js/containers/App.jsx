@@ -5,12 +5,14 @@ import Sidebar from '../components/sidebar/Sidebar'
 import Overlay from '../components/overlay/Index'
 import {fetchChannelsIfNeeded} from '../actions/channels'
 import {fetchDirectChannels} from '../actions/directChannels'
+import {fetchUsers} from '../actions/users'
 
 class App extends Component {
   componentDidMount() {
     const {dispatch} = this.props
 
     dispatch(fetchChannelsIfNeeded())
+    dispatch(fetchUsers())
     dispatch(fetchDirectChannels())
   }
 

@@ -30,6 +30,8 @@ defmodule Exchat.Router do
     end
 
     resources "channel_users", ChannelUserController, only: [:create]
+    resources "users", UserController, only: [:index] do
+    end
   end
 
   scope "/api", Exchat do

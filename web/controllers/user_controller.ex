@@ -15,7 +15,12 @@ defmodule Exchat.UserController do
         |> put_status(:bad_request)
         |> render(ChangesetView, :message, changeset: changeset)
     end
+  end
 
+  def index(conn, %{}) do
+    current_id = conn.assigns.current_user.id
+    users = Repo.all(from u in User, where: u.id != ^current_id)
+    render conn, "index.json", users: users
   end
 
 end

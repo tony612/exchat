@@ -26,7 +26,7 @@ export function createChannel(name) {
           name: name
         }
       },
-      schema: Schemas.CHANNEL,
+      schema: Schemas.channel,
       successCallback: function(response, store) {
         initChannel(response.result, store, ()=> {
           browserHistory.push(`/channels/${name}`)
@@ -67,7 +67,7 @@ export function fetchChannels() {
     [API_CALL]: {
       path: '/channels',
       method: GET,
-      schema: Schemas.CHANNEL_ARRAY,
+      schema: Schemas.channelArray,
       successCallback: successCallback
     }
   }
@@ -104,7 +104,7 @@ export function fetchMessages(channelId, ts) {
       path: `/channels/${channelId}/messages`,
       method: GET,
       data: {ts: ts},
-      schema: {messages: Schemas.MESSAGE_ARRAY}
+      schema: {messages: Schemas.messageArray}
     }
   }
 }
