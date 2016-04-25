@@ -30,14 +30,18 @@ class DirectChannels extends React.Component {
     }
     return classes.join(' ')
   }
+  _channelName(channel) {
+    let {users} = this.props
+    return users.items[channel.userId].username
+  }
   _renderDirectChannel(channel) {
     const {channels} = this.props
     let unread = channels.unreadMsgsCounts[channel.id]
     return (
       <li className={this._channelClass(channel)} key={channel.id}>
-        <Link to={`/channels/${channel.name}`} className="channel-link sidebar-item">
+        <Link to={`/channels/@${this._channelName(channel)}`} className="channel-link sidebar-item">
           <span className="prefix-icon">@</span>
-          {channel.name} {this._unreadCount(unread)}
+          {this._channelName(channel)} {this._unreadCount(unread)}
         </Link>
       </li>
     )

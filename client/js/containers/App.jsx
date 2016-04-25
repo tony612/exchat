@@ -17,13 +17,13 @@ class App extends Component {
   }
 
   render() {
-    const {dispatch, channels, children, local, errors, directChannels} = this.props
+    const {dispatch, channels, children, local, errors, directChannels, users} = this.props
 
     return (
       <div className="app-container" style={style.container}>
         <Overlay {...{local, channels, dispatch, errors}} style={style.container}></Overlay>
         <div className="navigate-sidebar"  style={style.container}>
-          <Sidebar dispatch={dispatch} channels={channels} directChannels={directChannels}/>
+          <Sidebar dispatch={dispatch} channels={channels} directChannels={directChannels} users={users}/>
         </div>
         <div className="main-area" style={style.container}>
           { children || 'Welcome to Exchat! Another Slack-like app by Elixir, Phoenix & React(redux)' }
@@ -50,7 +50,8 @@ function mapStateToProps(state) {
     channels: state.channels,
     directChannels: state.directChannels,
     local: state.local,
-    errors: state.errors
+    errors: state.errors,
+    users: state.users
   }
 }
 

@@ -24,6 +24,8 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   channels: PropTypes.object,
+  directChannels: PropTypes.object,
+  users: PropTypes.object,
   dispatch: PropTypes.func
 }
 
