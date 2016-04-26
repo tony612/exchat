@@ -6,8 +6,8 @@ import { openNewDirectChannelModal, openJoinDirectChannelModal } from '../../act
 
 class DirectChannels extends React.Component {
   render() {
-    const {dispatch, directChannels} = this.props
-    let items = directChannels.ids.map(id => directChannels.items[id])
+    const {dispatch, channels} = this.props
+    let items = channels.directIds.map(id => channels.items[id])
     return (
       <div>
         {this._renderDirectChannelHeader()}

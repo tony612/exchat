@@ -47,7 +47,7 @@ defmodule Exchat.ChannelUserService do
 
   def direct_channels(%User{id: user_id}) do
     Repo.all(from ch in Channel.direct, join: cu in ChannelUser, on: ch.id == cu.channel_id,
-                                        where: cu.user_id == ^user_id and not(is_nil(cu.joined_at)), select: ch)
+                                        where: cu.user_id == ^user_id, select: ch)
   end
 
 end

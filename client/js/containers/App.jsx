@@ -12,8 +12,9 @@ class App extends Component {
     const {dispatch} = this.props
 
     dispatch(fetchChannelsIfNeeded())
-    dispatch(fetchUsers())
-    dispatch(fetchDirectChannels())
+    dispatch(fetchUsers((response, store)=> {
+      store.dispatch(fetchDirectChannels(response.entities.users))
+    }))
   }
 
   render() {

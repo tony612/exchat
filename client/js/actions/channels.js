@@ -47,7 +47,13 @@ export function updateChannel(id, payload) {
   }
 }
 
-export function fetchChannels() {
+export function fetchChannels(initDoneCallback = null) {
+  if (!initDoneCallback) {
+    initDoneCallback = (dispatch) => {
+      console.log('INIT CHANNELS DONE')
+      dispatch(initChannelsDone())
+    }
+  }
   let successCallback = function(response, store) {
     const {result, entities} = response
     _.forEach(result, (id, i) => {
@@ -56,8 +62,7 @@ export function fetchChannels() {
         store.dispatch(updateChannel(id, {unreadCount: data.unreadCount}))
         store.dispatch(addMessages(id, data))
         if (result.length - 1 === i) {
-          console.log('INIT CHANNELS DONE')
-          store.dispatch(initChannelsDone())
+          initDoneCallback(store.dispatch)
         }
       })
     })

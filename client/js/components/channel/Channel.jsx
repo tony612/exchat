@@ -29,8 +29,8 @@ class Channel extends Component {
   componentWillReceiveProps(props) {
     if (this._channelIdShouldChange(this.props, props)) {
       this.channelNameChange(props)
-      window.setTimeout(()=> this.betterHandleScroll({target: this.refs.messageList}), 200)
     }
+    window.setTimeout(()=> this.betterHandleScroll({target: this.refs.messageList}), 200)
   }
 
   // http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
@@ -69,7 +69,9 @@ class Channel extends Component {
   }
 
   _channelIdShouldChange(prevProps, nextProps) {
-    return nextProps.params.id !== prevProps.params.id || nextProps.initChannelsDone !== prevProps.initChannelsDone
+    return nextProps.params.id !== prevProps.params.id ||
+           nextProps.initChannelsDone !== prevProps.initChannelsDone ||
+           nextProps.initDirectChannelsDone !== prevProps.initDirectChannelsDone
   }
 
   channelNameChange(props) {
@@ -137,7 +139,8 @@ function mapStateToProps(state) {
     initChannelsDone,
     unreadCount,
     channelId: currentChannelId,
-    newMessage: newMessages[currentChannelId] || ""
+    newMessage: newMessages[currentChannelId] || "",
+    initDirectChannelsDone: state.directChannels.initDirectChannelsDone
   }
 }
 

@@ -11,6 +11,7 @@ const Routes = (
   <div>
     <Route path="/" component={App} onEnter={::Auth.requireAuth}>
       <Route path="channels">
+        <Route path="@:id" component={Channel}></Route>
         <Route path=":id" component={Channel}></Route>
       </Route>
     </Route>

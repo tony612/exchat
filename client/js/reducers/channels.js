@@ -7,6 +7,7 @@ let initialState = {
   // [1, 2, 3, ...]
   // The ids of channels current user is in
   ids: [],
+  directIds: [],
   // { 1: [1, 2, 3]}
   msgIdsById: {},
   // {1: true, 2: false, ...}
@@ -33,6 +34,13 @@ function getChannelIdByName(channels) {
   })
 }
 
+// TODO: If usernames of users change, this will not work
+function getDirectChannelIdByName(channels, users) {
+  return _.transform(channels, (result, channel, id) => {
+    result[users[channel.userId].username] = channel.id
+  })
+}
+
 export default function channels(state = initialState, action) {
   switch (action.type) {
     case types.FETCH_CHANNELS_BEGIN:
@@ -56,6 +64,20 @@ export default function channels(state = initialState, action) {
         channelIdByName: {
           ...state.channelIdByName,
           ...getChannelIdByName(channels)
+        }
+      }
+      break
+    case types.FETCH_DIRECT_CHANNELS_SUCCESS:
+      return {
+        ...state,
+        directIds: action.response.result,
+        items: {
+          ...state.items,
+          ...action.response.entities.channels
+        },
+        channelIdByName: {
+          ...state.channelIdByName,
+          ...getDirectChannelIdByName(action.response.entities.channels, action.payload.users)
         }
       }
       break

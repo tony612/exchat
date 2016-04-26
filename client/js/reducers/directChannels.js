@@ -1,22 +1,17 @@
 import * as types from '../constants/ActionTypes'
 
 let initialState = {
-  items: {},
-  ids: []
+  initDirectChannelsDone: false
 }
 
 export default function directChannels(state = initialState, action) {
   switch (action.type) {
-    case types.FETCH_DIRECT_CHANNELS_SUCCESS:
+    case types.INIT_DIRECT_CHANNELS_DONE:
       return {
         ...state,
-        ids: action.response.result,
-        items: {
-          ...state.items,
-          ...action.response.entities.channels
-        }
+        initDirectChannelsDone: true
       }
-    break
+      break
     default:
       return state
   }
