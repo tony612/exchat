@@ -22,7 +22,7 @@ class App extends Component {
 
     return (
       <div className="app-container" style={style.container}>
-        <Overlay {...{local, channels, dispatch, errors}} style={style.container}></Overlay>
+        <Overlay {...{local, channels, dispatch, errors, users}} style={style.container}></Overlay>
         <div className="navigate-sidebar"  style={style.container}>
           <Sidebar dispatch={dispatch} channels={channels} directChannels={directChannels} users={users}/>
         </div>

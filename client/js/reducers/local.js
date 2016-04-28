@@ -33,6 +33,18 @@ export default function session(state = initialState, action) {
       openJoinChannelModal: false
     }
     break
+  case types.OPEN_JOIN_DIRECT_CHANNEL_MODAL:
+    return {
+      ...state,
+      openJoinDirectChannelModal: true
+    }
+    break
+  case types.CLOSE_JOIN_DIRECT_CHANNEL_MODAL:
+    return {
+      ...state,
+      openJoinDirectChannelModal: false
+    }
+    break
   default:
     return state
   }

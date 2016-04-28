@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 
 import NewChannel from './NewChannel'
 import JoinChannel from './JoinChannel'
+import JoinDirectChannel from './JoinDirectChannel'
 
 class Overlay extends React.Component {
   render() {
@@ -9,6 +10,7 @@ class Overlay extends React.Component {
       <div>
         <NewChannel {...this.props}></NewChannel>
         <JoinChannel {...this.props}></JoinChannel>
+        <JoinDirectChannel {...this.props}></JoinDirectChannel>
       </div>
     )
   }

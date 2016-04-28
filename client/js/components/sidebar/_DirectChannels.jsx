@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 
 import List from '../shared/List'
-import { openNewDirectChannelModal, openJoinDirectChannelModal } from '../../actions/local'
+import { openJoinDirectChannelModal } from '../../actions/local'
 
 class DirectChannels extends React.Component {
   render() {

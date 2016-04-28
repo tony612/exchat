@@ -23,3 +23,15 @@ export function closeJoinChannelModal() {
     type: types.CLOSE_JOIN_CHANNEL_MODAL
   }
 }
+
+export function openJoinDirectChannelModal() {
+  return {
+    type: types.OPEN_JOIN_DIRECT_CHANNEL_MODAL
+  }
+}
+
+export function closeJoinDirectChannelModal() {
+  return {
+    type: types.CLOSE_JOIN_DIRECT_CHANNEL_MODAL
+  }
+}
