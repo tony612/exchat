@@ -6,7 +6,7 @@ defmodule Exchat.ChannelControllerTest do
   @valid_attrs %{name: @channel_name}
   @invalid_attrs %{}
 
-  setup do
+  setup %{conn: conn} do
     user = insert_user
     conn = conn
     |> put_req_header("accept", "application/json")

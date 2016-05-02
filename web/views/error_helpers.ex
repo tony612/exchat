@@ -37,8 +37,4 @@ defmodule Exchat.ErrorHelpers do
       Gettext.dgettext(Exchat.Gettext, "errors", msg, opts)
     end
   end
-
-  def translate_error(msg) do
-    Gettext.dgettext(Exchat.Gettext, "errors", msg)
-  end
 end

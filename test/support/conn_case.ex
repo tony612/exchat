@@ -39,6 +39,6 @@ defmodule Exchat.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(Exchat.Repo, {:shared, self()})
     end
 
-    :ok
+    {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

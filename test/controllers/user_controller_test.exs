@@ -1,7 +1,7 @@
 defmodule Exchat.UserControllerTest do
   use Exchat.ConnCase, async: true
 
-  setup do
+  setup %{conn: conn} do
     user = insert_user
     conn = conn
     |> put_req_header("accept", "application/json")

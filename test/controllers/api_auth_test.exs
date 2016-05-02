@@ -3,10 +3,6 @@ defmodule Exchat.ApiAuthTest do
 
   alias Exchat.{ApiAuth, User}
 
-  setup do
-    {:ok, conn: conn}
-  end
-
   test "login/2 assigns :current_user and :auth_token to conn", %{conn: conn} do
     user = %User{id: 1, email: "tony@e.x"}
     conn = ApiAuth.login(conn, user)

@@ -39,12 +39,10 @@ defmodule Exchat.ChannelUserServiceTest do
   test "direct_channels returns direct channels of the user" do
     %{id: channel_id1} = channel1 = insert_direct_channel
     %{id: channel_id2} = channel2 = insert_direct_channel
-    channel3 = insert_direct_channel
     insert_channel
     user = insert_user
     insert_channel_user(channel1, user)
-    insert_channel_user(channel2, user)
-    insert_channel_user(channel3, user, nil)
+    insert_channel_user(channel2, user, nil)
     channels = ChannelUserService.direct_channels(user)
     assert [%Channel{id: ^channel_id1}, %Channel{id: ^channel_id2}] = channels
   end
