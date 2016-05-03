@@ -19,18 +19,18 @@ defmodule Exchat.Router do
   scope "/api", Exchat do
     pipe_through [:api, :authenticate_user]
 
-    resources "channels", ChannelController, only: [:create, :index] do
-      resources "messages", MessageController, only: [:index]
-      resources "messages", MessageController, only: [], singleton: true do
+    resources "/channels", ChannelController, only: [:create, :index] do
+      resources "/messages", MessageController, only: [:index]
+      resources "/messages", MessageController, only: [], singleton: true do
         post "/read", ChannelController, :read, singleton: true
       end
     end
 
-    resources "direct_channels", DirectChannelController, only: [:index] do
+    resources "/direct_channels", DirectChannelController, only: [:index, :create] do
     end
 
-    resources "channel_users", ChannelUserController, only: [:create]
-    resources "users", UserController, only: [:index] do
+    resources "/channel_users", ChannelUserController, only: [:create]
+    resources "/users", UserController, only: [:index] do
     end
   end
 

@@ -50,4 +50,14 @@ defmodule Exchat.ChannelUserService do
                                         where: cu.user_id == ^user_id, select: ch)
   end
 
+  def create_direct_channel_for(user, other_user) do
+    channel_changeset = Channel.direct_changeset %Channel{}, %{name: Channel.direct_name(user.id, other_user.id)}
+    Repo.transaction(fn ->
+      channel = Repo.insert!(channel_changeset)
+      create_channel_user(channel, user)
+      create_channel_user(channel, other_user)
+      channel
+    end)
+  end
+
 end

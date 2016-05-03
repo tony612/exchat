@@ -3,7 +3,7 @@ defmodule Exchat.DirectChannelView do
 
   def render("index.json", %{channels: channels, user_ids: user_ids}) do
     Enum.map(channels, fn channel ->
-      # NOTE: channels are all joined
+      # TODO: joined should be fetched
       render(__MODULE__, "channel.json", channel: channel, joined: true, user_id: user_ids[channel.id])
     end)
   end

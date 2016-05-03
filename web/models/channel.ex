@@ -65,4 +65,9 @@ defmodule Exchat.Channel do
       where: m.channel_id == ^channel.id and m.inserted_at > ^time,
       select: count(m.id)
   end
+
+  # User
+  def direct_name(user_id1, user_id2) do
+    [user_id1, user_id2] |> Enum.sort |> Enum.join(",")
+  end
 end

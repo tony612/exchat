@@ -22,4 +22,9 @@ defmodule Exchat.ChannelTest do
     changeset = Channel.public_changeset(%Channel{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "direct_name/2 return name like 1,2" do
+    assert Channel.direct_name(1, 2) == "1,2"
+    assert Channel.direct_name(2, 1) == "1,2"
+  end
 end
