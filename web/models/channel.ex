@@ -21,6 +21,7 @@ defmodule Exchat.Channel do
     changeset(model, params)
     |> put_change(:type, @type_public)
     |> validate_required([:type])
+    |> validate_format(:name, ~r/\A[\w\-]+\z/)
   end
 
   def direct_changeset(model, params \\ %{}) do
@@ -44,6 +45,7 @@ defmodule Exchat.Channel do
     from query, where: [type: @type_direct]
   end
 
+  # Messages
   def messages_before(channel, ts, limit \\ 100)
   def messages_before(channel, ts, limit) when is_number(ts) do
     time = Extime.to_datetime(ts)

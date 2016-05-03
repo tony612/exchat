@@ -3,7 +3,7 @@ defmodule Exchat.ChannelTest do
 
   alias Exchat.Channel
 
-  @valid_attrs %{name: "some content"}
+  @valid_attrs %{name: "foo-bar"}
   @invalid_attrs %{}
 
   test "public_changeset with valid attributes" do
@@ -20,6 +20,15 @@ defmodule Exchat.ChannelTest do
 
   test "changeset with invalid attributes" do
     changeset = Channel.public_changeset(%Channel{}, @invalid_attrs)
+    refute changeset.valid?
+  end
+
+  test "changeset with invalid name format" do
+    changeset = Channel.public_changeset(%Channel{}, %{name: "foo bar"})
+    refute changeset.valid?
+    changeset = Channel.public_changeset(%Channel{}, %{name: "foo,bar"})
+    refute changeset.valid?
+    changeset = Channel.public_changeset(%Channel{}, %{name: "foo_bar "})
     refute changeset.valid?
   end
 
