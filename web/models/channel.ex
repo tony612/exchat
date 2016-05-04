@@ -30,7 +30,7 @@ defmodule Exchat.Channel do
     |> validate_required([:type])
   end
 
-  defp changeset(model, params \\ %{}) do
+  defp changeset(model, params) do
     model
     |> cast(params, @allowed_fields)
     |> validate_required([:name])

@@ -22,10 +22,11 @@ defmodule Exchat.ChannelUserService do
     Enum.reduce(channel_users, %{}, fn(x, acc) -> Map.put(acc, x.channel_id, true) end)
   end
 
-  def create_channel_user(channel, user) do
+  def create_channel_user(channel, user, options \\ []) do
+    joined_at = Keyword.get(options, :joined_at, Extime.now_datetime)
     Repo.transaction(fn ->
       params = %{channel_id: channel.id, user_id: user.id}
-      Repo.insert!(ChannelUser.changeset(%ChannelUser{}, Map.put(params, :joined_at, Extime.now_datetime)))
+      Repo.insert!(ChannelUser.changeset(%ChannelUser{}, Map.put(params, :joined_at, joined_at)))
       # Use now datetime is OK, not necessary to use datetime of channel's latest message
       Repo.insert!(UserReadMessage.changeset(%UserReadMessage{}, Map.put(params, :latest_ts, Extime.now_datetime)))
     end)
@@ -55,7 +56,7 @@ defmodule Exchat.ChannelUserService do
     Repo.transaction(fn ->
       channel = Repo.insert!(channel_changeset)
       create_channel_user(channel, user)
-      create_channel_user(channel, other_user)
+      create_channel_user(channel, other_user, joined_at: nil)
       channel
     end)
   end

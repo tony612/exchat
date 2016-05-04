@@ -9,11 +9,12 @@ defmodule Exchat.ChannelUser do
     timestamps
   end
 
-  @required_fields ~w(joined_at channel_id user_id)
-  @optional_fields ~w()
+  @allowed_fields ~w(joined_at channel_id user_id)a
+  @required_fields ~w(channel_id user_id)a
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @allowed_fields)
+    |> validate_required(@required_fields)
   end
 end

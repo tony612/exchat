@@ -22,6 +22,14 @@ defmodule Exchat.ChannelUserServiceTest do
     assert %{user_id: ^user_id, channel_id: ^channel_id} = user_read_message
   end
 
+  test "create_channel_user/2 support :joined_at option" do
+    channel = insert_channel(%{name: "foo"})
+    user = insert_user
+    ChannelUserService.create_channel_user(channel, user, joined_at: nil)
+    channel_user = Repo.one(from ChannelUser, limit: 1)
+    refute channel_user.joined_at
+  end
+
   test "direct_user_ids/2 returns channel_users of channels but not for current user" do
     channel1 = insert_direct_channel
     channel2 = insert_direct_channel
@@ -54,6 +62,8 @@ defmodule Exchat.ChannelUserServiceTest do
     assert channel.name == "#{user1.id},#{user2.id}"
     assert Repo.one(from cu in ChannelUser, select: count(cu.id)) == 2
     assert Repo.one(from urm in UserReadMessage, select: count(urm.id)) == 2
+    channel_user = Repo.one(from cu in ChannelUser, order_by: [desc: cu.id], limit: 1)
+    refute channel_user.joined_at
   end
 
   test "create_direct_channel_for/2 fails when channels exists" do
