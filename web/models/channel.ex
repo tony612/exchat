@@ -72,4 +72,11 @@ defmodule Exchat.Channel do
   def direct_name(user_id1, user_id2) do
     [user_id1, user_id2] |> Enum.sort |> Enum.join(",")
   end
+
+  def direct_user_ids(channel) do
+    case channel.type do
+      @type_direct -> channel.name |> String.split(",") |> Enum.map(&String.to_integer/1)
+      _            -> raise ArgumentError, message: "#{inspect channel} is not a direct channel!"
+    end
+  end
 end

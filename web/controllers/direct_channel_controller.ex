@@ -4,9 +4,8 @@ defmodule Exchat.DirectChannelController do
   alias Exchat.{ChannelUserService, User}
 
   def index(conn, _params) do
-    channels = ChannelUserService.direct_channels(conn.assigns.current_user)
-    direct_user_ids = ChannelUserService.direct_user_ids(conn.assigns.current_user, channels)
-    render(conn, "index.json", channels: channels, user_ids: direct_user_ids)
+    {channels, channel_users} = ChannelUserService.direct_channels_users(conn.assigns.current_user)
+    render(conn, "index.json", channels: channels, channel_users: channel_users)
   end
 
   def create(conn, %{"user_id" => user_id}) do

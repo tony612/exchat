@@ -30,29 +30,16 @@ defmodule Exchat.ChannelUserServiceTest do
     refute channel_user.joined_at
   end
 
-  test "direct_user_ids/2 returns channel_users of channels but not for current user" do
-    channel1 = insert_direct_channel
-    channel2 = insert_direct_channel
-    user1 = insert_user
-    user2 = insert_user
-    user3 = insert_user
-    insert_channel_user(channel1, user1)
-    insert_channel_user(channel1, user2)
-    insert_channel_user(channel2, user1)
-    insert_channel_user(channel2, user3)
-    user_ids = ChannelUserService.direct_user_ids(user1, [channel1, channel2])
-    assert user_ids == %{channel1.id => user2.id, channel2.id => user3.id}
-  end
-
-  test "direct_channels/1 returns direct channels of the user" do
+  test "direct_channels_users/1 returns direct channels and channel_users of the user" do
     %{id: channel_id1} = channel1 = insert_direct_channel
     %{id: channel_id2} = channel2 = insert_direct_channel
     insert_channel
     user = insert_user
-    insert_channel_user(channel1, user)
-    insert_channel_user(channel2, user, nil)
-    channels = ChannelUserService.direct_channels(user)
+    %{id: cu_id1} = insert_channel_user(channel1, user)
+    %{id: cu_id2} = insert_channel_user(channel2, user, nil)
+    {channels, channel_users} = ChannelUserService.direct_channels_users(user)
     assert [%Channel{id: ^channel_id1}, %Channel{id: ^channel_id2}] = channels
+    assert [%ChannelUser{id: ^cu_id1}, %ChannelUser{id: ^cu_id2}] = channel_users
   end
 
   test "create_direct_channel_for/2 inserts channel, channels_users" do

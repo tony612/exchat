@@ -24,7 +24,7 @@ defmodule Exchat.TestHelpers do
 
   def insert_direct_channel(attrs \\ %{}) do
     changes = Map.merge(%{
-      name: "direct-channel-#{System.unique_integer([:positive])}"
+      name: "#{System.unique_integer([:positive])},#{System.unique_integer([:positive])}"
     }, attrs)
 
     %Channel{}

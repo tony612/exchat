@@ -1,10 +1,14 @@
 defmodule Exchat.DirectChannelView do
   use Exchat.Web, :view
 
-  def render("index.json", %{channels: channels, user_ids: user_ids}) do
+  alias Exchat.Channel
+
+  def render("index.json", %{channels: channels, channel_users: channel_users}) do
+    indexed = Enum.reduce(channel_users, %{}, fn(cu, acc) -> Map.put(acc, cu.channel_id, cu) end)
     Enum.map(channels, fn channel ->
-      # TODO: joined should be fetched
-      render(__MODULE__, "channel.json", channel: channel, joined: true, user_id: user_ids[channel.id])
+      channel_user = indexed[channel.id]
+      other_id = channel |> Channel.direct_user_ids |> List.delete(channel_user.user_id) |> List.first
+      render(__MODULE__, "channel.json", channel: channel, joined: channel_user.joined_at, user_id: other_id)
     end)
   end
 

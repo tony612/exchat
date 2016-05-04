@@ -17,11 +17,11 @@ defmodule Exchat.DirectChannelControllerTest do
   end
 
   test "index returns direct channels of user", %{conn: conn} do
-    %{name: name1} = channel1 = insert_direct_channel
-    %{name: name2} = channel2 = insert_direct_channel
     user = conn.assigns.current_user
     user1 = insert_user
     user2 = insert_user
+    %{name: name1} = channel1 = insert_direct_channel(%{name: Channel.direct_name(user.id, user1.id)})
+    %{name: name2} = channel2 = insert_direct_channel(%{name: Channel.direct_name(user.id, user2.id)})
     insert_channel_user(channel1, user)
     insert_channel_user(channel1, user1)
     insert_channel_user(channel2, user)

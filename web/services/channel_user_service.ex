@@ -40,15 +40,10 @@ defmodule Exchat.ChannelUserService do
     end
   end
 
-  def direct_user_ids(%{id: user_id}, channels) do
-    channel_ids = Enum.map(channels, &(&1.id))
-    channel_users = Repo.all(from cu in ChannelUser, where: cu.channel_id in ^channel_ids and not(cu.user_id == ^user_id))
-    Enum.reduce(channel_users, %{}, fn(cu, acc) -> Map.put(acc, cu.channel_id, cu.user_id) end)
-  end
-
-  def direct_channels(%User{id: user_id}) do
-    Repo.all(from ch in Channel.direct, join: cu in ChannelUser, on: ch.id == cu.channel_id,
-                                        where: cu.user_id == ^user_id, select: ch)
+  def direct_channels_users(%User{id: user_id}) do
+    result = Repo.all(from ch in Channel.direct, join: cu in ChannelUser, on: ch.id == cu.channel_id,
+                                        where: cu.user_id == ^user_id, select: {ch, cu})
+    Enum.unzip(result)
   end
 
   def create_direct_channel_for(user, other_user) do
