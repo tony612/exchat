@@ -40,10 +40,33 @@ defmodule Exchat.ChannelUserService do
     end
   end
 
+  def rejoin_channel(user, channel) do
+    channel_user = Repo.get_by ChannelUser, user_id: user.id, channel_id: channel.id
+    if channel_user do
+      changeset = Ecto.Changeset.change(channel_user, joined_at: Extime.now_datetime)
+      Repo.update changeset
+    else
+      raise "#{inspect channel} can't be rejoined by #{inspect user}"
+    end
+  end
+
   def direct_channels_users(%User{id: user_id}) do
     result = Repo.all(from ch in Channel.direct, join: cu in ChannelUser, on: ch.id == cu.channel_id,
                                         where: cu.user_id == ^user_id, select: {ch, cu})
     Enum.unzip(result)
+  end
+
+  def join_direct_channel(user, other_user) do
+    name = Channel.direct_name(user.id, other_user.id)
+    channel = Repo.get_by(Channel, name: name)
+    if channel do
+      case rejoin_channel(user, channel) do
+        {:ok, _} -> {:ok, channel}
+        other    -> other
+      end
+    else
+      create_direct_channel_for(user, other_user)
+    end
   end
 
   def create_direct_channel_for(user, other_user) do

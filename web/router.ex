@@ -26,8 +26,8 @@ defmodule Exchat.Router do
       end
     end
 
-    resources "/direct_channels", DirectChannelController, only: [:index, :create] do
-    end
+    resources "/direct_channels", DirectChannelController, only: [:index]
+    post "/direct_channels/join", DirectChannelController, :join
 
     resources "/channel_users", ChannelUserController, only: [:create]
     resources "/users", UserController, only: [:index] do

@@ -27,7 +27,7 @@ export function joinDirectChannel(userId) {
   return {
     type: types.JOIN_DIRECT_CHANNEL,
     [API_CALL]: {
-      path: '/direct_channels',
+      path: '/direct_channels/join',
       method: POST,
       data: decamelizeKeys({
         userId: userId

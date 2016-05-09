@@ -30,6 +30,21 @@ defmodule Exchat.ChannelUserServiceTest do
     refute channel_user.joined_at
   end
 
+  test "rejoin_channel/2 changes joined_at of channel_user" do
+    channel = insert_channel(%{name: "foo"})
+    user = insert_user
+    insert_channel_user(channel, user, nil)
+    ChannelUserService.rejoin_channel(user, channel)
+    channel_user = Repo.one(from ChannelUser, limit: 1)
+    assert channel_user.joined_at
+  end
+
+  test "rejoin_channel/2 raises error when there's no channel_user" do
+    channel = insert_channel(%{name: "foo"})
+    user = insert_user
+    assert_raise RuntimeError, ~r/%Exchat.Channel.*can't be rejoined by %Exchat.User/, fn -> ChannelUserService.rejoin_channel(user, channel) end
+  end
+
   test "direct_channels_users/1 returns direct channels and channel_users of the user" do
     %{id: channel_id1} = channel1 = insert_direct_channel
     %{id: channel_id2} = channel2 = insert_direct_channel
@@ -40,6 +55,24 @@ defmodule Exchat.ChannelUserServiceTest do
     {channels, channel_users} = ChannelUserService.direct_channels_users(user)
     assert [%Channel{id: ^channel_id1}, %Channel{id: ^channel_id2}] = channels
     assert [%ChannelUser{id: ^cu_id1}, %ChannelUser{id: ^cu_id2}] = channel_users
+  end
+
+  test "join_direct_channel/2 update joined_at of channel_user" do
+    user1 = insert_user
+    user2 = insert_user
+    channel = insert_direct_channel(%{name: "#{user1.id},#{user2.id}"})
+    insert_channel_user(channel, user1, nil)
+    {:ok, returned_channel} = ChannelUserService.join_direct_channel(user1, user2)
+    assert returned_channel.id == channel.id
+    channel_user = Repo.one(from ChannelUser, limit: 1)
+    assert channel_user.joined_at
+  end
+
+  test "join_direct_channel/2 inserts channel, channels_users" do
+    user1 = insert_user
+    user2 = insert_user
+    {:ok, channel} = ChannelUserService.join_direct_channel(user1, user2)
+    assert channel.name == "#{user1.id},#{user2.id}"
   end
 
   test "create_direct_channel_for/2 inserts channel, channels_users" do

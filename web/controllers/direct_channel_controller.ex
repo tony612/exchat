@@ -8,9 +8,9 @@ defmodule Exchat.DirectChannelController do
     render(conn, "index.json", channels: channels, channel_users: channel_users)
   end
 
-  def create(conn, %{"user_id" => user_id}) do
+  def join(conn, %{"user_id" => user_id}) do
     other_user = Repo.get_by(User, id: user_id)
-    case ChannelUserService.create_direct_channel_for(conn.assigns.current_user, other_user) do
+    case ChannelUserService.join_direct_channel(conn.assigns.current_user, other_user) do
       {:ok, channel} ->
         conn
         |> put_status(:created)

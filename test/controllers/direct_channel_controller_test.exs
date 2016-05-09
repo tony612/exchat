@@ -37,7 +37,7 @@ defmodule Exchat.DirectChannelControllerTest do
   test "create/2 creates channel for user and ther other one", %{conn: conn} do
     user = conn.assigns.current_user
     user1 = insert_user
-    conn = post conn, direct_channel_path(conn, :create), user_id: user1.id
+    conn = post conn, direct_channel_path(conn, :join), user_id: user1.id
     %{id: channel_id} = Repo.one(from Channel, limit: 1)
     assert json_response(conn, 201) == %{"id" => channel_id, "name" => "#{user.id},#{user1.id}", "joined" => true, "user_id" => user1.id}
   end
