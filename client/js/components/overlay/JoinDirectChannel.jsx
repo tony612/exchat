@@ -18,7 +18,7 @@ class JoinDirectChannel extends React.Component {
 
   confirm() {
     if (!this.state.newUserId) { return }
-    this.props.dispatch(joinDirectChannel(this.state.newUserId))
+    this.props.dispatch(joinDirectChannel(this.state.newUserId, this.props.users.items))
   }
 
   userChange(data) {

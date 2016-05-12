@@ -209,6 +209,26 @@ export default function channels(state = initialState, action) {
         ]
       }
       break
+    case types.JOIN_DIRECT_CHANNEL_SUCCESS:
+      var channel = action.response
+      var channels = {[channel.id]: channel}
+      return {
+        ...state,
+        allDirectIds: _.union(state.allDirectIds, [channel.id]),
+        directIds: [
+          ...state.directIds,
+          channel.id
+        ],
+        items: {
+          ...state.items,
+          ...channels
+        },
+        channelIdByName: {
+          ...state.channelIdByName,
+          ...getDirectChannelIdByName(channels, action.payload.users)
+        }
+      }
+      break
     default:
       return state
   }

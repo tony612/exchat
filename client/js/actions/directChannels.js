@@ -1,9 +1,10 @@
+import { browserHistory } from 'react-router'
 import { decamelizeKeys } from 'humps'
 
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET, PUT, DELETE } from '../constants/ApiTypes'
 import Schemas from '../store/schema'
-import {fetchChannels} from './channels'
+import {fetchChannels, initChannel, changeChannel} from './channels'
 
 export function fetchDirectChannels(users) {
   let result = fetchChannels((dispatch)=> {
@@ -23,7 +24,7 @@ export function fetchDirectChannels(users) {
   }
 }
 
-export function joinDirectChannel(userId) {
+export function joinDirectChannel(userId, users) {
   return {
     type: types.JOIN_DIRECT_CHANNEL,
     [API_CALL]: {
@@ -31,7 +32,17 @@ export function joinDirectChannel(userId) {
       method: POST,
       data: decamelizeKeys({
         userId: userId
-      })
+      }),
+      successCallback: function(channel, store) {
+        let channelName = users[channel.userId].username
+        initChannel(channel.id, store, ()=> {
+          browserHistory.push(`/channels/${channelName}`)
+          store.dispatch(changeChannel(channelName))
+        })
+      }
+    },
+    payload: {
+      users
     }
   }
 }

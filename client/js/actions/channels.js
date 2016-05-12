@@ -7,7 +7,7 @@ import ExSocket from '../constants/ExSocket'
 import { receivedMessage } from './messages'
 import Schemas from '../store/schema'
 
-let initChannel = function(id, store, callback) {
+export function initChannel(id, store, callback) {
   let channel = ExSocket.findChannel(id, callback)
   channel.on('new_message', payload => {
     payload = camelizeKeys(payload)
