@@ -1,5 +1,4 @@
 import _ from 'lodash'
-
 import { Socket as PhoenixSocket } from 'phoenix'
 
 const ExSocket = {

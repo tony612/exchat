@@ -39,8 +39,7 @@ defmodule Exchat.Time do
   end
 
   def now_ts do
-    {megasec, sec, microsec} = :os.timestamp
-    megasec * 1_000_000 + sec + microsec * 0.000_001
+    System.system_time(:seconds)
   end
 
   def now_datetime do

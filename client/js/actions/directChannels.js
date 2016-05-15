@@ -35,8 +35,8 @@ export function joinDirectChannel(userId, users) {
       }),
       successCallback: function(channel, store) {
         let channelName = users[channel.userId].username
-        initChannel(channel.id, store, ()=> {
-          browserHistory.push(`/channels/${channelName}`)
+        initChannel(channel, store, ()=> {
+          browserHistory.push(`/channels/@${channelName}`)
           store.dispatch(changeChannel(channelName))
         })
       }

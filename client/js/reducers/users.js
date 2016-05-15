@@ -2,7 +2,8 @@ import * as types from '../constants/ActionTypes'
 
 let initialState = {
   items: {},
-  ids: []
+  ids: [],
+  presences: {}
 }
 
 export default function users(state = initialState, action) {
@@ -14,6 +15,12 @@ export default function users(state = initialState, action) {
       ids: action.response.result
     }
     break
+  case types.SYNC_USERS_PRESENCES:
+    var presences = _.mapValues(action.payload, ()=> true)
+    return {
+      ...state,
+      presences: presences
+    }
   default:
     return state
   }

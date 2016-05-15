@@ -13,6 +13,7 @@ defmodule Exchat do
       worker(Exchat.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(Exchat.Worker, [arg1, arg2, arg3]),
+      supervisor(Exchat.UserPresence, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -3,6 +3,7 @@ $sidebar-color: #FFFFFF;
 $active-channel-color: #8BE9FD;
 $active-channel-bg-color: #44475A;
 $channel-hover-color: #6272A4;
+$online-color: #50FA7B;
 
 .navigate-sidebar {
   @include flex(1);
@@ -62,7 +63,9 @@ $channel-hover-color: #6272A4;
   }
   .prefix-icon {
     color: $active-channel-color;
-    opacity: 0.6;
+  }
+  .presence-icon.-online {
+    color: $active-channel-color !important;
   }
 }
 
@@ -77,5 +80,12 @@ $channel-hover-color: #6272A4;
       opacity: 1;
       cursor: pointer;
     }
+  }
+}
+
+.presence-icon {
+  font-size: 1.1rem;
+  &.-online {
+    color: $online-color;
   }
 }

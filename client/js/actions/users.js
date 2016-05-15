@@ -13,3 +13,10 @@ export function fetchUsers(callback) {
     }
   }
 }
+
+export function syncPresences(data) {
+  return {
+    type: types.SYNC_USERS_PRESENCES,
+    payload: data
+  }
+}

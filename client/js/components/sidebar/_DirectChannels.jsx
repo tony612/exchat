@@ -40,11 +40,25 @@ class DirectChannels extends React.Component {
     return (
       <li className={this._channelClass(channel)} key={channel.id}>
         <Link to={`/channels/@${this._channelName(channel)}`} className="channel-link sidebar-item">
-          <span className="prefix-icon">@</span>
+          <span className="prefix-icon">
+            {this._renderPresenceIcon(channel)}
+          </span>
           {this._channelName(channel)} {this._unreadCount(unread)}
         </Link>
       </li>
     )
+  }
+  _renderPresenceIcon(channel) {
+    let {users} = this.props
+    if (users.presences[channel.userId]) {
+      return (
+        <i className="presence-icon -online icon-circle"></i>
+      )
+    } else {
+      return (
+        <i className="presence-icon -offline icon-circle-empty"></i>
+      )
+    }
   }
 
   _renderDirectChannelHeader() {

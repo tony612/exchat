@@ -1,18 +1,32 @@
 import { browserHistory } from 'react-router'
 import { camelizeKeys } from 'humps'
+import { Presence } from 'phoenix'
 
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
 import ExSocket from '../constants/ExSocket'
 import { receivedMessage } from './messages'
 import Schemas from '../store/schema'
+import { syncPresences } from '../actions/users'
 
-export function initChannel(id, store, callback) {
-  let channel = ExSocket.findChannel(id, callback)
+export function initChannel(channelData, store, callback) {
+  let channel = ExSocket.findChannel(channelData.id, callback)
   channel.on('new_message', payload => {
     payload = camelizeKeys(payload)
     store.dispatch(receivedMessage(payload))
   })
+  if (channelData.name === 'general') {
+    let presences = {}
+    channel.on("presence_state", state => {
+      Presence.syncState(presences, state)
+      store.dispatch(syncPresences(presences))
+    })
+    channel.on("presence_diff", diff => {
+      Presence.syncDiff(presences, diff)
+      store.dispatch(syncPresences(presences))
+    })
+
+  }
 }
 
 export function createChannel(name) {
@@ -28,7 +42,7 @@ export function createChannel(name) {
       },
       schema: Schemas.channel,
       successCallback: function(response, store) {
-        initChannel(response.result, store, ()=> {
+        initChannel(response.entities.channels[response.result], store, ()=> {
           browserHistory.push(`/channels/${name}`)
           // NOTE: now route change doesn't change props in componentWillReceiveProps of Channel
           // If it works, it's not necessary to call this here
@@ -57,7 +71,7 @@ export function fetchChannels(initDoneCallback = null) {
   let successCallback = function(response, store) {
     const {result, entities} = response
     _.forEach(result, (id, i) => {
-      initChannel(id, store, (data)=> {
+      initChannel(entities.channels[id], store, (data)=> {
         data = camelizeKeys(data)
         store.dispatch(updateChannel(id, {unreadCount: data.unreadCount}))
         store.dispatch(addMessages(id, data))

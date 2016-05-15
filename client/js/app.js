@@ -9,7 +9,8 @@ import App                        from './containers/App'
 import routes                     from './routes'
 
 import 'react-select/dist/react-select.css'
-import './../css/main'
+import '../css/main'
+import '../vendor/fontello/fontello.css'
 
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
