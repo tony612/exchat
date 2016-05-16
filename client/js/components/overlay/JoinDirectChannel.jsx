@@ -5,6 +5,7 @@ import Select from 'react-select'
 import Auth from '../../auth'
 import { closeJoinDirectChannelModal } from '../../actions/local'
 import { joinDirectChannel } from '../../actions/directChannels'
+import ChannelNameBar from '../shared/ChannelNameBar'
 
 class JoinDirectChannel extends React.Component {
   constructor(props) {
@@ -53,8 +54,19 @@ class JoinDirectChannel extends React.Component {
         name="form-field-name"
         value={this.state.newUserId}
         options={options}
+        optionRenderer={this.renderOption.bind(this)}
         onChange={::this.userChange}
         />
+    )
+  }
+
+  renderOption(value) {
+    let {users} = this.props
+    let channel = {name: value.label, userId: value.value}
+    return (
+      <div>
+        <ChannelNameBar channel={channel} users={users} prefixStyle={{opacity: 0.6}} nameStyle={{fontWeight: 'bolder'}}></ChannelNameBar>
+      </div>
     )
   }
 

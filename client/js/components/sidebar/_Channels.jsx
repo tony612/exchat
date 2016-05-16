@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 
 import List from '../shared/List'
 import { openNewChannelModal, openJoinChannelModal } from '../../actions/local'
+import ChannelNameBar from '../shared/ChannelNameBar'
 
 class Channels extends React.Component {
   render() {
@@ -37,8 +38,8 @@ class Channels extends React.Component {
     return (
       <li className={this._channelClass(channel)} key={channel.id}>
         <Link to={`/channels/${channel.name}`} className="channel-link sidebar-item">
-          <span className="prefix-icon">#</span>
-          {channel.name} {this._unreadCount(unread)}
+          <ChannelNameBar channel={channel}>
+          </ChannelNameBar> {this._unreadCount(unread)}
         </Link>
       </li>
     )
