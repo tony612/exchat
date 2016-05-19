@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode'
 
-import ExSocket from './constants/ExSocket'
+import ExSocket from './socket/ex_socket'
 
 const Auth = {
   login(response) {

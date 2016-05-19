@@ -42,10 +42,12 @@ defmodule Exchat.Web do
     quote do
       use Phoenix.Controller
 
+      alias Exchat.Endpoint
       alias Exchat.Repo
       alias Exchat.ErrorView
       alias Exchat.ChangesetView
       alias Exchat.Time, as: Extime
+      alias Exchat.EventChannel
 
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]

@@ -1,4 +1,4 @@
-import ExSocket from '../constants/ExSocket'
+import ExSocket from '../socket/ex_socket'
 import { RT_EVENT } from '../constants/ApiTypes'
 
 export default store => next => action => {

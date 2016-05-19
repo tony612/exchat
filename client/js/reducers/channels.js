@@ -229,6 +229,21 @@ export default function channels(state = initialState, action) {
         }
       }
       break
+    case types.ADD_DIRECT_CHANNEL:
+      var channel = action.payload.channel
+      var channels = {[channel.id]: channel}
+      return {
+        ...state,
+        allDirectIds: _.union(state.allDirectIds, [channel.id]),
+        items: {
+          ...state.items,
+          ...channels
+        },
+        channelIdByName: {
+          ...state.channelIdByName,
+          ...getDirectChannelIdByName(channels, action.payload.users)
+        }
+      }
     default:
       return state
   }

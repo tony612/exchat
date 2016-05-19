@@ -47,6 +47,13 @@ export function joinDirectChannel(userId, users) {
   }
 }
 
+export function addDirectChannel(channel, users) {
+  return {
+    type: types.ADD_DIRECT_CHANNEL,
+    payload: {channel, users}
+  }
+}
+
 export function initDirectChannelsDone() {
   return {
     type: types.INIT_DIRECT_CHANNELS_DONE

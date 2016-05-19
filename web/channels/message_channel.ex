@@ -1,10 +1,10 @@
 defmodule Exchat.MessageChannel do
   use Exchat.Web, :channel
-  alias Exchat.{Message, Repo, Channel, MessageService, UnreadService, UserPresence}
+  alias Exchat.{Message, Repo, Channel, MessageService, UnreadService}
 
   @default_history_count 100
-  @default_channel_name "general"
 
+  # TODO: Authorization should be added, users can only join some channels
   def join("channel:" <> _channel_id, _auth_msg, socket) do
     channel = channel_from_topic(socket.topic)
     messages = MessageService.load_messages(channel, Extime.now_ts) |> Repo.preload(:user)
@@ -13,12 +13,10 @@ defmodule Exchat.MessageChannel do
     resp = Exchat.MessageView.render("index.json", %{messages: messages, count: @default_history_count})
             |> Map.put(:unread_count, unread_count)
 
-    if channel.name == @default_channel_name, do: send(self, :after_join)
-
     {:ok, resp, socket}
   end
   def join(_, _auth_msg, _socket) do
-    {:error, %{reason: "unauthorized"}}
+    {:error, %{reason: "Unauthorized!"}}
   end
 
   def handle_in(event, params, socket) do
@@ -29,7 +27,6 @@ defmodule Exchat.MessageChannel do
       {:reply, :error, socket}
     end
   end
-
   def handle_in("new_message", %{"text" => _text} = params, user, socket) do
     channel = channel_from_topic(socket.topic)
     if channel do
@@ -45,14 +42,6 @@ defmodule Exchat.MessageChannel do
     else
       {:reply, :error, socket}
     end
-  end
-
-  def handle_info(:after_join, socket) do
-    push socket, "presence_state", UserPresence.list(socket)
-    {:ok, _} = UserPresence.track(socket, to_string(socket.assigns.user.id), %{
-      online_at: inspect(System.system_time(:seconds))
-    })
-    {:noreply, socket}
   end
 
   defp channel_from_topic(topic) do

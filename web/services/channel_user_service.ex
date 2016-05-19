@@ -59,13 +59,17 @@ defmodule Exchat.ChannelUserService do
   def join_direct_channel(user, other_user) do
     name = Channel.direct_name(user.id, other_user.id)
     channel = Repo.get_by(Channel, name: name)
+    # TODO: refactor
     if channel do
       case rejoin_channel(user, channel) do
-        {:ok, _} -> {:ok, channel}
+        {:ok, _} -> {:ok, channel, :rejoin}
         other    -> other
       end
     else
-      create_direct_channel_for(user, other_user)
+      case create_direct_channel_for(user, other_user) do
+        {:ok, channel} -> {:ok, channel, :new}
+        other          -> other
+      end
     end
   end
 

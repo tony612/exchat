@@ -6,15 +6,17 @@ import Overlay from '../components/overlay/Index'
 import {fetchChannelsIfNeeded} from '../actions/channels'
 import {fetchDirectChannels} from '../actions/directChannels'
 import {fetchUsers} from '../actions/users'
+import EventSocket from '../socket/event_socket'
 
 class App extends Component {
   componentDidMount() {
-    const {dispatch} = this.props
+    const {dispatch, users} = this.props
 
-    dispatch(fetchChannelsIfNeeded())
     dispatch(fetchUsers((response, store)=> {
       store.dispatch(fetchDirectChannels(response.entities.users))
+      EventSocket.initEventChannel(dispatch, {users: response.entities.users})
     }))
+    dispatch(fetchChannelsIfNeeded())
   }
 
   render() {

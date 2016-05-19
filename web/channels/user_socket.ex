@@ -3,6 +3,7 @@ defmodule Exchat.UserSocket do
 
   ## Channels
   channel "channel:*", Exchat.MessageChannel
+  channel "event:*", Exchat.EventChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

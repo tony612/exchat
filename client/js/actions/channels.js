@@ -1,13 +1,11 @@
 import { browserHistory } from 'react-router'
 import { camelizeKeys } from 'humps'
-import { Presence } from 'phoenix'
 
 import * as types from '../constants/ActionTypes'
 import { API_CALL, POST, GET } from '../constants/ApiTypes'
-import ExSocket from '../constants/ExSocket'
+import ExSocket from '../socket/ex_socket'
 import { receivedMessage } from './messages'
 import Schemas from '../store/schema'
-import { syncPresences } from '../actions/users'
 
 export function initChannel(channelData, store, callback) {
   let channel = ExSocket.findChannel(channelData.id, callback)
@@ -15,18 +13,6 @@ export function initChannel(channelData, store, callback) {
     payload = camelizeKeys(payload)
     store.dispatch(receivedMessage(payload))
   })
-  if (channelData.name === 'general') {
-    let presences = {}
-    channel.on("presence_state", state => {
-      Presence.syncState(presences, state)
-      store.dispatch(syncPresences(presences))
-    })
-    channel.on("presence_diff", diff => {
-      Presence.syncDiff(presences, diff)
-      store.dispatch(syncPresences(presences))
-    })
-
-  }
 }
 
 export function createChannel(name) {

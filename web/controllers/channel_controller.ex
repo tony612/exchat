@@ -12,8 +12,10 @@ defmodule Exchat.ChannelController do
   end
 
   def create(conn, %{"channel" => channel_params}) do
-    case ChannelUserService.insert_channel(channel_params, conn.assigns.current_user) do
+    current_user = conn.assigns.current_user
+    case ChannelUserService.insert_channel(channel_params, current_user) do
       {:ok, channel} ->
+        EventChannel.push_out("channel_created", %{})
         conn
         |> put_status(:created)
         |> render("show.json", channel: channel, joined: true)

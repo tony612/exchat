@@ -37,12 +37,12 @@ const ExSocket = {
     this.socket && this.socket.connectionState() === 'closing'
   },
 
-  findChannel(id, callback) {
+  findChannel(id, callback, prefix = 'channel') {
     if (!this.socket) {
       console.error("No socket connection, please connect first")
       return false
     }
-    let topicName = `channel:${id}`
+    let topicName = `${prefix}:${id}`
     let foundChannel = _.find(this.socket.channels, (ch)=> ch.topic === topicName)
     if (!foundChannel) {
       foundChannel = this.socket.channel(topicName, {})
