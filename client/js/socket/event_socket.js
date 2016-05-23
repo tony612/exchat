@@ -4,7 +4,7 @@ import { camelizeKeys } from 'humps'
 import { syncPresences } from '../actions/users'
 import ExSocket from './ex_socket'
 import Auth from '../auth'
-import { addDirectChannel } from '../actions/directChannels'
+import { addDirectChannel, openDirectChannel } from '../actions/directChannels'
 
 const EventSocket = {
   initEventChannel(dispatch, options) {
@@ -29,6 +29,9 @@ const EventSocket = {
   initUserCallbacks(channel, dispatch, options) {
     channel.on("dm_created", payload => {
       dispatch(addDirectChannel(camelizeKeys(payload), options.users))
+    })
+    channel.on("dm_open", payload => {
+      dispatch(openDirectChannel(camelizeKeys(payload), options.users))
     })
   },
 

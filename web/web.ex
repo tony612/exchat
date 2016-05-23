@@ -42,7 +42,6 @@ defmodule Exchat.Web do
     quote do
       use Phoenix.Controller
 
-      alias Exchat.Endpoint
       alias Exchat.Repo
       alias Exchat.ErrorView
       alias Exchat.ChangesetView

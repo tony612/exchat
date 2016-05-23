@@ -40,13 +40,19 @@ defmodule Exchat.ChannelUserService do
     end
   end
 
-  def rejoin_channel(user, channel) do
-    channel_user = Repo.get_by ChannelUser, user_id: user.id, channel_id: channel.id
-    if channel_user do
-      changeset = Ecto.Changeset.change(channel_user, joined_at: Extime.now_datetime)
-      Repo.update changeset
-    else
-      raise "#{inspect channel} can't be rejoined by #{inspect user}"
+  def rejoin_channel(%User{} = user, channel) do
+    rejoin_channel(user.id, channel)
+  end
+  def rejoin_channel(user_id, channel) when is_integer(user_id) do
+    channel_user = Repo.get_by ChannelUser, user_id: user_id, channel_id: channel.id
+    cond do
+      channel_user && !channel_user.joined_at ->
+        changeset = Ecto.Changeset.change(channel_user, joined_at: Extime.now_datetime)
+        Repo.update changeset
+      channel_user && channel_user.joined_at ->
+        {:ok, channel_user}
+      !channel_user ->
+        raise "There's no relationship between #{inspect channel} user##{user_id}"
     end
   end
 

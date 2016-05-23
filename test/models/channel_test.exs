@@ -46,4 +46,15 @@ defmodule Exchat.ChannelTest do
     channel = %Channel{name: "1,2", type: 1}
     assert_raise ArgumentError, ~r/Exchat\.Channel.*is not a direct channel/, fn -> Channel.direct_user_ids(channel) end
   end
+
+  test "opposite_direct_user_id/2 works" do
+    channel = %Channel{name: "1,2", type: 2}
+    assert Channel.opposite_direct_user_id(channel, 1) == 2
+    assert Channel.opposite_direct_user_id(channel, 2) == 1
+  end
+
+  test "is_direct?/1 works" do
+    assert Channel.is_direct?(%Channel{name: "1,2", type: 2})
+    refute Channel.is_direct?(%Channel{name: "1,2", type: 1})
+  end
 end

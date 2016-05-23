@@ -7,7 +7,7 @@ defmodule Exchat.DirectChannelView do
     indexed = Enum.reduce(channel_users, %{}, fn(cu, acc) -> Map.put(acc, cu.channel_id, cu) end)
     Enum.map(channels, fn channel ->
       channel_user = indexed[channel.id]
-      other_id = channel |> Channel.direct_user_ids |> List.delete(channel_user.user_id) |> List.first
+      other_id = Channel.opposite_direct_user_id(channel, channel_user.user_id)
       render(__MODULE__, "channel.json", channel: channel, joined: channel_user.joined_at, user_id: other_id)
     end)
   end

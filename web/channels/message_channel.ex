@@ -1,6 +1,6 @@
 defmodule Exchat.MessageChannel do
   use Exchat.Web, :channel
-  alias Exchat.{Message, Repo, Channel, MessageService, UnreadService}
+  alias Exchat.{Message, Repo, Channel, MessageService, UnreadService, EventChannel}
 
   @default_history_count 100
 
@@ -34,6 +34,7 @@ defmodule Exchat.MessageChannel do
       case Repo.insert(changeset) do
         {:ok, message} ->
           data = Exchat.MessageView.build("message.json", message, user: user)
+          notify_dm_open(user, channel)
           broadcast! socket, "new_message", data
           {:reply, :ok, socket}
         {:error, _changeset} ->
@@ -51,6 +52,21 @@ defmodule Exchat.MessageChannel do
 
   defp message_params(%{"text" => text}, channel, user) do
     Map.merge(%{text: text}, %{channel_id: channel.id, user_id: user.id})
+  end
+
+  defp notify_dm_open(user, channel) do
+    if Channel.is_direct?(channel) do
+      channel_user = ensure_opposite_user_joined(user, channel)
+      if Extime.now_ts - Extime.to_timestamp(channel_user.joined_at) < 1 do
+        EventChannel.push_out(channel_user.user_id, "dm_open", %{channel_id: channel.id})
+      end
+    end
+  end
+
+  defp ensure_opposite_user_joined(user, channel) do
+    opposite_id = Channel.opposite_direct_user_id(channel, user.id)
+    {:ok, channel_user} = Exchat.ChannelUserService.rejoin_channel(opposite_id, channel)
+    channel_user
   end
 
 end

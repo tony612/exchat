@@ -1,11 +1,11 @@
 defmodule Exchat.EventChannelTest do
   use Exchat.ChannelCase
 
-  alias Exchat.EventChannel
+  alias Exchat.{EventChannel, User}
 
   setup do
     {:ok, _, socket} =
-      socket("user_id", %{})
+      socket("user_id", %{user: %User{id: 42}})
       |> subscribe_and_join(EventChannel, "event:general")
 
     {:ok, socket: socket}

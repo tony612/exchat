@@ -244,6 +244,11 @@ export default function channels(state = initialState, action) {
           ...getDirectChannelIdByName(channels, action.payload.users)
         }
       }
+    case types.OPEN_DIRECT_CHANNEL:
+      return {
+        ...state,
+        directIds: _.union(state.directIds, [action.payload.channelId])
+      }
     default:
       return state
   }

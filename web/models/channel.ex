@@ -79,4 +79,15 @@ defmodule Exchat.Channel do
       _            -> raise ArgumentError, message: "#{inspect channel} is not a direct channel!"
     end
   end
+
+  def opposite_direct_user_id(channel, user_id) when is_integer(user_id) do
+    channel
+      |> direct_user_ids
+      |> List.delete(user_id)
+      |> List.first
+  end
+
+  def is_direct?(channel) do
+    channel.type == @type_direct
+  end
 end
