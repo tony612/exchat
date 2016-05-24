@@ -28,7 +28,7 @@ const EventSocket = {
 
   initUserCallbacks(channel, dispatch, options) {
     channel.on("dm_created", payload => {
-      dispatch(addDirectChannel(camelizeKeys(payload), options.users))
+      dispatch(addDirectChannel(camelizeKeys(payload), options.users, dispatch))
     })
     channel.on("dm_open", payload => {
       dispatch(openDirectChannel(camelizeKeys(payload), options.users))

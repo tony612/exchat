@@ -7,11 +7,11 @@ import ExSocket from '../socket/ex_socket'
 import { receivedMessage } from './messages'
 import Schemas from '../store/schema'
 
-export function initChannel(channelData, store, callback) {
+export function initChannel(channelData, dispatch, callback) {
   let channel = ExSocket.findChannel(channelData.id, callback)
   channel.on('new_message', payload => {
     payload = camelizeKeys(payload)
-    store.dispatch(receivedMessage(payload))
+    dispatch(receivedMessage(payload))
   })
 }
 
@@ -28,7 +28,7 @@ export function createChannel(name) {
       },
       schema: Schemas.channel,
       successCallback: function(response, store) {
-        initChannel(response.entities.channels[response.result], store, ()=> {
+        initChannel(response.entities.channels[response.result], store.dispatch, ()=> {
           browserHistory.push(`/channels/${name}`)
           // NOTE: now route change doesn't change props in componentWillReceiveProps of Channel
           // If it works, it's not necessary to call this here
@@ -57,7 +57,7 @@ export function fetchChannels(initDoneCallback = null) {
   let successCallback = function(response, store) {
     const {result, entities} = response
     _.forEach(result, (id, i) => {
-      initChannel(entities.channels[id], store, (data)=> {
+      initChannel(entities.channels[id], store.dispatch, (data)=> {
         data = camelizeKeys(data)
         store.dispatch(updateChannel(id, {unreadCount: data.unreadCount}))
         store.dispatch(addMessages(id, data))
