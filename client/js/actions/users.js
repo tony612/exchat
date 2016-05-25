@@ -14,6 +14,13 @@ export function fetchUsers(callback) {
   }
 }
 
+export function addUser(user) {
+  return {
+    type: types.ADD_USER,
+    payload: {user}
+  }
+}
+
 export function syncPresences(data) {
   return {
     type: types.SYNC_USERS_PRESENCES,

@@ -29,7 +29,7 @@ class App extends Component {
           <Sidebar dispatch={dispatch} channels={channels} directChannels={directChannels} users={users}/>
         </div>
         <div className="main-area" style={style.container}>
-          { children || 'Welcome to Exchat! Another Slack-like app by Elixir, Phoenix & React(redux)' }
+          { children || 'Welcome to ExChat! A Slack-like app by Elixir, Phoenix & React(redux)' }
         </div>
       </div>
     )

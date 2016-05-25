@@ -15,6 +15,17 @@ export default function users(state = initialState, action) {
       ids: action.response.result
     }
     break
+  case types.ADD_USER:
+    var user = action.payload.user
+    return {
+      ...state,
+      items: {
+        ...state.items,
+        [user.id]: user
+      },
+      ids: _.union(state.ids, [user.id])
+    }
+    break
   case types.SYNC_USERS_PRESENCES:
     var presences = _.mapValues(action.payload, ()=> true)
     return {
@@ -23,5 +34,5 @@ export default function users(state = initialState, action) {
     }
   default:
     return state
-  }
+}
 }

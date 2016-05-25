@@ -5,6 +5,7 @@ import { syncPresences } from '../actions/users'
 import ExSocket from './ex_socket'
 import Auth from '../auth'
 import { addDirectChannel, openDirectChannel } from '../actions/directChannels'
+import { addUser } from '../actions/users'
 
 const EventSocket = {
   initEventChannel(dispatch, options) {
@@ -23,6 +24,9 @@ const EventSocket = {
     channel.on("presence_diff", diff => {
       Presence.syncDiff(presences, diff)
       dispatch(syncPresences(presences))
+    })
+    channel.on("user_created", payload => {
+      dispatch(addUser(payload))
     })
   },
 
