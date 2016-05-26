@@ -6,6 +6,7 @@ import ExSocket from './ex_socket'
 import Auth from '../auth'
 import { addDirectChannel, openDirectChannel } from '../actions/directChannels'
 import { addUser } from '../actions/users'
+import { addChannel } from '../actions/channels'
 
 const EventSocket = {
   initEventChannel(dispatch, options) {
@@ -27,6 +28,9 @@ const EventSocket = {
     })
     channel.on("user_created", payload => {
       dispatch(addUser(payload))
+    })
+    channel.on("channel_created", payload => {
+      dispatch(addChannel(payload, dispatch))
     })
   },
 

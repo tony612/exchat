@@ -18,7 +18,8 @@ class JoinChannel extends React.Component {
 
   confirm() {
     if (!this.state.joinChannelId) { return }
-    this.props.dispatch(joinChannel(this.state.joinChannelId))
+    let { channels } = this.props
+    this.props.dispatch(joinChannel(channels.items[this.state.joinChannelId]))
   }
 
   channelChange(data) {

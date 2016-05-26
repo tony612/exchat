@@ -15,10 +15,11 @@ defmodule Exchat.ChannelController do
     current_user = conn.assigns.current_user
     case ChannelUserService.insert_channel(channel_params, current_user) do
       {:ok, channel} ->
-        EventChannel.push_out("channel_created", %{})
+        payload = Exchat.ChannelView.render("show.json", channel: channel, joined: false)
+        notify_channel_created(payload)
         conn
         |> put_status(:created)
-        |> render("show.json", channel: channel, joined: true)
+        |> json(payload)
       {:error, changeset} ->
         conn
         |> put_status(:bad_request)
@@ -38,6 +39,10 @@ defmodule Exchat.ChannelController do
         |> put_status(:bad_request)
         |> json(%{message: message})
     end
+  end
+
+  def notify_channel_created(payload) do
+    EventChannel.push_out("channel_created", payload)
   end
 
 end

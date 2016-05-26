@@ -249,6 +249,24 @@ export default function channels(state = initialState, action) {
         ...state,
         directIds: _.union(state.directIds, [action.payload.channelId])
       }
+    case types.ADD_CHANNEL:
+      var channel = action.payload.channel
+      var joinedIds = channel.joined ? [channel.id] : []
+      var channels = {[channel.id]: channel}
+      return {
+        ...state,
+        allIds: _.union(state.allIds, [channel.id]),
+        ids: _.union(state.ids, joinedIds),
+        items: {
+          ...state.items,
+          ...channels
+        },
+        channelIdByName: {
+          ...state.channelIdByName,
+          ...getChannelIdByName(channels)
+        }
+      }
+      break
     default:
       return state
   }

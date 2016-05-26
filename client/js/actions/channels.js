@@ -6,12 +6,22 @@ import { API_CALL, POST, GET } from '../constants/ApiTypes'
 import ExSocket from '../socket/ex_socket'
 import { receivedMessage } from './messages'
 import Schemas from '../store/schema'
+import Auth from '../auth'
 
 export function initChannel(channelData, dispatch, callback) {
   let channel = ExSocket.findChannel(channelData.id, callback)
+  channel.off('new_message')
   channel.on('new_message', payload => {
     payload = camelizeKeys(payload)
     dispatch(receivedMessage(payload))
+  })
+}
+
+let afterAddedChannel = function(channel, dispatch, callback) {
+  initChannel(channel, dispatch, (data)=> {
+    data = camelizeKeys(data)
+    dispatch(updateChannel(channel.id, {unreadCount: data.unreadCount}))
+    dispatch(addMessages(channel.id, data))
   })
 }
 
@@ -57,10 +67,7 @@ export function fetchChannels(initDoneCallback = null) {
   let successCallback = function(response, store) {
     const {result, entities} = response
     _.forEach(result, (id, i) => {
-      initChannel(entities.channels[id], store.dispatch, (data)=> {
-        data = camelizeKeys(data)
-        store.dispatch(updateChannel(id, {unreadCount: data.unreadCount}))
-        store.dispatch(addMessages(id, data))
+      afterAddedChannel(entities.channels[id], store.dispatch, ()=> {
         if (result.length - 1 === i) {
           initDoneCallback(store.dispatch)
         }
@@ -145,16 +152,30 @@ export function markMessageRead(channelId, message) {
   }
 }
 
-export function joinChannel(channelId) {
+export function joinChannel(channel) {
   return {
     type: types.JOIN_CHANNEL,
     payload: {
-      channelId
+      channelId: channel.id
     },
     [API_CALL]: {
       path: `/channel_users`,
       method: POST,
-      data: {channelId}
+      data: {channelId: channel.id},
+      successCallback: function(_response, store) {
+        browserHistory.push(`/channels/${channel.name}`)
+        store.dispatch(changeChannel(channel.name))
+      }
     }
+  }
+}
+
+export function addChannel(channel, dispatch) {
+  if (channel.userId != Auth.currentUser('id')) {
+    afterAddedChannel(channel, dispatch)
+  }
+  return {
+    type: types.ADD_CHANNEL,
+    payload: {channel}
   }
 }
