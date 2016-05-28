@@ -19,7 +19,7 @@ defmodule Exchat.ChannelController do
         notify_channel_created(payload)
         conn
         |> put_status(:created)
-        |> json(payload)
+        |> json(Map.put(payload, :joined, true))
       {:error, changeset} ->
         conn
         |> put_status(:bad_request)
