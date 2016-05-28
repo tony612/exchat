@@ -26,6 +26,7 @@ defmodule Exchat.ConnCase do
 
       import Exchat.Router.Helpers
       import Exchat.TestHelpers
+      import Phoenix.ChannelTest
 
       # The default endpoint for testing
       @endpoint Exchat.Endpoint
