@@ -4,9 +4,7 @@ defmodule Exchat.UserControllerTest do
   alias Exchat.User
 
   setup tags = %{conn: conn} do
-    conn = conn
-    |> put_req_header("accept", "application/json")
-    conn = if tags[:noauth], do: conn, else: assign(conn, :current_user, %User{id: 0})
+    conn = if tags[:noauth], do: conn, else: assign(conn, :current_user, %User{id: 42})
     {:ok, conn: conn}
   end
 

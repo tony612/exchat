@@ -9,7 +9,6 @@ defmodule Exchat.ChannelControllerTest do
   setup %{conn: conn} do
     user = insert_user
     conn = conn
-    |> put_req_header("accept", "application/json")
     |> assign(:current_user, user)
     {:ok, conn: conn}
   end
