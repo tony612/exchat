@@ -41,7 +41,7 @@ defmodule Exchat.ChannelController do
     end
   end
 
-  def notify_channel_created(payload) do
+  defp notify_channel_created(payload) do
     EventChannel.push_out("channel_created", payload)
   end
 

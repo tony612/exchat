@@ -31,12 +31,22 @@ defmodule Exchat.ChannelControllerTest do
     assert json_response(conn, 200) == result
   end
 
-  test "creates and renders resource with ChannelUser and UserReadMessage when data is valid", %{conn: conn} do
+  test "create creates channel and render right data when data is valid", %{conn: conn} do
     conn = post conn, channel_path(conn, :create), channel: @valid_attrs
-    %{id: channel_id} = channel = Repo.one(from Channel, where: [name: @channel_name], preload: :users)
+    %{id: channel_id} = Repo.one(from Channel, where: [name: @channel_name])
     assert json_response(conn, 201) == %{"id" => channel_id, "name" => @channel_name, "joined" => true}
+  end
+
+  test "create creates ChannelUser", %{conn: conn} do
+    conn = post conn, channel_path(conn, :create), channel: @valid_attrs
+    channel = Repo.one(from Channel, where: [name: @channel_name], preload: :users)
     user_email = conn.assigns.current_user.email
     assert [%User{email: ^user_email}] = channel.users
+  end
+
+  test "create creates UserReadMessage", %{conn: conn} do
+    conn = post conn, channel_path(conn, :create), channel: @valid_attrs
+    %{id: channel_id} = Repo.one(from Channel, where: [name: @channel_name])
     read = Repo.one(from UserReadMessage, limit: 1)
     user_id = conn.assigns.current_user.id
     assert %{user_id: ^user_id, channel_id: ^channel_id} = read
