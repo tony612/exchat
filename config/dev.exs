@@ -12,7 +12,7 @@ webpack_args = ["node_modules/webpack/bin/webpack.js", "--watch", "--colors", "-
 if IEx.started?, do: webpack_args = List.delete(webpack_args, "--progress")
 
 config :exchat, Exchat.Endpoint,
-  http: [port: 4000],
+  http: [port: System.get_env("PORT") || 4000],
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
