@@ -12,8 +12,8 @@ defmodule Exchat.Time do
     datetime
     |> Ecto.DateTime.to_erl
     |> :calendar.datetime_to_gregorian_seconds
-    |> -(@epoch)
-    |> +(datetime.usec / 1_000_000)
+    |> Kernel.-(@epoch)
+    |> Kernel.+(datetime.usec / 1_000_000)
   end
 
   @doc """
@@ -31,7 +31,7 @@ defmodule Exchat.Time do
   end
   def to_datetime(timestamp) when is_number(timestamp) do
     datetime = timestamp
-                |> +(@epoch)
+                |> Kernel.+(@epoch)
                 |> trunc
                 |> :calendar.gregorian_seconds_to_datetime
                 |> Ecto.DateTime.from_erl
