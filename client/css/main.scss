@@ -28,6 +28,7 @@ li:focus, a:focus, button:focus {
   outline:0 !important;
 }
 
+@import 'bootstrap-modules';
 @import 'components/navigate-sidebar';
 @import 'components/message-input';
 @import 'components/message-list';
