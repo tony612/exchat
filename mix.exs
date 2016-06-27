@@ -36,18 +36,18 @@ defmodule Exchat.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 1.2.0-rc.0"},
-     {:phoenix_ecto, "~> 3.0.0-rc.0"},
-     {:phoenix_html, "~> 2.5.1"},
-     {:phoenix_live_reload, "~> 1.0.4", only: :dev},
-     {:phoenix_pubsub, "~> 1.0.0-rc"},
-     {:postgrex, "~> 0.11.1"},
+    [{:phoenix, "~> 1.2.0"},
+     {:phoenix_ecto, "~> 3.0.0"},
+     {:phoenix_html, "~> 2.6.0"},
+     {:phoenix_live_reload, "~> 1.0.5", only: :dev},
+     {:phoenix_pubsub, "~> 1.0.0"},
+     {:postgrex, "~> 0.11.2"},
      {:gettext, "~> 0.11.0"},
-     {:ecto, "~> 2.0.0-rc.3"},
+     {:ecto, "~> 2.0.1"},
      {:cowboy, "~> 1.0.4"},
-     {:comeonin, "~> 2.4.0"},
-     {:excoveralls, "~> 0.5.3", only: :test},
-     {:joken, "~> 1.2.0"}]
+     {:comeonin, "~> 2.5.0"},
+     {:excoveralls, "~> 0.5.5", only: :test},
+     {:joken, "~> 1.2.1"}]
   end
 
   defp preferred_cli_env do
