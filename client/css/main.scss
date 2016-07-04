@@ -28,9 +28,16 @@ li:focus, a:focus, button:focus {
   outline:0 !important;
 }
 
+.noarrow-popover {
+  .arrow {
+    display: none !important;
+  }
+}
+
 @import 'bootstrap-modules';
 @import 'components/navigate-sidebar';
 @import 'components/message-input';
 @import 'components/message-list';
 @import 'components/message-item';
 @import 'components/sidebar-setting';
+@import 'components/suggestion-panel';

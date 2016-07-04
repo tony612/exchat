@@ -110,6 +110,7 @@ class Channel extends Component {
         </div>
         <PostMessage
           message={newMessage}
+          users={this.props.users}
           onChange={text => dispatch(changeNewMessage(channelId, text))}
           onPost={text => dispatch(postMessage(channelId, text))} />
       </div>
@@ -140,7 +141,8 @@ function mapStateToProps(state) {
     unreadCount,
     channelId: currentChannelId,
     newMessage: newMessages[currentChannelId] || "",
-    initDirectChannelsDone: state.directChannels.initDirectChannelsDone
+    initDirectChannelsDone: state.directChannels.initDirectChannelsDone,
+    users: state.users
   }
 }
 

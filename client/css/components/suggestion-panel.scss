@@ -1,0 +1,14 @@
+.suggestion-panel {
+  .popover-content {
+    padding: 0;
+  }
+}
+.suggestion-list {
+  margin: 0;
+}
+.suggestion-item {
+  padding: 3px 10px;
+  &.-active {
+    background-color: $component-active-bg;
+  }
+}
