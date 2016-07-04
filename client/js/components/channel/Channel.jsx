@@ -64,7 +64,7 @@ class Channel extends Component {
         if (judgeMark()) {
           dispatch(markMessageRead(channelId, messages[messages.length - 1]))
         }
-      }, 3000)
+      }, 2000)
     }
   }
 
