@@ -3,11 +3,11 @@ defmodule Exchat.UserReadMessage do
 
   schema "user_read_messages" do
     field :message_id, :integer
-    field :latest_ts, Ecto.DateTime
+    field :latest_ts, :naive_datetime
     belongs_to :user, Exchat.User
     belongs_to :channel, Exchat.Channel
 
-    timestamps
+    timestamps()
   end
 
   @required_fields ~w(latest_ts channel_id user_id)a

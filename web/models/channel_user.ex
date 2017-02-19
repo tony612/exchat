@@ -2,11 +2,11 @@ defmodule Exchat.ChannelUser do
   use Exchat.Web, :model
 
   schema "channels_users" do
-    field :joined_at, Ecto.DateTime
+    field :joined_at, :naive_datetime
     belongs_to :channel, Exchat.Channel
     belongs_to :user, Exchat.User
 
-    timestamps
+    timestamps()
   end
 
   @allowed_fields ~w(joined_at channel_id user_id)a

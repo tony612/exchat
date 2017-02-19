@@ -2,14 +2,13 @@ defmodule Exchat.ChannelRepoTest do
   use Exchat.ModelCase, async: true
 
   alias Exchat.{Channel, Repo, Message}
-  alias Ecto.DateTime
 
   test "messages_before returns channels's messages before time" do
-    channel = insert_channel
+    channel = insert_channel()
 
-    assert Channel.messages_before(channel, Extime.to_timestamp(DateTime.utc)) |> Repo.all == []
+    assert Channel.messages_before(channel, DateTime.utc_now()) |> Repo.all == []
 
-    user = insert_user
+    user = insert_user()
     message = %Message{text: "Hello", channel_id: channel.id, user_id: user.id}
     {:ok, message1} = Repo.insert(message)
 
@@ -22,13 +21,13 @@ defmodule Exchat.ChannelRepoTest do
 
     assert_func.(channel, time1, 0)
 
-    later = %DateTime{time1 | sec: time1.sec + 1}
+    later = %NaiveDateTime{time1 | second: time1.second + 1}
     assert_func.(channel, later, 1)
   end
 
   test "the result of messages_before is ordered by desc inserted_at" do
-    channel = insert_channel
-    user = insert_user
+    channel = insert_channel()
+    user = insert_user()
     Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590686)})
     %{id: id2} = Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590687)})
     %{id: id3} = Repo.insert!(%Message{text: "Hello", channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1456590688)})
@@ -37,8 +36,8 @@ defmodule Exchat.ChannelRepoTest do
   end
 
   test "messages_count_after/2 returns messages count after the time" do
-    channel = insert_channel
-    user = insert_user
+    channel = insert_channel()
+    user = insert_user()
     assert Repo.one(Channel.messages_count_after(channel, 0)) == 0
 
     insert_message(%{channel_id: channel.id, user_id: user.id, inserted_at: Extime.to_datetime(1458231490)})

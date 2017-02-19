@@ -7,7 +7,7 @@ defmodule Exchat.ChannelControllerTest do
   @invalid_attrs %{}
 
   setup %{conn: conn} do
-    user = insert_user
+    user = insert_user()
     conn = conn
     |> assign(:current_user, user)
     {:ok, conn: conn}

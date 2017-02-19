@@ -36,8 +36,8 @@ defmodule Exchat.UserControllerTest do
   end
 
   test "index/2 returns users of user", %{conn: conn} do
-    %{id: id1} = insert_user
-    %{id: id2} = insert_user
+    %{id: id1} = insert_user()
+    %{id: id2} = insert_user()
     conn = get conn, user_path(conn, :index)
     assert [%{"id" => ^id1}, %{"id" => ^id2}] = json_response(conn, 200)
   end

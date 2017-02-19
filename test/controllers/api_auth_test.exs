@@ -55,7 +55,7 @@ defmodule Exchat.ApiAuthTest do
   end
 
   test "call/2 set current_user from token in header", %{conn: conn} do
-    user = %User{id: user_id} = insert_user
+    user = %User{id: user_id} = insert_user()
     token = ApiAuth.generate_token_from_user(user)
     conn = conn
             |> put_req_header("authorization", token)
@@ -65,7 +65,7 @@ defmodule Exchat.ApiAuthTest do
 
   @tag capture_log: true
   test "call/2 not set current_user from expired token in header", %{conn: conn} do
-    user = insert_user
+    user = insert_user()
     token = ApiAuth.generate_token_from_user(user, fn -> 1453644008 end)
     conn = conn
             |> put_req_header("authorization", token)
@@ -95,7 +95,7 @@ defmodule Exchat.ApiAuthTest do
   end
 
   test "call/2 set current_user to nil when user_id is wrong in token", %{conn: conn} do
-    user = insert_user
+    user = insert_user()
     token = ApiAuth.generate_token_from_user(%User{id: user.id + 1, email: "tony@e.x"})
     conn = conn
             |> put_req_header("authorization", token)

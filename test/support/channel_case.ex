@@ -21,7 +21,6 @@ defmodule Exchat.ChannelCase do
       use Phoenix.ChannelTest
 
       alias Exchat.Repo
-      import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
 

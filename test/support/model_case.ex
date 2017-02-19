@@ -18,7 +18,6 @@ defmodule Exchat.ModelCase do
     quote do
       alias Exchat.Repo
       alias Exchat.Time, as: Extime
-      import Ecto.Model
       import Ecto.Query, only: [from: 2]
       import Exchat.ModelCase
       import Exchat.TestHelpers

@@ -3,7 +3,7 @@ defmodule Exchat.EventChannel do
   alias Exchat.UserPresence
 
   def join("event:general", _payload, socket) do
-    send(self, :after_join_general)
+    send(self(), :after_join_general)
     {:ok, socket}
   end
   def join("event:general:" <> user_id, _payload, socket) do

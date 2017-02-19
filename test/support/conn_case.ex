@@ -21,7 +21,6 @@ defmodule Exchat.ConnCase do
       use Phoenix.ConnTest
 
       alias Exchat.Repo
-      import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
       import Exchat.Router.Helpers
