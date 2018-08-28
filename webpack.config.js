@@ -1,60 +1,95 @@
-var path = require('path')
-var webpack = require('webpack')
-
+var path = require('path');
+var webpack = require('webpack');
 var config = {
+  mode: 'production',
   entry: [
-    './client/js/app.js'
+    path.resolve(__dirname, './client/js/app.js')
   ],
   output: {
-    path: './priv/static/js',
-    filename: 'app.js'
+    path: path.resolve(__dirname, './priv/static/js'),
+    filename: 'app.js',
+    publicPath: '/',
   },
   module: {
-    loaders: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel',
-        query: {
-          cacheDirectory: true, presets: ['react', 'es2015', 'stage-2'],
-          plugins: ['transform-function-bind']
-        }
+    rules: [
+      {
+	test: /\.jsx?$/,
+	use: {
+	  loader : 'babel-loader',
+	}
       },
-
-      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: 'url?&mimetype=application/font-woff'},
-      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,  loader: 'url?&mimetype=application/font-woff'},
-      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: 'url?&mimetype=application/octet-stream'},
-      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: 'file'},
-      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: 'url?limit=10000&mimetype=image/svg+xml'},
-
-      {test: /\.scss$/, loader: 'style!css!sass'},
-      {test: /\.css$/, loader: 'style!css'}
+      {
+	test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+	use: [{
+	  loader: 'file-loader',
+	  options: {
+	    name: '[name].[ext]',
+	    mimetype: 'application/font-woff'
+	  }
+	}]
+      },
+      {
+	test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+	use: [{
+	  loader: 'file-loader',
+	  options: {
+	    name: '[name].[ext]',
+	    mimetype: 'application/font-woff'
+	  }
+	}]
+      },
+      {
+	test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    
+	use: [{
+	  loader: 'file-loader',
+	  options: {
+	    name: '[name].[ext]',
+	    mimetype: 'application/octet-stream'
+	  }
+	}]
+      },
+      {
+	test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    
+	use: 'file-loader'
+      },
+      {
+	test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    
+	use: [{
+	  loader: 'file-loader',
+	  options: {
+	    name: '[name].[ext]',
+	    limit: '10000',
+	    mimetype: 'image/svg+xml'
+	  }
+	}]
+      },
+      {
+	test: /\.scss$/, 
+	loader: 'style-loader!css-loader!sass-loader'
+      },
+      {
+	test: /\.css$/, 
+	loader: 'style-loader!css-loader'
+      }
     ]
   },
 
-  resolve: {
-    root: [
-      path.join(__dirname, '')
-    ],
-
-    extensions: ['', '.js', '.jsx', '.scss', '.css']
+  devServer: {
+    contentBase: path.resolve(__dirname, './client'),
+    inline: true,
+    open: true
   },
 
+  resolve: {
+    extensions: ['.js', '.jsx', '.scss', '.css']
+  },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin()
+    })
   ]
-
 }
 
 module.exports = config
