@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Auth from '../../auth'
@@ -25,7 +26,6 @@ class SignIn extends Component {
   render() {
     return (
       <div style={style.container}>
-        <h1 style={style.title}>Exchat</h1>
         <ErrorMessage error={this.props.error}></ErrorMessage>
         <form className="form-horizontal">
           <div className="form-group">
