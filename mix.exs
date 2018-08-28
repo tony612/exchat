@@ -36,7 +36,7 @@ defmodule Exchat.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 1.2.1"},
+    [{:phoenix, "~> 1.3.3"},
      {:phoenix_ecto, "~> 3.2.1"},
      {:phoenix_html, "~> 2.9"},
      {:phoenix_live_reload, "~> 1.0.8", only: :dev},
