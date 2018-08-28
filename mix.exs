@@ -4,7 +4,7 @@ defmodule Exchat.Mixfile do
   def project do
     [app: :exchat,
      version: "0.3.1",
-     elixir: "~> 1.4",
+     elixir: "~> 1.6",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
