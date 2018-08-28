@@ -7,7 +7,8 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 
-webpack_args = ["node_modules/webpack/bin/webpack.js", "--watch-stdin", "--colors",
+webpack_args = ["node_modules/webpack-cli/bin/cli.js", "--watch-stdin", "--colors",
+# webpack_args = ["node_modules/webpack/bin/webpack.js", "--watch-stdin", "--colors",
   "--progress", "--devtool", "eval-cheap-module-source-map",
   cd: Path.expand("../", __DIR__)]
 # Remove progress argument to make iex display log normally
